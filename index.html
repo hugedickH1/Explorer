@@ -1,0 +1,484 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+ <meta charset="utf-8" />
+ <meta name="viewport" content="width=device-width, initial-scale=1" />
+ <title>Explorer</title>
+</head>
+<body>
+
+<div class="ex-page" aria-label="Explorer Home">
+ <!-- HERO -->
+ <section class="hero">
+    <div class="bg"></div>
+
+    <div class="wrap heroCenter">
+      <div class="title">EXPLORER</div>
+
+      <div class="sloganSwap showA" id="sloganSwap" aria-label="slogan" aria-live="polite">
+        <span class="sloganLine isA">Explore Unlimited Potential</span>
+        <span class="sloganLine isB">探索你的無盡可能</span>
+      </div>
+
+      <button class="btnAlloy" id="cta" type="button" aria-label="立即開始">
+        <span class="shine"></span>
+        立即開始
+      </button>
+    </div>
+ </section>
+
+ <!-- PANELS -->
+ <section id="start" class="start">
+    <div class="wrap">
+      <div class="panels">
+        <!-- 招聘個案 -->
+        <div class="panel reveal" style="--d:0ms">
+          <div class="panelHead">
+            <div class="panelTitle">尋找招聘個案</div>
+            <div class="panelSub">導師／教練查看招聘個案並申請</div>
+          </div>
+
+          <div class="panelArt">
+            <picture>
+              <!-- 手機 4:3 -->
+              <source media="(max-width: 980px)" srcset="https://i.imgur.com/sgqYTJw.jpeg">
+              <!-- 電腦 16:9 -->
+              <source media="(min-width: 981px)" srcset="https://i.imgur.com/UChv3Qz.jpeg">
+              <img src="https://i.imgur.com/UChv3Qz.jpeg" alt="招聘個案插圖" loading="lazy" decoding="async">
+            </picture>
+          </div>
+
+          <div class="pillGrid">
+            <a class="pill" href="#"><i></i>學術</a>
+            <a class="pill" href="#"><i></i>體育運動</a>
+            <a class="pill" href="#"><i></i>音樂</a>
+            <a class="pill" href="#"><i></i>健身</a>
+            <a class="pill" href="#"><i></i>其他興趣</a>
+          </div>
+        </div>
+
+        <!-- 尋找導師 -->
+        <div class="panel reveal" style="--d:120ms">
+          <div class="panelHead">
+            <div class="panelTitle">尋找導師</div>
+            <div class="panelSub">學生／家長快速配對合適導師／教練</div>
+          </div>
+
+          <div class="panelArt">
+            <picture>
+              <!-- 手機 4:3 -->
+              <source media="(max-width: 980px)" srcset="https://i.imgur.com/D387F6R.png">
+              <!-- 電腦 16:9 -->
+              <source media="(min-width: 981px)" srcset="https://i.imgur.com/JmFwM8e.png">
+              <img src="https://i.imgur.com/JmFwM8e.png" alt="尋找導師插圖" loading="lazy" decoding="async">
+            </picture>
+          </div>
+
+          <div class="pillGrid">
+            <a class="pill" href="#"><i></i>學術</a>
+            <a class="pill" href="#"><i></i>體育運動</a>
+            <a class="pill" href="#"><i></i>音樂</a>
+            <a class="pill" href="#"><i></i>健身</a>
+            <a class="pill" href="#"><i></i>其他興趣</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- 配對流程概覽 -->
+      <div class="flowPanel reveal" style="--d:220ms">
+        <div class="panelHead">
+          <div class="panelTitle">配對流程概覽</div>
+          <div class="panelSub">快速了解 Explorer 的配對運作方式</div>
+        </div>
+
+        <div class="flowImg">
+          <img src="https://i.imgur.com/bWzBqJb.png" alt="配對流程概覽圖" loading="lazy" decoding="async">
+        </div>
+
+        <div class="flowBtns">
+          <a class="btnGreenAlloy" href="https://forms.gle/2vzycULFCtWhrjkh7" aria-label="立即成為平台導師">立即成為平台導師</a>
+          <a class="btnGreenAlloy" href="https://forms.gle/vz3tYwG51vKJkgfh6" aria-label="立即發佈招聘個案">立即發佈招聘個案</a>
+        </div>
+      </div>
+
+      <div class="hint reveal" style="--d:320ms">
+        請瀏覽「<a href="#" class="link">配對流程(概略)</a>」以了解網站的基本運作方式。若需查閱詳細說明：學生/家長可前往「<a href="#" class="link">學生尋找導師流程（詳細）</a>」；導師可前往「<a href="#" class="link">導師尋找學生流程（詳細）</a>」
+      </div>
+    </div>
+ </section>
+</div>
+
+<style>
+ :root{
+    --base:#070d14;
+    --text:#eaf4ff;
+
+    --rg1:#ffe7d7;
+    --rg2:#f3c9b7;
+    --rg3:#d9a596;
+    --rg4:#b47b6f;
+ }
+
+ *{ box-sizing:border-box; }
+ html,body{ margin:0; padding:0; background: var(--base) !important; }
+ .ex-page{
+    background: var(--base);
+    color: var(--text);
+    font-family: system-ui, -apple-system, "Noto Sans TC","PingFang TC","Microsoft JhengHei", Arial, sans-serif;
+ }
+ .wrap{ max-width:1140px; margin:0 auto; padding:0 22px; }
+
+ .hero{ position:relative; background: var(--base); overflow:hidden; padding:0; }
+ .heroCenter{
+    position:relative;
+    min-height: clamp(360px, 62vh, 560px);
+    display:flex; flex-direction:column;
+    align-items:center; justify-content:center;
+    text-align:center;
+    gap: 12px;
+ }
+
+ .bg{
+    position:absolute; inset:0;
+    background:
+      radial-gradient(1200px 800px at 12% 20%, rgba(21,76,107,.55), transparent 60%),
+      radial-gradient(900px 700px at 85% 30%, rgba(111,231,255,.18), transparent 55%),
+      radial-gradient(900px 700px at 55% 90%, rgba(21,76,107,.32), transparent 55%),
+      repeating-linear-gradient(90deg, rgba(255,255,255,.05) 0, rgba(255,255,255,.05) 1px, transparent 1px, transparent 88px),
+      repeating-linear-gradient(0deg, rgba(255,255,255,.04) 0, rgba(255,255,255,.04) 1px, transparent 1px, transparent 88px),
+      linear-gradient(180deg, var(--base), var(--base));
+    opacity:.24;
+    pointer-events:none;
+ }
+ .bg:after{
+    content:"";
+    position:absolute; inset:-160px;
+    background:
+      radial-gradient(circle at 30% 40%, rgba(111,231,255,.14), transparent 44%),
+      radial-gradient(circle at 75% 60%, rgba(21,76,107,.24), transparent 52%);
+    filter: blur(18px);
+    opacity:.95;
+    pointer-events:none;
+ }
+
+ .title{
+    font-weight: 950;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    font-size: clamp(52px, 7vw, 108px);
+    line-height: 1.02;
+
+    background: linear-gradient(180deg,#effbff 0%,#bfefff 14%,#6fdcff 32%,#2bb6e6 50%,#106f9a 72%,#e6f8ff 100%);
+    -webkit-background-clip:text;
+    background-clip:text;
+    color: transparent;
+
+    text-shadow:
+      0 1px 0 rgba(255,255,255,.18),
+      0 18px 70px rgba(0,0,0,.60),
+      0 0 26px rgba(111,231,255,.16);
+
+    position:relative;
+    display:inline-block;
+
+    opacity:0;
+    transform: translateY(12px);
+    animation: fadeUp .75s ease .05s forwards;
+ }
+ .title:after{
+    content:"";
+    position:absolute; inset:-14px -36px;
+    background: linear-gradient(120deg,
+      transparent 0%,
+      rgba(255,255,255,0) 38%,
+      rgba(255,255,255,.16) 50%,
+      rgba(111,231,255,.14) 58%,
+      rgba(255,255,255,0) 70%,
+      transparent 100%);
+    transform: translateX(-70%);
+    filter: blur(1.6px);
+    opacity:.85;
+    mix-blend-mode: screen;
+    animation: shimmer 3.8s ease-in-out infinite;
+    pointer-events:none;
+ }
+
+ /* 5 秒切換 */
+ .sloganSwap{
+    position:relative;
+    width:min(92vw, 980px);
+    height: 1.35em;
+    margin-top: 6px;
+
+    font-weight: 850;
+    letter-spacing: .08em;
+    font-size: clamp(16px, 2.4vw, 30px);
+    color: rgba(234,244,255,.95);
+    text-shadow:
+      0 0 14px rgba(111,231,255,.18),
+      0 0 30px rgba(111,231,255,.10);
+
+    opacity:0;
+    transform: translateY(12px);
+    animation: fadeUp .65s ease .70s forwards;
+ }
+ .sloganLine{
+    position:absolute; left:0; right:0;
+    text-align:center;
+    opacity:0;
+    transform: translateY(6px);
+    transition: opacity .55s ease, transform .55s ease;
+ }
+ .sloganLine.isA{ text-transform: uppercase; }
+ .sloganSwap.showA .isA{ opacity:1; transform: translateY(0); }
+ .sloganSwap.showB .isB{ opacity:1; transform: translateY(0); }
+
+ .btnAlloy{
+    position:relative;
+    margin-top: 8px;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    height: 50px;
+    padding: 0 20px;
+    border-radius: 999px;
+    font-weight: 900;
+    letter-spacing: .05em;
+
+    background:
+      linear-gradient(180deg, rgba(255,255,255,.26), rgba(255,255,255,.10)),
+      linear-gradient(135deg, var(--rg1), var(--rg2), var(--rg3), var(--rg4), var(--rg1));
+    color: #0b1220;
+
+    border: 1px solid rgba(255,255,255,.22);
+    box-shadow: 0 18px 50px rgba(0,0,0,.35);
+    overflow:hidden;
+    cursor:pointer;
+
+    opacity:0;
+    transform: translateY(12px);
+    animation: fadeUp .65s ease 1.25s forwards;
+ }
+ .btnAlloy .shine{
+    position:absolute; inset:-16px -40px;
+    background: linear-gradient(120deg,
+      transparent 0%,
+      rgba(255,255,255,0) 36%,
+      rgba(255,255,255,.26) 50%,
+      rgba(111,231,255,.12) 58%,
+      rgba(255,255,255,0) 70%,
+      transparent 100%);
+    transform: translateX(-70%);
+    filter: blur(2px);
+    opacity:.85;
+    mix-blend-mode: screen;
+    animation: shimmer 3.6s ease-in-out infinite;
+    pointer-events:none;
+ }
+
+ .start{ background: var(--base); padding: 18px 0 42px; }
+ .panels{ display:grid; grid-template-columns: 1fr 1fr; gap:14px; margin-top: 8px; }
+
+ .panel, .flowPanel{
+    border-radius: 22px;
+    border: 1px solid rgba(255,255,255,.12);
+    background: rgba(255,255,255,.06);
+    box-shadow: 0 18px 60px rgba(0,0,0,.35);
+    padding: 18px;
+    overflow:hidden;
+ }
+ .panelHead{ margin-bottom: 12px; }
+ .panelTitle{ font-weight: 900; letter-spacing: .06em; font-size: 18px; }
+ .panelSub{ margin-top:6px; color: rgba(184,199,217,.92); font-size: 13px; line-height: 1.6; }
+
+ /* 插圖框：電腦 16:9；手機 4:3；不裁切 */
+ .panelArt{
+    margin: 12px 0 14px;
+    width:100%;
+    aspect-ratio: 16 / 9;
+    border-radius: 16px;
+    overflow:hidden;
+    border: 1px solid rgba(255,255,255,.10);
+    background: rgba(0,0,0,.18);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+ }
+ .panelArt picture,
+ .panelArt img{
+    width:100%;
+    height:100%;
+    display:block;
+ }
+ .panelArt img{ object-fit: contain; }
+
+ .flowImg{
+    margin: 12px 0 14px;
+    width:100%;
+    border-radius: 16px;
+    overflow:hidden;
+    border: 1px solid rgba(255,255,255,.10);
+    background: rgba(0,0,0,.18);
+ }
+ .flowImg img{ display:block; width:100%; height:auto; object-fit:contain; }
+
+ .pillGrid{ display:flex; flex-wrap:wrap; gap:10px; }
+ .pill{
+    display:inline-flex; align-items:center; gap:10px;
+    padding: 10px 12px;
+    border-radius: 999px;
+    border: 1px solid rgba(255,255,255,.12);
+    background: rgba(255,255,255,.05);
+    color: rgba(234,244,255,.92);
+    text-decoration:none;
+    font-weight: 800;
+    font-size: 13px;
+    transition: transform .18s ease, border-color .18s ease, background .18s ease;
+ }
+ .pill:hover{ transform: translateY(-1px); border-color: rgba(255,255,255,.22); background: rgba(255,255,255,.07); }
+ .pill i{
+    width: 8px; height: 8px; border-radius: 999px;
+    background: radial-gradient(circle at 30% 30%, rgba(169,244,255,1), rgba(111,231,255,1));
+    box-shadow: 0 0 16px rgba(111,231,255,.45);
+ }
+
+ .flowPanel{ margin-top: 14px; }
+ .flowBtns{ display:flex; gap:12px; margin-top: 12px; flex-wrap:wrap; }
+
+ .btnGreenAlloy{
+    position:relative;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+
+    flex: 1 1 220px;
+    min-width: 210px;
+    height: 42px;
+    padding: 0 14px;
+    border-radius: 999px;
+
+    text-decoration:none;
+    font-weight: 900;
+    letter-spacing: .03em;
+    font-size: 13px;
+
+    color: rgba(234,244,255,.96);
+
+    background: linear-gradient(135deg,
+      rgba(18,56,45,1) 0%,
+      rgba(12,40,33,1) 55%,
+      rgba(9,30,25,1) 100%
+    );
+
+    border: 1px solid rgba(255,255,255,.14);
+    box-shadow:
+      0 14px 44px rgba(0,0,0,.40),
+      inset 0 1px 0 rgba(255,255,255,.07);
+    overflow:hidden;
+    transform: translateZ(0);
+ }
+ .btnGreenAlloy:hover{ transform: translateY(-1px); }
+ .btnGreenAlloy:active{ transform: translateY(0) scale(.99); }
+
+ .btnGreenAlloy::before{
+    content:"";
+    position:absolute; inset:0;
+    background: repeating-linear-gradient(
+      115deg,
+      rgba(255,255,255,.014) 0px,
+      rgba(255,255,255,.014) 1px,
+      rgba(0,0,0,0) 1px,
+      rgba(0,0,0,0) 8px
+    );
+    opacity:.9;
+    pointer-events:none;
+ }
+
+ .btnGreenAlloy::after{
+    content:"";
+    position:absolute; inset:-18px -78px;
+    background: linear-gradient(120deg,
+      transparent 0%,
+      rgba(255,255,255,0) 50%,
+      rgba(255,255,255,.09) 52%,
+      rgba(255,255,255,0) 54%,
+      transparent 100%);
+    transform: translateX(-78%);
+    filter: blur(1px);
+    opacity:.34;
+    mix-blend-mode: screen;
+    animation: shimmerGreen 5.6s ease-in-out infinite;
+    pointer-events:none;
+ }
+
+ .hint{ margin-top: 14px; color: rgba(184,199,217,.94); font-size: 13px; line-height: 1.8; }
+ .link{ color: rgba(234,244,255,.95); text-decoration: underline; text-underline-offset: 3px; }
+
+ .reveal{ opacity:0; transform: translateY(18px); filter: blur(8px); transition:none; }
+ .start.isActive .reveal{
+    animation: revealIn .92s cubic-bezier(.2,.8,.2,1) both;
+    animation-delay: var(--d, 0ms);
+ }
+
+ @keyframes revealIn{
+    from{ opacity:0; transform: translateY(18px); filter: blur(8px); }
+    to{ opacity:1; transform: translateY(0); filter: blur(0); }
+ }
+ @keyframes fadeUp{ to{ opacity:1; transform: translateY(0); } }
+ @keyframes shimmer{
+    0%{ transform: translateX(-75%); opacity:.16; }
+    45%{ opacity:.92; }
+    100%{ transform: translateX(75%); opacity:.16; }
+ }
+ @keyframes shimmerGreen{
+    0%{ transform: translateX(-84%); opacity:.12; }
+    45%{ opacity:.34; }
+    100%{ transform: translateX(84%); opacity:.12; }
+ }
+
+ @media (max-width: 980px){
+    .panels{ grid-template-columns: 1fr; }
+    .heroCenter{ min-height: clamp(320px, 58vh, 520px); }
+    .panelArt{ aspect-ratio: 4 / 3; }
+ }
+</style>
+
+<script>
+ // 5 秒切換 slogan
+ (function(){
+    const box = document.getElementById('sloganSwap');
+    if(!box) return;
+
+    let showB = false;
+    function flip(){
+      showB = !showB;
+      box.classList.toggle('showB', showB);
+      box.classList.toggle('showA', !showB);
+    }
+    setTimeout(() => {
+      flip();
+      setInterval(flip, 5000);
+    }, 5000);
+ })();
+
+ // 面板淡入 + smooth scroll
+ (function(){
+    const start = document.getElementById('start');
+    const cta = document.getElementById('cta');
+    if(!start) return;
+
+    function activatePanels(){
+      if(!start.classList.contains('isActive')) start.classList.add('isActive');
+    }
+
+    cta?.addEventListener('click', function(){
+      activatePanels();
+      start.scrollIntoView({ behavior:'smooth', block:'start' });
+    });
+
+    setTimeout(activatePanels, 1200);
+ })();
+</script>
+
+</body>
+</html>
