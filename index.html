@@ -30,9 +30,138 @@
  <!-- PANELS -->
  <section id="start" class="start">
     <div class="wrap">
+
+      <!-- ✅ 「開始導航」Panel -->
+      <div class="navPanel reveal" style="--d:0ms" aria-label="開始導航">
+        <div class="panelHead">
+          <div class="panelTitle">開始導航</div>
+          <div class="panelSub">快速前往你需要的位置</div>
+        </div>
+
+        <div class="navGrid">
+          <!-- 內頁 scroll -->
+          <a class="navBtn" href="#tutorPanel" data-scroll="tutorPanel" aria-label="尋找導師">
+            <span class="navIco" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none">
+                <path d="M20.5 20.5l-3.2-3.2" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                <path d="M10.8 17.2a6.4 6.4 0 1 1 0-12.8 6.4 6.4 0 0 1 0 12.8Z" stroke="currentColor" stroke-width="2"/>
+              </svg>
+            </span>
+            <span class="navTxt"><span class="navT">尋找導師</span></span>
+          </a>
+
+          <a class="navBtn" href="#casePanel" data-scroll="casePanel" aria-label="尋找招聘個案">
+            <span class="navIco" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none">
+                <path d="M9 4.5h6M9 7.5h6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                <path d="M8 4.8H7.2A2.2 2.2 0 0 0 5 7v13a2.2 2.2 0 0 0 2.2 2.2h9.6A2.2 2.2 0 0 0 19 20V7a2.2 2.2 0 0 0-2.2-2.2H16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                <path d="M8.2 12h7.6M8.2 15.5h7.6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+              </svg>
+            </span>
+            <span class="navTxt"><span class="navT">尋找招聘個案</span></span>
+          </a>
+
+          <a class="navBtn" href="#flowPanel" data-scroll="flowPanel" aria-label="配對方法">
+            <span class="navIco" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none">
+                <path d="M7 6.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5Z" stroke="currentColor" stroke-width="2"/>
+                <path d="M17 12.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5Z" stroke="currentColor" stroke-width="2"/>
+                <path d="M9.2 9.2c3.4.2 3.8 3.8 7.6 4.1" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+              </svg>
+            </span>
+            <span class="navTxt"><span class="navT">配對方法</span></span>
+          </a>
+
+          <!-- 外部跳轉（直接 redirect，同一 tab） -->
+          <a class="navBtn" href="/fees.html" aria-label="收費及付款詳情">
+            <span class="navIco" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none">
+                <path d="M3.5 8.5h17" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                <path d="M5.5 16.5h4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                <path d="M6.2 5.8h11.6A2.2 2.2 0 0 1 20 8v10a2.2 2.2 0 0 1-2.2 2.2H6.2A2.2 2.2 0 0 1 4 18V8A2.2 2.2 0 0 1 6.2 5.8Z" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+              </svg>
+            </span>
+            <span class="navTxt"><span class="navT">收費及付款詳情</span></span>
+          </a>
+
+          <a class="navBtn" href="/contact.html" aria-label="聯絡我們">
+            <span class="navIco" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none">
+                <path d="M4.5 7.2h15A2.3 2.3 0 0 1 21.8 9.5v9A2.3 2.3 0 0 1 19.5 20.8h-15A2.3 2.3 0 0 1 2.2 18.5v-9A2.3 2.3 0 0 1 4.5 7.2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                <path d="M4.4 9l7.6 5.4L19.6 9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </span>
+            <span class="navTxt"><span class="navT">聯絡我們</span></span>
+          </a>
+
+          <a class="navBtn" href="/terms.html" aria-label="使用條款">
+            <span class="navIco" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none">
+                <path d="M8 7.8h8M8 11.2h8M8 14.6h6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                <path d="M8 3.8h6.6L20 9.2V20a2.2 2.2 0 0 1-2.2 2.2H8A2.2 2.2 0 0 1 5.8 20V6A2.2 2.2 0 0 1 8 3.8Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M14.6 3.8V9.2H20" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </span>
+            <span class="navTxt"><span class="navT">使用條款</span></span>
+          </a>
+        </div>
+      </div>
+
+      <!-- ✅ quick action boxes（改回玻璃框） -->
+      <div class="quickActions">
+        <!-- 發佈招聘個案 -->
+        <a class="qaCard reveal" style="--d:120ms" href="https://forms.gle/vz3tYwG51vKJkgfh6" aria-label="發佈招聘個案">
+          <span class="qaIcon" aria-hidden="true">
+            <!-- ✅ Clear loudspeaker icon -->
+            <svg viewBox="0 0 24 24" fill="none" class="qaSvg">
+              <!-- horn -->
+              <path d="M12.4 9.2L19 6.5v11l-6.6-2.7H8.1c-1.2 0-2.1-1-2.1-2.1v-1.4c0-1.2 1-2.1 2.1-2.1h4.3Z"
+                    stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+              <!-- handle -->
+              <path d="M8 14.8l1.2 3.7c.2.6.8 1 1.4 1h.6c.8 0 1.4-.7 1.2-1.5l-1-3.2"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <!-- sound waves -->
+              <path d="M20.7 9.6c.8.7 1.3 1.7 1.3 2.8s-.5 2.1-1.3 2.8"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+              <path d="M19.6 11c.4.4.6.9.6 1.4s-.2 1-.6 1.4"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+          </span>
+          <span class="qaText">
+            <span class="qaTitle">發佈招聘個案</span>
+            <span class="qaSub">成為學生，向導師發出招聘</span>
+          </span>
+          <span class="qaArrow" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none">
+              <path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </span>
+        </a>
+
+        <!-- 成為平台導師 -->
+        <a class="qaCard reveal" style="--d:200ms" href="https://forms.gle/2vzycULFCtWhrjkh7" aria-label="成為平台導師">
+          <span class="qaIcon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" class="qaSvg">
+              <path d="M3.5 9.2L12 5.2l8.5 4-8.5 4-8.5-4Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+              <path d="M6.2 11.6v4.6c0 .6.3 1.1.8 1.4 1.2.8 2.9 1.4 5 1.4s3.8-.6 5-1.4c.5-.3.8-.9.8-1.4v-4.6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+              <path d="M20.5 10.2v5.2" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+          </span>
+          <span class="qaText">
+            <span class="qaTitle">成為平台導師</span>
+            <span class="qaSub">加入成為導師，發掘學生無限潛能</span>
+          </span>
+          <span class="qaArrow" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none">
+              <path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </span>
+        </a>
+      </div>
+
       <div class="panels">
         <!-- 招聘個案 -->
-        <div class="panel reveal" style="--d:0ms">
+        <div class="panel reveal" id="casePanel" style="--d:280ms">
           <div class="panelHead">
             <div class="panelTitle">尋找招聘個案</div>
             <div class="panelSub">導師／教練查看招聘個案並申請</div>
@@ -40,11 +169,9 @@
 
           <div class="panelArt">
             <picture>
-              <!-- 手機 4:3 -->
               <source media="(max-width: 980px)" srcset="/assets/img/case-4x3.jpeg">
               <source media="(min-width: 981px)" srcset="/assets/img/case-16x9.jpeg">
               <img src="/assets/img/case-16x9.jpeg" alt="招聘個案插圖" loading="lazy" decoding="async">
-
             </picture>
           </div>
 
@@ -58,7 +185,7 @@
         </div>
 
         <!-- 尋找導師 -->
-        <div class="panel reveal" style="--d:120ms">
+        <div class="panel reveal" id="tutorPanel" style="--d:380ms">
           <div class="panelHead">
             <div class="panelTitle">尋找導師</div>
             <div class="panelSub">學生／家長快速配對合適導師／教練</div>
@@ -66,11 +193,9 @@
 
           <div class="panelArt">
             <picture>
-              <!-- 手機 4:3 -->
               <source media="(max-width: 980px)" srcset="/assets/img/tutor-4x3.png">
               <source media="(min-width: 981px)" srcset="/assets/img/tutor-16x9.png">
               <img src="/assets/img/tutor-16x9.png" alt="尋找導師插圖" loading="lazy" decoding="async">
-
             </picture>
           </div>
 
@@ -85,7 +210,7 @@
       </div>
 
       <!-- 配對流程概覽 -->
-      <div class="flowPanel reveal" style="--d:220ms">
+      <div class="flowPanel reveal" id="flowPanel" style="--d:520ms">
         <div class="panelHead">
           <div class="panelTitle">配對流程概覽</div>
           <div class="panelSub">快速了解 Explorer 的配對運作方式</div>
@@ -101,7 +226,7 @@
         </div>
       </div>
 
-      <div class="hint reveal" style="--d:320ms">
+      <div class="hint reveal" style="--d:620ms">
         請瀏覽「<a href="#" class="link">配對流程(概略)</a>」以了解網站的基本運作方式。若需查閱詳細說明：學生/家長可前往「<a href="#" class="link">學生尋找導師流程（詳細）</a>」；導師可前往「<a href="#" class="link">導師尋找學生流程（詳細）</a>」
       </div>
     </div>
@@ -203,7 +328,6 @@
     pointer-events:none;
  }
 
- /* 5 秒切換 */
  .sloganSwap{
     position:relative;
     width:min(92vw, 980px);
@@ -277,6 +401,140 @@
  }
 
  .start{ background: var(--base); padding: 18px 0 42px; }
+
+ /* nav panel */
+ .navPanel{
+    border-radius: 22px;
+    border: 1px solid rgba(255,255,255,.12);
+    background: rgba(255,255,255,.06);
+    box-shadow: 0 18px 60px rgba(0,0,0,.35);
+    padding: 18px;
+    overflow:hidden;
+ }
+ .navGrid{
+    display:grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap:10px;
+    margin-top: 12px;
+ }
+ .navBtn{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    padding: 12px 12px;
+    border-radius: 16px;
+    border: 1px solid rgba(255,255,255,.12);
+    background: rgba(255,255,255,.05);
+    text-decoration:none;
+    color: rgba(234,244,255,.95);
+    transition: transform .18s ease, border-color .18s ease, background .18s ease;
+    min-height: 56px;
+ }
+ .navBtn:hover{ transform: translateY(-1px); border-color: rgba(255,255,255,.22); background: rgba(255,255,255,.07); }
+ .navIco{
+    width: 38px; height: 38px;
+    border-radius: 14px;
+    display:flex; align-items:center; justify-content:center;
+    background: rgba(255,255,255,.06);
+    border: 1px solid rgba(255,255,255,.12);
+    flex: 0 0 auto;
+ }
+ .navIco svg{ width: 20px; height: 20px; }
+ .navTxt{ display:flex; flex-direction:column; min-width:0; }
+ .navT{ font-weight: 900; letter-spacing: .04em; font-size: 13px; line-height:1.1; }
+
+ /* ✅ quick action boxes (glass) */
+ .quickActions{
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+    gap:14px;
+    margin-top: 14px;
+    margin-bottom: 14px;
+ }
+ .qaCard{
+    position:relative;
+    display:flex;
+    align-items:center;
+    gap:14px;
+    padding: 14px 16px;
+    border-radius: 22px;
+    border: 1px solid rgba(255,255,255,.12);
+    background: rgba(255,255,255,.06);
+    box-shadow: 0 18px 60px rgba(0,0,0,.35);
+    text-decoration:none;
+    color: rgba(234,244,255,.96);
+    overflow:hidden;
+    min-height: 86px;
+    transform: translateZ(0);
+ }
+ .qaCard::before{
+    content:"";
+    position:absolute; inset:0;
+    background:
+      radial-gradient(520px 240px at 12% 30%, rgba(111,231,255,.12), transparent 60%),
+      radial-gradient(520px 260px at 88% 70%, rgba(21,76,107,.22), transparent 62%),
+      repeating-linear-gradient(115deg, rgba(255,255,255,.012) 0px, rgba(255,255,255,.012) 1px, rgba(0,0,0,0) 1px, rgba(0,0,0,0) 9px);
+    opacity:.95;
+    pointer-events:none;
+ }
+ .qaCard:hover{
+    transform: translateY(-1px);
+    border-color: rgba(255,255,255,.20);
+    background: rgba(255,255,255,.07);
+ }
+ .qaCard:active{ transform: translateY(0) scale(.995); }
+
+ .qaIcon{
+    width: 46px;
+    height: 46px;
+    border-radius: 16px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    flex: 0 0 auto;
+    color: rgba(234,244,255,.98);
+    background:
+      radial-gradient(circle at 30% 30%, rgba(169,244,255,.18), rgba(111,231,255,.10)),
+      linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,.04));
+    border: 1px solid rgba(255,255,255,.14);
+    box-shadow:
+      0 14px 40px rgba(0,0,0,.35),
+      inset 0 1px 0 rgba(255,255,255,.08);
+ }
+ .qaSvg{ width: 24px; height: 24px; }
+
+ .qaText{
+    display:flex;
+    flex-direction:column;
+    gap:6px;
+    min-width: 0;
+ }
+ .qaTitle{
+    font-weight: 950;
+    letter-spacing: .06em;
+    font-size: 15px;
+    line-height: 1.1;
+ }
+ .qaSub{
+    font-size: 12px;
+    line-height: 1.45;
+    color: rgba(184,199,217,.94);
+ }
+ .qaArrow{
+    margin-left:auto;
+    width: 30px;
+    height: 30px;
+    border-radius: 999px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color: rgba(234,244,255,.92);
+    background: rgba(255,255,255,.05);
+    border: 1px solid rgba(255,255,255,.10);
+    flex: 0 0 auto;
+ }
+ .qaArrow svg{ width: 18px; height: 18px; }
+
  .panels{ display:grid; grid-template-columns: 1fr 1fr; gap:14px; margin-top: 8px; }
 
  .panel, .flowPanel{
@@ -291,7 +549,6 @@
  .panelTitle{ font-weight: 900; letter-spacing: .06em; font-size: 18px; }
  .panelSub{ margin-top:6px; color: rgba(184,199,217,.92); font-size: 13px; line-height: 1.6; }
 
- /* 插圖框：電腦 16:9；手機 4:3；不裁切 */
  .panelArt{
     margin: 12px 0 14px;
     width:100%;
@@ -305,11 +562,7 @@
     justify-content:center;
  }
  .panelArt picture,
- .panelArt img{
-    width:100%;
-    height:100%;
-    display:block;
- }
+ .panelArt img{ width:100%; height:100%; display:block; }
  .panelArt img{ object-fit: contain; }
 
  .flowImg{
@@ -419,6 +672,7 @@
     animation: revealIn .92s cubic-bezier(.2,.8,.2,1) both;
     animation-delay: var(--d, 0ms);
  }
+ #casePanel, #tutorPanel, #flowPanel{ scroll-margin-top: 16px; }
 
  @keyframes revealIn{
     from{ opacity:0; transform: translateY(18px); filter: blur(8px); }
@@ -437,10 +691,17 @@
  }
 
  @media (max-width: 980px){
+    .navGrid{ grid-template-columns: 1fr; }
+    .quickActions{ grid-template-columns: 1fr; margin-bottom: 12px; }
+
+    .qaCard{ min-height: 80px; padding: 12px 14px; }
+    .qaIcon{ width: 42px; height: 42px; border-radius: 14px; }
+    .qaTitle{ font-size: 14px; }
+    .qaSub{ font-size: 12px; }
     .panels{ grid-template-columns: 1fr; }
     .heroCenter{ min-height: clamp(320px, 58vh, 520px); }
     .panelArt{ aspect-ratio: 4 / 3; }
- }
+  }
 </style>
 
 <script>
@@ -461,7 +722,7 @@
     }, 5000);
  })();
 
- // 面板淡入 + smooth scroll
+ // 面板淡入 + smooth scroll + nav scroll
  (function(){
     const start = document.getElementById('start');
     const cta = document.getElementById('cta');
@@ -474,6 +735,20 @@
     cta?.addEventListener('click', function(){
       activatePanels();
       start.scrollIntoView({ behavior:'smooth', block:'start' });
+    });
+
+    // ✅ only intercept in-page scroll links
+    document.addEventListener('click', (e) => {
+      const a = e.target.closest('a[data-scroll]');
+      if(!a) return;
+
+      const id = a.getAttribute('data-scroll');
+      const el = document.getElementById(id);
+      if(!el) return;
+
+      e.preventDefault();
+      activatePanels();
+      el.scrollIntoView({ behavior:'smooth', block:'start' });
     });
 
     setTimeout(activatePanels, 1200);
