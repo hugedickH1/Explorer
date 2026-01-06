@@ -1,0 +1,1279 @@
+<!-- ✅ fees.html：只把「頁內快速導覽」所有快捷按鈕的 icon 改為「藍色原點」，其他不改 -->
+
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Explorer｜收費及付款詳情</title>
+
+  <style>
+    :root{
+      --base:#070d14;
+      --text:#eaf4ff;
+      --muted: rgba(184,199,217,.92);
+
+      --card: rgba(255,255,255,.06);
+      --card2: rgba(255,255,255,.05);
+      --stroke: rgba(255,255,255,.12);
+      --stroke2: rgba(255,255,255,.10);
+      --shadow: 0 18px 60px rgba(0,0,0,.35);
+      --radius: 18px;
+
+      --rg1:#ffe7d7;
+      --rg2:#f3c9b7;
+      --rg3:#d9a596;
+      --rg4:#b47b6f;
+
+      --glassBlur: 14px;
+      --max: 1020px;
+
+      --modalBg: rgba(0,0,0,.65);
+    }
+
+    *{ box-sizing:border-box; }
+    html,body{ height:100%; }
+    html{ scroll-behavior: smooth; }
+    body{
+      margin:0;
+      font-family: ui-sans-serif, -apple-system, "Noto Sans TC", system-ui, "PingFang TC", "Heiti TC", Arial, sans-serif;
+      color: var(--text);
+      background: var(--base);
+      overflow-x:hidden;
+    }
+
+    body::before{
+      content:"";
+      position: fixed;
+      inset:-20%;
+      z-index:-2;
+      background:
+        radial-gradient(1200px 800px at 12% 20%, rgba(21,76,107,.55), transparent 60%),
+        radial-gradient(900px 700px at 85% 30%, rgba(111,231,255,.18), transparent 55%),
+        radial-gradient(900px 700px at 55% 90%, rgba(21,76,107,.32), transparent 55%),
+        repeating-linear-gradient(90deg, rgba(255,255,255,.05) 0, rgba(255,255,255,.05) 1px, transparent 1px, transparent 88px),
+        repeating-linear-gradient(0deg, rgba(255,255,255,.04) 0, rgba(255,255,255,.04) 1px, transparent 1px, transparent 88px),
+        linear-gradient(180deg, var(--base), var(--base));
+      opacity:.24;
+      pointer-events:none;
+    }
+    body::after{
+      content:"";
+      position: fixed;
+      inset:-160px;
+      z-index:-1;
+      background:
+        radial-gradient(circle at 30% 40%, rgba(111,231,255,.14), transparent 44%),
+        radial-gradient(circle at 75% 60%, rgba(21,76,107,.24), transparent 52%);
+      filter: blur(18px);
+      opacity:.95;
+      pointer-events:none;
+    }
+
+    .wrap{
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 18px 18px 56px;
+    }
+
+    .topbar{
+      position: sticky;
+      top: 0;
+      z-index: 30;
+      backdrop-filter: blur(var(--glassBlur));
+      -webkit-backdrop-filter: blur(var(--glassBlur));
+      background: rgba(255,255,255,.06);
+      border-bottom: 1px solid rgba(255,255,255,.10);
+    }
+    .topbar-inner{
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 12px 18px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap: 12px;
+    }
+
+    .brand{
+      display:flex;
+      align-items:center;
+      gap: 10px;
+      min-width: 0;
+    }
+
+    .logo{
+      width: 40px; height: 40px;
+      border-radius: 14px;
+      background: rgba(255,255,255,.06);
+      border: 1px solid rgba(255,255,255,.12);
+      box-shadow: 0 14px 40px rgba(0,0,0,.35);
+      display:grid; place-items:center;
+      flex: 0 0 auto;
+      color: rgba(234,244,255,.92);
+    }
+    .logo svg{ width: 22px; height: 22px; }
+    .logo svg path{ stroke: currentColor !important; }
+
+    .brandText{
+      line-height: 1.05;
+      min-width: 0;
+    }
+    .brandText .title{
+      font-weight: 950;
+      letter-spacing: .12em;
+      font-size: 13px;
+      text-transform: uppercase;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .brandText .sub{
+      font-size: 12px;
+      color: var(--muted);
+      margin-top: 2px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .menuBtn{
+      width: 44px;
+      height: 44px;
+      border-radius: 16px;
+      display:grid;
+      place-items:center;
+      background: rgba(255,255,255,.06);
+      border: 1px solid rgba(255,255,255,.12);
+      box-shadow: 0 14px 40px rgba(0,0,0,.35);
+      color: rgba(234,244,255,.92);
+      cursor:pointer;
+      transition: transform .16s ease, border-color .16s ease, background .16s ease;
+    }
+    .menuBtn:hover{
+      transform: translateY(-1px);
+      border-color: rgba(255,255,255,.20);
+      background: rgba(255,255,255,.07);
+    }
+    .menuBtn:active{ transform: translateY(0) scale(.99); }
+    .menuBtn svg{ width: 22px; height: 22px; }
+    .menuBtn svg path{ stroke: currentColor !important; }
+
+    .overlay{
+      position: fixed;
+      inset: 0;
+      background: var(--modalBg);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .22s ease;
+      z-index: 40;
+    }
+    .overlay.open{
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .drawer{
+      position: fixed;
+      top: 0;
+      right: 0;
+      height: 100%;
+      width: min(92vw, 360px);
+      transform: translateX(105%);
+      transition: transform .28s cubic-bezier(.2,.8,.2,1);
+      z-index: 50;
+
+      background: rgba(255,255,255,.06);
+      border-left: 1px solid rgba(255,255,255,.12);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      box-shadow: -18px 0 60px rgba(0,0,0,.45);
+      overflow: hidden;
+    }
+    .drawer.open{ transform: translateX(0); }
+
+    .drawer::before{
+      content:"";
+      position:absolute; inset:0;
+      background:
+        radial-gradient(520px 240px at 20% 20%, rgba(111,231,255,.12), transparent 60%),
+        radial-gradient(520px 260px at 90% 30%, rgba(21,76,107,.22), transparent 60%),
+        repeating-linear-gradient(115deg, rgba(255,255,255,.012) 0px, rgba(255,255,255,.012) 1px, rgba(0,0,0,0) 1px, rgba(0,0,0,0) 9px);
+      opacity:.95;
+      pointer-events:none;
+    }
+
+    .drawerInner{
+      position:relative;
+      height: 100%;
+      display:flex;
+      flex-direction: column;
+      padding: 16px;
+      gap: 12px;
+    }
+
+    .drawerTop{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap: 12px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid rgba(255,255,255,.10);
+    }
+
+    .drawerTitle{
+      font-weight: 950;
+      letter-spacing: .08em;
+      color: rgba(234,244,255,.98);
+      font-size: 13px;
+      text-transform: none;
+    }
+
+    .closeBtn{
+      width: 42px;
+      height: 42px;
+      border-radius: 16px;
+      display:grid;
+      place-items:center;
+      background: rgba(255,255,255,.06);
+      border: 1px solid rgba(255,255,255,.12);
+      color: rgba(234,244,255,.92);
+      cursor:pointer;
+      transition: transform .16s ease, border-color .16s ease, background .16s ease;
+    }
+    .closeBtn:hover{
+      transform: translateY(-1px);
+      border-color: rgba(255,255,255,.20);
+      background: rgba(255,255,255,.07);
+    }
+    .closeBtn:active{ transform: translateY(0) scale(.99); }
+    .closeBtn svg{ width: 20px; height: 20px; }
+    .closeBtn svg path{ stroke: currentColor !important; }
+
+    .navList{
+      display:flex;
+      flex-direction: column;
+      gap: 10px;
+      padding-top: 6px;
+    }
+
+    .navItem{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap: 10px;
+      padding: 12px 12px;
+      border-radius: 16px;
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.05);
+      color: rgba(234,244,255,.95);
+      text-decoration:none;
+      transition: transform .16s ease, border-color .16s ease, background .16s ease;
+      min-height: 52px;
+    }
+    .navItem:hover{
+      transform: translateY(-1px);
+      border-color: rgba(255,255,255,.22);
+      background: rgba(255,255,255,.07);
+    }
+
+    .navLeft{
+      display:flex;
+      flex-direction: column;
+      gap: 0;
+      min-width: 0;
+    }
+    .navMain{
+      font-weight: 950;
+      letter-spacing: .04em;
+      font-size: 13px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .navArrow{
+      width: 28px; height: 28px;
+      border-radius: 999px;
+      display:grid;
+      place-items:center;
+      border: 1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.05);
+      flex: 0 0 auto;
+    }
+    .navArrow svg{ width: 16px; height: 16px; color: rgba(234,244,255,.92); }
+    .navArrow svg path{ stroke: currentColor !important; }
+
+    .drawerFoot{
+      margin-top:auto;
+      padding-top: 12px;
+      border-top: 1px solid rgba(255,255,255,.10);
+      color: rgba(184,199,217,.92);
+      font-size: 12px;
+      line-height: 1.7;
+    }
+
+    .hero{ padding: 24px 0 10px; }
+    .heroGrid{
+      display:grid;
+      grid-template-columns: 1.2fr .8fr;
+      gap: 16px;
+      align-items: stretch;
+    }
+
+    .heroCard,
+    .sideCard,
+    .section{
+      border-radius: calc(var(--radius) + 6px);
+      background: rgba(255,255,255,.06);
+      border: 1px solid rgba(255,255,255,.12);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+      position: relative;
+    }
+
+    .heroCard{ padding: 18px 18px 16px; }
+    .heroCard::before{
+      content:"";
+      position:absolute;
+      inset:-30%;
+      background:
+        radial-gradient(520px 240px at 20% 20%, rgba(111,231,255,.12), transparent 60%),
+        radial-gradient(520px 260px at 90% 30%, rgba(21,76,107,.22), transparent 60%),
+        repeating-linear-gradient(115deg, rgba(255,255,255,.012) 0px, rgba(255,255,255,.012) 1px, rgba(0,0,0,0) 1px, rgba(0,0,0,0) 9px);
+      transform: rotate(-6deg);
+      pointer-events:none;
+      opacity:.95;
+    }
+    .heroCard > *{ position: relative; }
+
+    .h1{
+      margin:0;
+      font-size: 28px;
+      letter-spacing: .2px;
+      font-weight: 950;
+      color: rgba(234,244,255,.98);
+    }
+    .lead{
+      margin: 10px 0 0;
+      color: var(--muted);
+      line-height: 1.7;
+      font-size: 14px;
+      max-width: 62ch;
+    }
+
+    .chips{
+      margin-top: 14px;
+      display:flex;
+      flex-wrap:wrap;
+      gap: 10px;
+    }
+    .chip{
+      display:inline-flex;
+      align-items:center;
+      gap: 8px;
+      padding: 10px 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.05);
+      color: rgba(234,244,255,.95);
+      text-decoration:none;
+      font-weight: 900;
+      letter-spacing: .02em;
+      font-size: 13px;
+      transition: transform .15s ease, border-color .15s ease, background .15s ease;
+    }
+    .chip:hover{ transform: translateY(-1px); border-color: rgba(255,255,255,.22); background: rgba(255,255,255,.07); }
+    .chip svg{ width: 16px; height: 16px; opacity:.95; }
+    .chip svg path{ stroke: currentColor !important; }
+
+    /* ✅ 藍色原點（供所有快捷按鈕使用） */
+    .chipDot{
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: rgba(111,231,255,.88);
+      box-shadow: 0 0 0 3px rgba(111,231,255,.12);
+      flex: 0 0 auto;
+    }
+
+    .sideCard{ padding: 16px; }
+    .sideTitle{
+      margin:0;
+      font-size: 14px;
+      font-weight: 950;
+      letter-spacing: .2px;
+      color: rgba(234,244,255,.98);
+    }
+    .mini{
+      margin-top: 10px;
+      display:grid;
+      gap: 10px;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.65;
+    }
+    .mini b{ color: rgba(234,244,255,.98); }
+
+    .section{
+      margin-top: 18px;
+      padding: 18px;
+    }
+    #platformFee, #payment, #laterFee, #fairness, #faq { scroll-margin-top: 86px; }
+
+    .sectionHead{
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+    .sectionTitle{
+      margin:0;
+      font-size: 18px;
+      font-weight: 950;
+      letter-spacing: .2px;
+      color: rgba(234,244,255,.98);
+    }
+
+    .grid2{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-top: 12px;
+    }
+
+    .panel{
+      border-radius: var(--radius);
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.05);
+      padding: 14px;
+      color: rgba(234,244,255,.95);
+    }
+    .panel h3{
+      margin:0;
+      font-size: 14px;
+      font-weight: 950;
+      display:flex;
+      align-items:center;
+      gap: 10px;
+      color: rgba(234,244,255,.98);
+    }
+    .panel h3 svg{ width:18px; height:18px; color: rgba(234,244,255,.92); }
+    .panel h3 svg path{ stroke: currentColor !important; }
+
+    .panel p{
+      margin: 8px 0 0;
+      color: var(--muted);
+      line-height: 1.75;
+      font-size: 13px;
+    }
+    .panel p b{ color: rgba(234,244,255,.98); }
+    .panel ul{
+      margin: 10px 0 0 18px;
+      color: var(--muted);
+      line-height: 1.75;
+      font-size: 13px;
+      padding: 0;
+    }
+    .panel ul b{ color: rgba(234,244,255,.98); }
+
+    .steps{
+      margin-top: 10px;
+      display:grid;
+      gap: 10px;
+    }
+    .step{
+      display:flex;
+      gap: 12px;
+      align-items:flex-start;
+      padding: 12px;
+      border-radius: var(--radius);
+      background: rgba(255,255,255,.05);
+      border: 1px solid rgba(255,255,255,.10);
+    }
+    .step .dot{
+      width: 34px; height: 34px;
+      border-radius: 12px;
+      display:grid;
+      place-items:center;
+      flex: 0 0 auto;
+      background:
+        radial-gradient(circle at 30% 30%, rgba(169,244,255,.18), rgba(111,231,255,.10)),
+        linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,.04));
+      border: 1px solid rgba(255,255,255,.14);
+      box-shadow: 0 14px 40px rgba(0,0,0,.35);
+      color: rgba(234,244,255,.92);
+    }
+    .step .dot svg{ width: 18px; height:18px; }
+    .step .dot svg path{ stroke: currentColor !important; }
+
+    .step .txt{ min-width: 0; }
+    .step .txt b{
+      display:block;
+      font-weight: 950;
+      margin-top: 1px;
+      margin-bottom: 3px;
+      color: rgba(234,244,255,.98);
+    }
+    .step .txt span{
+      display:block;
+      color: var(--muted);
+      line-height: 1.7;
+      font-size: 13px;
+    }
+
+    .galleryWrap{ margin-top: 12px; }
+    .gallery{
+      display:grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+    .shot{
+      border-radius: 16px;
+      overflow:hidden;
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.05);
+      box-shadow: 0 18px 60px rgba(0,0,0,.22);
+      position: relative;
+      display:flex;
+      flex-direction: column;
+    }
+
+    .shot .imgBox{
+      width: 100%;
+      aspect-ratio: 9 / 16;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding: 10px;
+      background: rgba(0,0,0,.10);
+    }
+    .shot img{
+      display:block;
+      max-width: 100%;
+      max-height: 100%;
+      width: auto;
+      height: auto;
+      object-fit: contain;
+      object-position: center;
+      border-radius: 12px;
+    }
+    .cap{
+      padding: 10px 10px 12px;
+      border-top: 1px solid rgba(255,255,255,.10);
+      font-size: 12px;
+      color: rgba(234,244,255,.92);
+      line-height: 1.5;
+      background: rgba(255,255,255,.04);
+      text-align:center;
+      font-weight: 900;
+      letter-spacing: .04em;
+    }
+
+    .dots{
+      display:none;
+      margin-top: 10px;
+      justify-content:center;
+      gap: 8px;
+    }
+    .dotBtn{
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.22);
+      background: rgba(255,255,255,.10);
+      padding:0;
+      cursor:pointer;
+      transition: transform .16s ease, background .16s ease, border-color .16s ease;
+    }
+    .dotBtn[aria-current="true"]{
+      background: rgba(111,231,255,.60);
+      border-color: rgba(111,231,255,.60);
+      transform: scale(1.15);
+    }
+
+    .footer{
+      margin-top: 18px;
+      text-align:center;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.7;
+      padding: 10px 0 0;
+    }
+
+    .reveal{
+      opacity: 0;
+      transform: translateY(10px);
+      transition: opacity .6s ease, transform .6s ease;
+    }
+    .reveal.in{
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ✅ FAQ */
+    .faqList{
+      margin-top: 12px;
+      display:grid;
+      gap: 10px;
+    }
+    details.faqItem{
+      border-radius: var(--radius);
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.05);
+      overflow:hidden;
+    }
+    details.faqItem summary{
+      list-style:none;
+      cursor:pointer;
+      padding: 14px 14px;
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap: 12px;
+      font-weight: 950;
+      color: rgba(234,244,255,.98);
+    }
+    details.faqItem summary::-webkit-details-marker{ display:none; }
+    .faqQ{
+      font-size: 13px;
+      line-height: 1.55;
+      letter-spacing: .02em;
+      min-width: 0;
+    }
+    .faqChev{
+      width: 28px; height: 28px;
+      border-radius: 999px;
+      display:grid;
+      place-items:center;
+      border: 1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.05);
+      flex: 0 0 auto;
+      transition: transform .16s ease;
+      margin-top: 1px;
+    }
+    details[open] .faqChev{ transform: rotate(180deg); }
+    .faqChev svg{ width:16px; height:16px; color: rgba(234,244,255,.92); }
+    .faqChev svg path{ stroke: currentColor !important; }
+
+    .faqA{
+      padding: 0 14px 14px;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.75;
+    }
+    .faqA b{ color: rgba(234,244,255,.98); }
+
+    @media (max-width: 920px){
+      .heroGrid{ grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 720px){
+      .wrap{ padding: 14px 14px 52px; }
+      .topbar-inner{ padding: 10px 14px; }
+      .h1{ font-size: 22px; }
+      .grid2{ grid-template-columns: 1fr; }
+
+      .gallery{
+        display:flex;
+        gap: 12px;
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        -webkit-overflow-scrolling: touch;
+        padding: 2px 2px 8px;
+        scroll-padding-left: 6%;
+        scroll-padding-right: 6%;
+      }
+      .gallery::-webkit-scrollbar{ height: 6px; }
+      .gallery::-webkit-scrollbar-thumb{ background: rgba(255,255,255,.12); border-radius: 99px; }
+      .gallery::-webkit-scrollbar-track{ background: transparent; }
+
+      .shot{
+        flex: 0 0 88%;
+        scroll-snap-align: center;
+      }
+      .shot .imgBox{
+        aspect-ratio: 9 / 16;
+        padding: 12px;
+      }
+
+      .dots{ display:flex; }
+      .chips{ gap: 8px; }
+      .chip{ padding: 9px 11px; font-size: 13px; }
+    }
+  </style>
+</head>
+
+<body>
+  <header class="topbar" role="banner">
+    <div class="topbar-inner">
+      <div class="brand">
+        <div class="logo" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none">
+            <path d="M3.5 11.5 21 3.5l-8 17-2.5-6-7-3Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
+            <path d="M21 3.5 10.5 14.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div class="brandText">
+          <div class="title">EXPLORER</div>
+          <div class="sub">收費及付款詳情</div>
+        </div>
+      </div>
+
+      <button class="menuBtn" id="menuBtn" type="button" aria-label="開啟導航列" aria-controls="drawer" aria-expanded="false">
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M5 7h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          <path d="M5 12h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          <path d="M5 17h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </button>
+    </div>
+  </header>
+
+  <div class="overlay" id="overlay" aria-hidden="true"></div>
+
+  <nav class="drawer" id="drawer" aria-label="導航列" aria-hidden="true">
+    <div class="drawerInner">
+      <div class="drawerTop">
+        <div class="drawerTitle">導航</div>
+        <button class="closeBtn" id="closeBtn" type="button" aria-label="關閉導航列">
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            <path d="M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </button>
+      </div>
+
+      <div class="navList">
+        <a class="navItem" href="/index.html">
+          <div class="navLeft"><div class="navMain">主頁</div></div>
+          <div class="navArrow" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none">
+              <path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+        </a>
+
+        <a class="navItem" href="/index.html#flowPanel">
+          <div class="navLeft"><div class="navMain">配對方法</div></div>
+          <div class="navArrow" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none">
+              <path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+        </a>
+
+        <a class="navItem" href="/fees.html" aria-current="page">
+          <div class="navLeft"><div class="navMain">收費及付款詳情</div></div>
+          <div class="navArrow" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none">
+              <path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+        </a>
+
+        <a class="navItem" href="/contact.html">
+          <div class="navLeft"><div class="navMain">聯絡我們</div></div>
+          <div class="navArrow" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none">
+              <path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+        </a>
+
+        <a class="navItem" href="/terms.html">
+          <div class="navLeft"><div class="navMain">使用條款</div></div>
+          <div class="navArrow" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none">
+              <path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+        </a>
+      </div>
+
+      <div class="drawerFoot">
+        點擊空白位置或按 ESC 可關閉導航列。
+      </div>
+    </div>
+  </nav>
+
+  <main class="wrap" role="main">
+    <section class="hero">
+      <div class="heroGrid">
+        <div class="heroCard reveal">
+          <h1 class="h1">收費及付款詳情</h1>
+          <p class="lead">
+            為了確保平台的營運及提供優質服務，本平台採用簡單透明的收費制度。
+            你可以在下面清晰了解：平台服務費計算方法、付款安排、以及第三堂後的費用安排
+          </p>
+
+          <!-- ✅ 只改呢度：所有快捷按鈕改用藍色原點 -->
+          <div class="chips" aria-label="頁內快速導覽">
+            <a class="chip" href="#platformFee"><span class="chipDot" aria-hidden="true"></span>平台服務費</a>
+            <a class="chip" href="#payment"><span class="chipDot" aria-hidden="true"></span>付款方式</a>
+            <a class="chip" href="#laterFee"><span class="chipDot" aria-hidden="true"></span>後續課堂費用</a>
+            <a class="chip" href="#fairness"><span class="chipDot" aria-hidden="true"></span>收費詳情</a>
+            <a class="chip" href="#faq"><span class="chipDot" aria-hidden="true"></span>常見問題</a>
+          </div>
+        </div>
+
+        <aside class="sideCard reveal" aria-label="重點摘要">
+          <h2 class="sideTitle">重點摘要</h2>
+          <div class="mini">
+            <div>• <b>平台服務費</b>：成功配對後，<b>首兩堂的學費</b>作為平台服務費。</div>
+            <div>• <b>付款方式</b>：銀行轉帳／支付寶／PayMe。</div>
+            <div>• <b>第三堂起</b>：課堂費用<b>全額歸屬導師</b>，時間及付款方式可自由協定。</div>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section id="platformFee" class="section reveal">
+      <div class="sectionHead">
+        <h2 class="sectionTitle">平台服務費</h2>
+      </div>
+
+      <div class="grid2">
+        <div class="panel">
+          <h3>
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true" style="width:18px;height:18px">
+              <path d="M6 7h12M6 11h12M6 15h8" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
+              <path d="M5 3h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2Z" stroke="currentColor" stroke-width="1.5"/>
+            </svg>
+            收費方式
+          </h3>
+          <p>
+            學生匹配導師成功後，<b>首兩堂的學費</b>將作為平台服務費，用於平台營運、配對及支援服務。
+          </p>
+        </div>
+
+        <div class="panel">
+          <h3>
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true" style="width:18px;height:18px">
+              <path d="M7 12h10" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
+              <path d="M12 7v10" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
+              <path d="M4 6.5A3.5 3.5 0 0 1 7.5 3h9A3.5 3.5 0 0 1 20 6.5v11A3.5 3.5 0 0 1 16.5 21h-9A3.5 3.5 0 0 1 4 17.5v-11Z" stroke="currentColor" stroke-width="1.5"/>
+            </svg>
+            安排方式
+          </h3>
+          <ul>
+            <li><b>安排課程：</b>首兩次課程的具體時間由平台、師生雙方共同協定。</li>
+            <li><b>安排聯絡：</b>待學生完成支付後，平台將立即安排導師與學生建立聯繫方式。</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="steps" aria-label="流程">
+        <div class="step">
+          <div class="dot" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none">
+              <path d="M7 12h10" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
+              <path d="M12 7v10" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <div class="txt">
+            <b>Step 1｜配對成功</b>
+            <span>平台確認你所指定的導師／教練可接案後，將進入安排首兩次課堂流程。</span>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="dot" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none">
+              <path d="M3.5 7.5h17v9h-17z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
+              <path d="M3.5 10.2h17" stroke="currentColor" stroke-width="1.6"/>
+            </svg>
+          </div>
+          <div class="txt">
+            <b>Step 2｜確認時間後付款</b>
+            <span>
+              首兩次課堂時間確定後，我們會提供轉帳帳戶資料予學生或家長付款。
+              學生或家長須於首節課堂開始前48小時向我們支付首兩堂的學費作為平台服務費。
+              若配對成功及首節上課時間相差小於 48 小時，學生方則需要先行繳付平台服務費才當作完成配對。
+            </span>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="dot" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none">
+              <path d="M20 7 9 18l-5-5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <div class="txt">
+            <b>Step 3｜核對後建立聯絡</b>
+            <span>付款並提供截圖後，我們核對成功即安排導師與你建立聯繫方式。</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="payment" class="section reveal">
+      <div class="sectionHead">
+        <h2 class="sectionTitle">付款方式</h2>
+      </div>
+
+      <div class="grid2">
+        <div class="panel">
+          <h3>
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true" style="width:18px;height:18px">
+              <path d="M4 10.5 12 5l8 5.5V20a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-9.5Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+              <path d="M8 20v-7h8v7" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+            </svg>
+            我們何時提供帳戶資料？
+          </h3>
+          <p>
+            我們將於<b>首兩次課程的具體時間確定後</b>，提供銀行／支付寶／PayMe 帳戶予學生或家長進行轉帳。
+          </p>
+        </div>
+
+        <div class="panel">
+          <h3>
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true" style="width:18px;height:18px">
+              <path d="M12 3v18" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+              <path d="M7 8.2c0-1.7 2.2-3.2 5-3.2s5 1.5 5 3.2S14.8 11 12 11s-5 1.4-5 3.1 2.2 3.2 5 3.2 5-1.5 5-3.2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+            </svg>
+            付款後必做事項
+          </h3>
+          <ul>
+            <li>付款後，請務必通知我們並提供<b>轉帳截圖</b>，以便核對帳目。</li>
+            <li>若未能收到你的付款記錄，我們將無法確認款項是否已結清。</li>
+            <li>請在提供記錄並經我們核實後，相關流程方可繼續。</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="galleryWrap">
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;margin: 4px 0 10px;">
+          <div style="font-weight:950;color:rgba(234,244,255,.98);">轉帳畫面例子</div>
+          <div style="color:var(--muted);font-size:12px;">（示意圖：用於核對）</div>
+        </div>
+
+        <div class="gallery" id="payGallery" aria-label="轉帳畫面例子（可左右滑）">
+          <figure class="shot">
+            <div class="imgBox">
+              <img src="./assets/transfer-example-1.png" alt="銀行支付（示意）" loading="lazy">
+            </div>
+            <figcaption class="cap">銀行支付</figcaption>
+          </figure>
+
+          <figure class="shot">
+            <div class="imgBox">
+              <img src="./assets/transfer-example-2.png" alt="支付寶（示意）" loading="lazy">
+            </div>
+            <figcaption class="cap">支付寶</figcaption>
+          </figure>
+
+          <figure class="shot">
+            <div class="imgBox">
+              <img src="./assets/transfer-example-3.png" alt="PayMe（示意）" loading="lazy">
+            </div>
+            <figcaption class="cap">PayMe</figcaption>
+          </figure>
+        </div>
+
+        <div class="dots" id="payDots" aria-label="圖片切換">
+          <button class="dotBtn" type="button" aria-label="銀行支付" aria-current="true"></button>
+          <button class="dotBtn" type="button" aria-label="支付寶" aria-current="false"></button>
+          <button class="dotBtn" type="button" aria-label="PayMe" aria-current="false"></button>
+        </div>
+      </div>
+    </section>
+
+    <section id="laterFee" class="section reveal">
+      <div class="sectionHead">
+        <h2 class="sectionTitle">後續課堂費用</h2>
+      </div>
+
+      <div class="panel">
+        <h3>
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true" style="width:18px;height:18px">
+            <path d="M7 7h10M7 12h10M7 17h6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
+            <path d="M6 3h12a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2Z" stroke="currentColor" stroke-width="1.5"/>
+          </svg>
+          清晰安排
+        </h3>
+        <p>
+          從<b>第三堂課開始</b>，學生支付的課堂費用將<b>全額歸屬導師</b>。
+          學生可與導師自由安排上課時間及付款方式，靈活度更高。
+        </p>
+      </div>
+    </section>
+
+    <section id="fairness" class="section reveal">
+      <div class="sectionHead">
+        <h2 class="sectionTitle">收費詳情</h2>
+      </div>
+
+      <div class="grid2">
+        <div class="panel">
+          <h3>
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true" style="width:18px;height:18px">
+              <path d="M12 3v18" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+              <path d="M6 7h12" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+            </svg>
+            制度透明
+          </h3>
+          <p>
+            收費制度簡單透明，學生與導師皆能清楚了解金額去向，避免誤會。
+          </p>
+        </div>
+
+        <div class="panel">
+          <h3>
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true" style="width:18px;height:18px">
+              <path d="M20 7 9 18l-5-5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            保障雙方
+          </h3>
+          <p>
+            我們相信此制度能保障師生雙方權益，同時支持平台長期發展。<br/>
+            感謝使用平台服務。
+          </p>
+        </div>
+      </div>
+
+      <div class="footer">
+        不需回覆此頁面內容；如對付款或核對有任何疑問，請直接聯絡平台支援。
+      </div>
+    </section>
+
+    <section id="faq" class="section reveal">
+      <div class="sectionHead">
+        <h2 class="sectionTitle">常見問題（FAQ）</h2>
+      </div>
+
+      <div class="faqList">
+        <details class="faqItem">
+          <summary>
+            <div class="faqQ">學生向平台支付首兩堂學費作為平台服務費後，是否仍需向導師支付首兩堂之學費？</div>
+            <div class="faqChev" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+          </summary>
+          <div class="faqA">
+            不需要。學生／家長向平台繳付首兩堂學費作為平台服務費後，首兩堂毋須再另行向導師支付同等學費，亦即不會出現重複付款之情況。
+            因此，學生透過平台尋找導師在實務上屬免費（平台不另收取搜尋／配對費用）。
+          </div>
+        </details>
+
+        <details class="faqItem">
+          <summary>
+            <div class="faqQ">平台服務費如何計算？</div>
+            <div class="faqChev" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+          </summary>
+          <div class="faqA">
+            於學生成功匹配導師後，<b>首兩堂之學費</b>將作為平台服務費，用於平台營運、配對安排及相關支援服務。
+          </div>
+        </details>
+
+        <details class="faqItem">
+          <summary>
+            <div class="faqQ">何時需要付款？</div>
+            <div class="faqChev" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+          </summary>
+          <div class="faqA">
+            於首兩次課堂之具體時間確定後，平台將提供轉帳帳戶資料。學生／家長須於<b>首節課堂開始前48小時</b>支付<b>首兩堂之學費</b>作為平台服務費。
+            如首節課堂開始時間與配對成功時間相距不足48小時，學生須先行繳付平台服務費，方視為完成配對。
+          </div>
+        </details>
+
+        <details class="faqItem">
+          <summary>
+            <div class="faqQ">付款後須完成哪些程序？</div>
+            <div class="faqChev" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+          </summary>
+          <div class="faqA">
+            完成付款後，學生／家長須通知平台並提供<b>轉帳截圖或付款記錄</b>以便核對。
+            如平台未能收到付款記錄，將無法確認款項是否已結清，相關流程亦需待核實完成後方可繼續。
+          </div>
+        </details>
+
+        <details class="faqItem">
+          <summary>
+            <div class="faqQ">核對付款後，平台會如何安排？</div>
+            <div class="faqChev" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+          </summary>
+          <div class="faqA">
+            平台於核對款項無誤後，將即時安排導師與學生建立聯繫方式（例如 WhatsApp、電話或電郵等），以便雙方就課堂安排作進一步協調。
+          </div>
+        </details>
+
+        <details class="faqItem">
+          <summary>
+            <div class="faqQ">如已付款但未有提供截圖，會否影響流程？</div>
+            <div class="faqChev" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+          </summary>
+          <div class="faqA">
+            會。由於平台未能核實款項是否已結清，流程可能暫停。學生／家長補交付款記錄並經平台核實後，相關流程即可繼續。
+          </div>
+        </details>
+
+        <details class="faqItem">
+          <summary>
+            <div class="faqQ">第三堂起之費用安排為何？</div>
+            <div class="faqChev" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+          </summary>
+          <div class="faqA">
+            自<b>第三堂課開始</b>，學生所支付之課堂費用將<b>全額歸屬導師</b>。
+            其後之上課時間及付款方式，可由學生與導師自行協定，並以雙方協議為準。
+          </div>
+        </details>
+
+        <details class="faqItem">
+          <summary>
+            <div class="faqQ">如導師臨時改期或取消課堂，應如何處理？</div>
+            <div class="faqChev" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+          </summary>
+          <div class="faqA">
+            建議師生雙方先行協商改期安排；如出現多次改期、取消或嚴重影響課堂進度之情況，學生可通知平台介入協調並作記錄，以保障雙方權益。
+          </div>
+        </details>
+
+        <details class="faqItem">
+          <summary>
+            <div class="faqQ">可否一次過預付多於兩堂之費用？</div>
+            <div class="faqChev" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+          </summary>
+          <div class="faqA">
+            不太建議。一般建議先按平台流程完成首兩堂平台服務費之安排。第三堂起之付款方式由師生雙方自行協定。
+            如果打算一次過預付多於兩堂費用，請首先將首兩堂學費支付給平台，剩下額外預繳的學費請在雙方建立了聯絡方法後自行與導師商討。
+          </div>
+        </details>
+
+        <details class="faqItem">
+          <summary>
+            <div class="faqQ">平台之收費安排如何保障雙方？</div>
+            <div class="faqChev" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+          </summary>
+          <div class="faqA">
+            平台採用清晰、簡單及透明之收費制度，讓學生與導師均能清楚理解款項去向；同時平台將於核對付款後才安排建立聯繫方式，以確保流程完整並減少爭議。
+          </div>
+        </details>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    (function(){
+      const items = Array.from(document.querySelectorAll('.reveal'));
+      const io = new IntersectionObserver((entries)=>{
+        entries.forEach((e)=>{
+          if(e.isIntersecting){
+            e.target.classList.add('in');
+            io.unobserve(e.target);
+          }
+        });
+      }, { threshold: 0.12, rootMargin: "0px 0px -8% 0px" });
+
+      items.forEach((el, i)=>{
+        el.style.transitionDelay = (Math.min(i,6) * 70) + "ms";
+        io.observe(el);
+      });
+    })();
+
+    (function(){
+      const menuBtn = document.getElementById('menuBtn');
+      const drawer  = document.getElementById('drawer');
+      const overlay = document.getElementById('overlay');
+      const closeBtn= document.getElementById('closeBtn');
+
+      if(!menuBtn || !drawer || !overlay || !closeBtn) return;
+      let lastFocus = null;
+
+      function openNav(){
+        lastFocus = document.activeElement;
+        drawer.classList.add('open');
+        overlay.classList.add('open');
+        drawer.setAttribute('aria-hidden','false');
+        overlay.setAttribute('aria-hidden','false');
+        menuBtn.setAttribute('aria-expanded','true');
+        closeBtn.focus({ preventScroll:true });
+      }
+
+      function closeNav(){
+        drawer.classList.remove('open');
+        overlay.classList.remove('open');
+        drawer.setAttribute('aria-hidden','true');
+        overlay.setAttribute('aria-hidden','true');
+        menuBtn.setAttribute('aria-expanded','false');
+        if(lastFocus && typeof lastFocus.focus === 'function'){
+          lastFocus.focus({ preventScroll:true });
+        }else{
+          menuBtn.focus({ preventScroll:true });
+        }
+      }
+
+      menuBtn.addEventListener('click', () => {
+        const isOpen = drawer.classList.contains('open');
+        if(isOpen) closeNav(); else openNav();
+      });
+
+      closeBtn.addEventListener('click', closeNav);
+      overlay.addEventListener('click', closeNav);
+
+      document.addEventListener('keydown', (e)=>{
+        if(e.key === 'Escape' && drawer.classList.contains('open')){
+          closeNav();
+        }
+      });
+
+      drawer.addEventListener('click', (e)=>{
+        const a = e.target.closest('a');
+        if(a) closeNav();
+      });
+    })();
+
+    (function(){
+      const gallery = document.getElementById('payGallery');
+      const dotsWrap = document.getElementById('payDots');
+      if(!gallery || !dotsWrap) return;
+
+      const shots = Array.from(gallery.querySelectorAll('.shot'));
+      const dots = Array.from(dotsWrap.querySelectorAll('.dotBtn'));
+      if(shots.length !== dots.length || shots.length === 0) return;
+
+      function setActive(i){
+        dots.forEach((b, idx)=> b.setAttribute('aria-current', String(idx === i)));
+      }
+
+      dots.forEach((btn, i)=>{
+        btn.addEventListener('click', ()=>{
+          shots[i].scrollIntoView({ behavior:'smooth', inline:'center', block:'nearest' });
+          setActive(i);
+        });
+      });
+
+      const io = new IntersectionObserver((entries)=>{
+        entries.forEach((e)=>{
+          if(e.isIntersecting){
+            const idx = shots.indexOf(e.target);
+            if(idx >= 0) setActive(idx);
+          }
+        });
+      }, { root: gallery, threshold: 0.6 });
+
+      shots.forEach(s => io.observe(s));
+    })();
+  </script>
+</body>
+</html>
