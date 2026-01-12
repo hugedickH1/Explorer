@@ -900,6 +900,14 @@
         box-shadow: 0 0 0 3px rgba(167,139,250,.22), var(--shadow) !important;
       }
     }
+
+    /* ✅ ONLY CHANGE NOW:
+       Increase spacing between 「考試總類 / 課程類別」(label) and the select button (#examTypeSelect)
+       without affecting other fields.
+    */
+    #categoryBackdrop .field #examTypeSelect{
+      margin-top:8px; /* ✅ CHANGED: was too close (gap:6px); now add extra 8px */
+    }
   </style>
 </head>
 <body>
