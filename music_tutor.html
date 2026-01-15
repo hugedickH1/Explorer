@@ -3,21 +3,26 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <!-- ✅ CHANGED (as ordered): page name -->
   <title>尋找導師 （音樂）</title>
+
+  <!-- ✅ Force consistent font on ALL devices -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;600;700;900&display=swap" rel="stylesheet">
+
   <style>
     :root{
       /* ✅ follow your reference (black bg + midnight purple cards + pale purple buttons) */
       --bg: #000000;
       --card: #1a1033;
       --muted: #94A3B8;
-      --text: #0f172a;
-      --ring: #dbeafe;
-      --accent: #0ea5e9;
+      --text: #F8FAFC;
+      --ring: rgba(255,255,255,.18);
+      --accent: #a78bfa;
 
-      --shadow: 0 8px 22px rgba(15,23,42,.08);
+      --shadow: 0 8px 22px rgba(0,0,0,.35);
       --radius: 16px;
-      --modalBg: rgba(2,6,23,.35);
+      --modalBg: rgba(0,0,0,.62);
 
       /* ✅ tags match reference dark theme */
       --tagBg: rgba(167,139,250,.14);
@@ -25,14 +30,87 @@
       --tagText: #FFFFFF;
     }
 
-    *{box-sizing:border-box}
-    html,body{height:100%}
-    body{
-      margin:0; color:var(--text);
-      font-family: ui-sans-serif, -apple-system, "Noto Sans TC", system-ui, "PingFang TC", "Microsoft JhengHei", Segoe UI, Roboto, Helvetica, Arial, sans-serif;
-      background: var(--bg);
-      -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;
+    /* =========================================================
+       ✅ CROSS-BROWSER CONSISTENCY LAYER (MOST IMPORTANT)
+       Prevent Safari/Firefox/Chrome from styling inputs/buttons differently
+       ========================================================= */
+    *{ box-sizing:border-box; }
+    html,body{ height:100%; }
+    html{
+      -webkit-text-size-adjust: 100%;
+      text-size-adjust: 100%;
+      font-synthesis: none;
     }
+    body{
+      margin:0;
+      color:var(--text);
+      background: var(--bg);
+      font-family: "Noto Sans TC", ui-sans-serif, -apple-system, system-ui, "PingFang TC",
+                   "Microsoft JhengHei", Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      text-rendering: geometricPrecision;
+
+      /* ✅ Mobile tap highlight off (looks cleaner & consistent) */
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    /* ✅ normalize ALL form elements */
+    button, input, select, textarea{
+      font: inherit;
+      color: inherit;
+      letter-spacing: inherit;
+    }
+
+    /* ✅ remove Safari default button style */
+    button{
+      appearance:none;
+      -webkit-appearance:none;
+      border:0;
+      background:none;
+      padding:0;
+      margin:0;
+      cursor:pointer;
+      line-height:1;
+    }
+
+    /* ✅ Firefox adds inner padding on buttons */
+    button::-moz-focus-inner{
+      border:0;
+      padding:0;
+    }
+
+    /* ✅ remove iOS Safari “search” default UI */
+    input[type="search"]{
+      appearance:none;
+      -webkit-appearance:none;
+      border-radius:12px;
+      outline:none;
+    }
+    input[type="search"]::-webkit-search-decoration,
+    input[type="search"]::-webkit-search-cancel-button,
+    input[type="search"]::-webkit-search-results-button,
+    input[type="search"]::-webkit-search-results-decoration{
+      -webkit-appearance:none;
+      display:none;
+    }
+
+    /* ✅ select consistent everywhere (custom arrow) */
+    select{
+      appearance:none;
+      -webkit-appearance:none;
+      -moz-appearance:none;
+      background-repeat:no-repeat;
+      background-position: right 12px center;
+      background-size: 16px 16px;
+      padding-right: 40px !important;
+
+      /* ✅ arrow icon (same on ALL browsers) */
+      background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none'%3E%3Cpath d='M7 10l5 5 5-5' stroke='%230f172a' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    }
+
+    /* ========================================================= */
+
     .container{max-width:1200px; margin:26px auto 80px; padding:0 20px;}
 
     header{
@@ -43,39 +121,83 @@
       margin-bottom:14px;
       flex-wrap:wrap;
     }
+
     .title{display:flex; align-items:center; gap:10px;}
     .title h1{
-      margin:0; font-size:clamp(20px,2.3vw,28px); letter-spacing:.4px;
-      background:linear-gradient(90deg,#0f172a,#0369a1);
-      -webkit-background-clip:text; background-clip:text; color:transparent;
+      margin:0;
+      font-size:clamp(20px,2.3vw,28px);
+      letter-spacing:.4px;
+      color:#F8FAFC; /* ✅ fallback if gradient clip not supported */
+    }
+    @supports (-webkit-background-clip:text){
+      .title h1{
+        background:linear-gradient(90deg,#F8FAFC,#c4b5fd);
+        -webkit-background-clip:text;
+        background-clip:text;
+        color:transparent;
+      }
     }
 
-    .toolbar{
-      display:flex;
-      gap:10px;
-      align-items:center;
-      justify-content:flex-end;
-      flex-wrap:wrap;
-    }
-    .btn{
+    /* =========================================================
+       ✅ BUTTON SYSTEM (all buttons now 100% consistent)
+       ========================================================= */
+    .btn,
+    .filter-apply-btn,
+    .pagebtn,
+    .copy{
       display:inline-flex;
       align-items:center;
       justify-content:center;
-      padding:10px 14px;
-      border-radius:12px;
-      border:1px solid var(--ring);
-      background:#EDE9FE; /* ✅ pale purple */
-      color:#0f172a;
-      cursor:pointer;
-      transition: transform .06s ease, border-color .2s, background .2s;
-      box-shadow:var(--shadow);
-      white-space:nowrap;
-      font-size:14px;
-    }
-    .btn:hover{ border-color:#C4B5FD; background:#DDD6FE }
-    .btn:active{ transform: scale(.98);}
 
-    /* ✅ ONLY these top buttons: 音樂及樂器分類篩選 / 重新隨機 / 重設所有篩選 / (phone) 篩選 */
+      height:40px;                 /* ✅ fixed height = consistent */
+      padding:0 14px;              /* ✅ fixed padding */
+      border-radius:12px;
+      border:1px solid rgba(196,181,253,.35);
+
+      background:#EDE9FE;
+      color:#0f172a;
+
+      font-size:14px;
+      font-weight:600;
+
+      cursor:pointer;
+      user-select:none;
+      -webkit-user-select:none;
+
+      transition: transform .06s ease, border-color .2s ease, background .2s ease, box-shadow .2s ease;
+      box-shadow: var(--shadow);
+      white-space:nowrap;
+
+      /* ✅ fixes iOS tap delay / weird zoom */
+      touch-action: manipulation;
+    }
+
+    .btn:hover,
+    .filter-apply-btn:hover,
+    .pagebtn:hover,
+    .copy:hover{
+      background:#DDD6FE;
+      border-color:#C4B5FD;
+    }
+
+    .btn:active,
+    .filter-apply-btn:active,
+    .pagebtn:active,
+    .copy:active{
+      transform: scale(.98);
+    }
+
+    /* ✅ unified focus ring */
+    .btn:focus-visible,
+    .filter-apply-btn:focus-visible,
+    .pagebtn:focus-visible,
+    .copy:focus-visible{
+      outline:none;
+      box-shadow: 0 0 0 3px rgba(167,139,250,.35), var(--shadow);
+      border-color: rgba(196,181,253,.65);
+    }
+
+    /* ✅ ONLY these top buttons should be dark glass style */
     .topbtn{
       background: rgba(255,255,255,.10);
       border-color: rgba(255,255,255,.18);
@@ -85,10 +207,19 @@
       background: rgba(255,255,255,.14);
       border-color: #a78bfa;
     }
+
     /* ✅ phone filter icon color (override inline stroke) */
     #filterOpen .filter-icon svg path{ stroke:#F8FAFC !important; }
 
-    .filter-btn{display:none;}          /* 手機才顯示 */
+    .toolbar{
+      display:flex;
+      gap:10px;
+      align-items:center;
+      justify-content:flex-end;
+      flex-wrap:wrap;
+    }
+
+    .filter-btn{display:none;}
     .desktop-only{display:inline-flex;}
 
     .filter-icon{
@@ -96,7 +227,7 @@
       width:16px; height:16px;
       margin-right:6px;
     }
-    .filter-icon svg{width:100%; height:100%;}
+    .filter-icon svg{width:100%; height:100%; display:block;}
 
     /* 篩選 + 搜尋外層 */
     .filter-row{
@@ -122,26 +253,35 @@
       flex-direction:column;
       gap:6px;
     }
-    .label{font-size:12px; color:#334155}
-    .mini{font-size:12px; color:#334155}
 
-    /* ✅ words on (black) background -> white */
-    .filter-row .label,
-    .filter-row .mini{ color:#FFFFFF; }
-    .meta{ color:#FFFFFF; }
-    .pageinfo{ color:#FFFFFF; }
+    .label{font-size:12px; color:#FFFFFF;}
+    .mini{font-size:12px; color:#FFFFFF;}
 
     select, input[type="search"], input[type="text"]{
-      width:100%; padding:10px 12px; border-radius:12px; border:1px solid var(--ring); background:#fff; color:var(--text);
-      box-shadow:var(--shadow); outline:none; transition:border-color .2s, box-shadow .2s;
+      width:100%;
+      height:40px;            /* ✅ consistent input height */
+      padding:0 12px;
+      border-radius:12px;
+      border:1px solid rgba(255,255,255,.18);
+      background:#fff;
+      color:#0f172a;
+
+      box-shadow:var(--shadow);
+      outline:none;
       font-size:14px;
+      transition:border-color .2s ease, box-shadow .2s ease;
     }
-    select:focus, input:focus{ border-color: var(--accent); box-shadow:0 0 0 3px rgba(14,165,233,.18) }
+
+    select:focus,
+    input:focus{
+      border-color: var(--accent);
+      box-shadow:0 0 0 3px rgba(167,139,250,.25), var(--shadow);
+    }
 
     .slider-row{display:flex; gap:16px; align-items:flex-start}
     .slider-col{display:flex; flex-direction:column; gap:6px; flex:1}
 
-    /* ✅ Slider + bar colour: follow your description exactly */
+    /* ✅ Slider consistent */
     .slider-col input[type="range"]{
       width:100%;
       -webkit-appearance:none;
@@ -150,13 +290,11 @@
       background:transparent;
       margin:0;
       padding:0;
-
-      /* ✅ CHANGED (as ordered): fill = #a78bfa */
       --fill: #a78bfa;
-      /* default (before user touches) will be forced to 0% by JS */
       --pct: 0%;
       cursor:pointer;
     }
+
     .slider-col input[type="range"]::-webkit-slider-runnable-track{
       height:6px;
       border-radius:999px;
@@ -167,10 +305,9 @@
           #ffffff var(--pct),
           #ffffff 100%
         );
-      /* ✅ CHANGED (as ordered): border = rgba(167,139,250,.75) */
       border:1px solid rgba(167,139,250,.75);
-      box-shadow:none;
     }
+
     .slider-col input[type="range"]::-webkit-slider-thumb{
       -webkit-appearance:none;
       width:16px;
@@ -179,9 +316,10 @@
       background:#a78bfa;
       border:2px solid rgba(255,255,255,.88);
       box-shadow:0 8px 18px rgba(0,0,0,.45);
-      margin-top:-6px; /* center on 6px track */
+      margin-top:-6px;
       cursor:pointer;
     }
+
     .slider-col input[type="range"]::-moz-range-track{
       height:6px;
       border-radius:999px;
@@ -192,10 +330,9 @@
           #ffffff var(--pct),
           #ffffff 100%
         );
-      /* ✅ CHANGED (as ordered): border = rgba(167,139,250,.75) */
       border:1px solid rgba(167,139,250,.75);
-      box-shadow:none;
     }
+
     .slider-col input[type="range"]::-moz-range-thumb{
       width:16px;
       height:16px;
@@ -205,21 +342,11 @@
       box-shadow:0 8px 18px rgba(0,0,0,.45);
       cursor:pointer;
     }
-    .slider-col input[type="range"]:focus-visible{ outline:none; }
 
     /* 手機用價位下拉 */
-    #feeBand{
-      display:none;
-      width:100%;
-      padding:10px 12px;
-      border-radius:12px;
-      border:1px solid var(--ring);
-      background:#fff;
-      box-shadow:var(--shadow);
-      color:#0f172a;
-    }
+    #feeBand{ display:none; }
 
-    .meta{display:flex; align-items:center; gap:10px; margin:10px 2px 18px; font-size:14px;}
+    .meta{display:flex; align-items:center; gap:10px; margin:10px 2px 18px; font-size:14px; color:#FFFFFF; }
 
     .grid{display:grid; grid-template-columns: repeat(3, 1fr); gap:16px;}
     @media (max-width:980px){ .grid{grid-template-columns: repeat(2, 1fr);} }
@@ -239,19 +366,21 @@
 
     .top{display:flex; align-items:center; gap:12px; margin-bottom:10px;}
     .avatar{
-      width:38px; height:38px; border-radius:50%; display:grid; place-items:center; color:#fff; font-weight:800; letter-spacing:.5px;
+      width:38px; height:38px; border-radius:50%;
+      display:grid; place-items:center;
+      color:#fff; font-weight:800; letter-spacing:.5px;
       border: 1px solid rgba(2,6,23,.08);
       overflow:hidden;
     }
+
     .who{display:flex; flex-direction:column; gap:3px;}
     .who .name{font-weight:700; color: rgba(248,250,252,.96);}
     .who .muted{color: rgba(226,232,240,.78); font-size:13px}
     .who .name small{ color: rgba(226,232,240,.78) !important; }
 
     .row{display:flex; align-items:center; gap:8px; margin:8px 0; color: rgba(226,232,240,.92); font-size:14px}
-    .row svg{opacity:.95}
+    .row svg{opacity:.95; display:block;}
 
-    /* ✅ icons -> purple like reference */
     .card .row svg path{ stroke:#a78bfa !important; }
     .card .row svg circle{ fill:#a78bfa !important; }
 
@@ -264,7 +393,7 @@
     .foot{margin-top:12px; display:flex; align-items:center; justify-content:space-between; gap:8px; color: rgba(226,232,240,.68); font-size:13px;}
     .budget{color:#FFFFFF; font-weight:700}
     .note{margin-top:10px; color: rgba(226,232,240,.84); font-size:14px; line-height:1.5}
-    .empty{grid-column:1/-1; text-align:center; padding:40px 16px; color:#64748b; border:1px dashed var(--ring); border-radius:var(--radius); background:#fff}
+    .empty{grid-column:1/-1; text-align:center; padding:40px 16px; color:#94A3B8; border:1px dashed rgba(255,255,255,.18); border-radius:var(--radius); background:rgba(255,255,255,.06)}
 
     .modal-backdrop{
       position:fixed; inset:0; background:var(--modalBg);
@@ -273,14 +402,20 @@
     }
     .modal-backdrop.show{display:flex}
 
-    /* ✅ make Subject modal cover Filter sheet */
     #subjectBackdrop{ z-index: 70; }
 
     .modal{
-      width:min(920px, 96vw); max-height:90vh; overflow:auto; background:#ffffff;
-      border:1px solid var(--ring); border-radius:22px; box-shadow: 0 25px 70px rgba(0,0,0,.20);
+      width:min(920px, 96vw);
+      max-height:90vh;
+      overflow:auto;
+      background:#000000;
+      border:1px solid rgba(255,255,255,.18);
+      border-radius:22px;
+      box-shadow: 0 25px 70px rgba(0,0,0,.35);
       position:relative;
+      color:#FFFFFF;
     }
+
     .modal header{
       padding:18px 20px 0 20px;
       display:flex;
@@ -290,7 +425,7 @@
       position:relative;
     }
 
-    /* === 使用「學術版」風格的 立即申請 按鈕 === */
+    /* Apply button */
     .apply-btn{
       padding:8px 16px;
       border-radius:999px;
@@ -306,24 +441,23 @@
       box-shadow:var(--shadow);
       transition:background .15s ease, transform .06s ease, box-shadow .15s ease;
       white-space:nowrap;
+      height:36px;
     }
     .modal header .apply-btn{ margin-right:40px; }
     .apply-btn:hover{ background:#16a34a; }
-    .apply-btn:active{
-      transform:scale(.97);
-      box-shadow:0 4px 14px rgba(22,163,74,.35);
-    }
+    .apply-btn:active{ transform:scale(.97); box-shadow:0 4px 14px rgba(22,163,74,.35); }
 
     .modal .body{padding: 4px 20px 20px}
     .modal .close{
       border:none;
       background:transparent;
-      color:#1e40af;
+      color:#FFFFFF;
       cursor:pointer;
       font-size:22px;
       position:absolute;
       top:14px;
       right:18px;
+      line-height:1;
     }
 
     .profile-grid{
@@ -334,17 +468,16 @@
       justify-items:stretch;
     }
     .profile-card{
-      background:#f8fafc;
-      border:1px solid var(--ring);
+      background:#000000;
+      border:1px solid rgba(255,255,255,.18);
       border-radius:16px;
       padding:14px;
     }
-    .profile-title{margin:0 0 8px 0; font-size:15px; color:#0369a1}
+    .profile-title{margin:0 0 8px 0; font-size:15px; color:#FFFFFF}
     .kv{display:grid; grid-template-columns: 120px 1fr; gap:8px 12px; font-size:14px}
-    .kv b{color:#0f172a; font-weight:600}
+    .kv b{color:#FFFFFF; font-weight:700}
+
     .cta-row{display:flex; gap:10px; flex-wrap:wrap; margin-top:12px}
-    .copy{cursor:pointer; border:1px solid var(--ring); background:#ffffff; color:#0f172a; padding:8px 10px; border-radius:10px; box-shadow:var(--shadow)}
-    .copy:hover{border-color:#93c5fd; background:#f0f9ff}
 
     /* ✅ 手機：搜尋兩格一行 */
     @media (max-width:560px){
@@ -356,15 +489,7 @@
 
       .profile-grid{ grid-template-columns:1fr; justify-items:center; }
       .profile-card{ max-width:520px; width:100%; }
-    }
 
-    .pager{display:flex; align-items:center; justify-content:center; gap:10px; margin-top:16px; flex-wrap:wrap}
-    .pagebtn{border:1px solid var(--ring); background:#fff; padding:8px 12px; border-radius:10px; cursor:pointer}
-    .pagebtn[disabled]{opacity:.5; cursor:not-allowed}
-    .pageinfo{font-size:13px; color:#FFFFFF} /* ✅ CHANGED: make 第 1 / 1 頁 white */
-
-    /* 手機 toolbar + filter bottom sheet 樣式 */
-    @media (max-width:560px){
       .toolbar{
         width:100%;
         display:grid;
@@ -377,22 +502,22 @@
       .filter-btn{ display:inline-flex; }
       .desktop-only{display:none;}
 
-      /* 手機版：主畫面唔直接顯示 filters，會移入 bottom sheet */
       .filters{ display:none; }
+    }
 
-      .filter-panel .filters{
-        display:grid;
-        grid-template-columns:1fr;
-        gap:10px;
-        margin:0; /* ✅ keep uniform spacing */
-      }
+    .pager{
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap:10px;
+      margin-top:16px;
+      flex-wrap:wrap
+    }
 
-      .fee-label{ font-size:0; }
-      .fee-label::before{
-        content:"價位區間";
-        font-size:12px;
-        color:#334155;
-      }
+    .pageinfo{
+      font-size:13px;
+      color:#FFFFFF;
+      font-weight:600;
     }
 
     /* Filter bottom sheet */
@@ -400,9 +525,10 @@
       width:100%;
       max-width:640px;
       margin:0 auto;
-      background:#f8fafc;
+      background:#000000;
+      border:1px solid rgba(255,255,255,.18);
       border-radius:18px 18px 0 0;
-      box-shadow:0 -16px 40px rgba(15,23,42,.3);
+      box-shadow:0 -16px 40px rgba(0,0,0,.55);
     }
     .filter-header{
       display:flex;
@@ -413,46 +539,27 @@
     .filter-title{
       margin:0;
       font-size:18px;
-      color:#0f172a;
+      color:#FFFFFF;
     }
     .filter-header-right{
       display:flex;
       align-items:center;
       gap:8px;
     }
-
-    /* ✅ 套用篩選 button matches desktop .btn style */
-    .filter-apply-btn{
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-      padding:10px 14px;
-      border-radius:12px;
-      border:1px solid rgba(196,181,253,.35);
-      background:#EDE9FE;
-      color:#0f172a;
-      font-size:14px;
-      cursor:pointer;
-      white-space:nowrap;
-      box-shadow:var(--shadow);
-      transition: transform .06s ease, border-color .2s, background .2s;
-    }
-    .filter-apply-btn:hover{ background:#DDD6FE; border-color:#C4B5FD; }
-    .filter-apply-btn:active{ transform: scale(.98); }
-
     .filter-close{
       border:none;
       background:transparent;
       font-size:24px;
       cursor:pointer;
-      color:#0f172a;
+      color:#FFFFFF;
+      line-height:1;
     }
 
     .filter-body{
       padding:4px 18px 14px;
       display:flex;
       flex-direction:column;
-      gap:10px; /* ✅ uniform spacing between fields */
+      gap:10px;
     }
 
     @media (max-width:560px){
@@ -501,10 +608,12 @@
       gap:8px 12px;
       margin-top:10px;
     }
-    .subgrid label{display:flex; gap:8px; align-items:center; font-size:13px; color:#0f172a}
+    .subgrid label{display:flex; gap:8px; align-items:center; font-size:13px; color:#FFFFFF}
     .subgrid input{width:16px; height:16px}
+
     .bar{display:flex; gap:8px; align-items:center; flex-wrap:wrap; margin-top:8px}
     .fw{width:100%}
+
     @media (max-width:560px){
       .subgrid{
         grid-template-columns:1fr;
@@ -537,7 +646,6 @@
         radial-gradient(700px 220px at 12% 20%, rgba(167,139,250,.22), transparent 62%) padding-box,
         radial-gradient(520px 220px at 85% 35%, rgba(196,181,253,.14), transparent 65%) padding-box,
         linear-gradient(135deg, #1a1033 0%, #140a2b 45%, #0f071f 100%) padding-box,
-
         linear-gradient(135deg,
           rgba(167,139,250,.72) 0%,
           rgba(196,181,253,.50) 45%,
@@ -545,7 +653,7 @@
         ) border-box;
 
       box-shadow:
-        0 10px 26px rgba(15,23,42,.10),
+        0 10px 26px rgba(0,0,0,.30),
         0 1px 0 rgba(255,255,255,.10) inset;
     }
 
@@ -591,34 +699,28 @@
       display:grid; place-items:center;
       background: rgba(255,255,255,.10);
       border:1px solid rgba(196,181,253,.24);
-      box-shadow: 0 8px 18px rgba(15,23,42,.22);
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
+      box-shadow: 0 8px 18px rgba(0,0,0,.45);
       position:relative;
-
-      /* ✅ CHANGED (as ordered): prevent shrinking on phone */
       flex: 0 0 46px;
       flex-shrink: 0;
     }
-    .logo-wrap::before{
-      content:"";
-      position:absolute; inset:-10px;
-      border-radius:18px;
-      background: radial-gradient(circle at 50% 50%, rgba(167,139,250,.22), transparent 62%);
-      pointer-events:none;
+
+    .banner-icon{
+      width:28px; height:28px;
+      position:relative;
+      z-index:1;
+      flex-shrink:0;
+      display:block;
+      filter:
+        drop-shadow(0 6px 12px rgba(0,0,0,.30))
+        drop-shadow(0 0 10px rgba(167,139,250,.16));
     }
 
-    .banner-icon{ width:28px; height:28px; position:relative; z-index:1; flex-shrink:0; } /* ✅ keep icon size */
     .banner-icon path{
       stroke:#c4b5fd;
       stroke-width:1.7;
       stroke-linecap:round;
       stroke-linejoin:round;
-    }
-    .banner-icon{
-      filter:
-        drop-shadow(0 6px 12px rgba(0,0,0,.30))
-        drop-shadow(0 0 10px rgba(167,139,250,.16));
     }
 
     .banner-text h1{
@@ -670,63 +772,6 @@
       }
     }
 
-    /* ✅ ONLY colour: Subject modal + Filter sheet + Profile modal -> black bg + white text */
-    #backdrop .modal{
-      background:#000000;
-      border:1px solid rgba(255,255,255,.18);
-      color:#FFFFFF;
-    }
-    #backdrop .modal header{ color:#FFFFFF; }
-    #backdrop .modal .close{ color:#FFFFFF !important; }
-    #backdrop .profile-card{
-      background:#000000;
-      border:1px solid rgba(255,255,255,.18);
-      color:#FFFFFF;
-    }
-    #backdrop .profile-title{ color:#FFFFFF !important; }
-    #backdrop .kv,
-    #backdrop .kv div,
-    #backdrop #kv-notes{ color:#FFFFFF !important; }
-    #backdrop .kv b{
-      color:#FFFFFF !important;
-      font-weight:600;
-    }
-    #backdrop .copy{
-      background:#FFFFFF;
-      border:1px solid rgba(196,181,253,.26);
-      color:#0f172a;
-    }
-    #backdrop .copy:hover{
-      background:#F8FAFC;
-      border-color: rgba(196,181,253,.55);
-    }
-
-    #subjectBackdrop .modal{
-      background:#000000;
-      border:1px solid rgba(255,255,255,.18);
-      color:#FFFFFF;
-    }
-    #subjectBackdrop #subjectTitle{ color:#FFFFFF !important; }
-    #subjectBackdrop .close{ color:#FFFFFF !important; }
-    #subjectBackdrop .mini,
-    #subjectBackdrop .subgrid label{ color:#FFFFFF !important; }
-
-    #filterBackdrop .filter-panel{
-      background:#000000;
-      border:1px solid rgba(255,255,255,.18);
-    }
-    #filterBackdrop .filter-title,
-    #filterBackdrop .filter-close,
-    #filterBackdrop .label,
-    #filterBackdrop .mini{ color:#FFFFFF !important; }
-    #filterBackdrop .fee-label::before{ color:#FFFFFF !important; }
-    #filterBackdrop select,
-    #filterBackdrop input[type="search"],
-    #filterBackdrop input[type="text"],
-    #filterBackdrop #feeBand{
-      border-color: rgba(255,255,255,.18);
-    }
-
     /* ✅ make label ↔ button spacing same as other fields (6px) */
     #filterBackdrop .mobile-subject-row{
       display:flex;
@@ -738,7 +783,8 @@
     #filterBackdrop #mobileSubjectBtn{
       width:100%;
       display:block;
-      padding:10px 12px;
+      height:40px;
+      padding:0 12px;
       border-radius:12px;
       background:#FFFFFF;
       color:#0f172a;
@@ -751,64 +797,22 @@
     #filterBackdrop #mobileSubjectBtn:hover{
       background:#FFFFFF;
       border-color: rgba(255,255,255,.18);
+      transform:none;
     }
     #filterBackdrop #mobileSubjectBtn:active{
-      transform:none; /* keep it input-like */
-    }
-
-    /* =========================================================
-       ✅ Cross-browser button consistency patch (NO design change)
-       Put this at the END of your <style>
-       ========================================================= */
-
-    /* 1) Remove native button styling differences (Safari/iOS/Firefox) */
-    button,
-    input[type="button"],
-    input[type="submit"],
-    input[type="reset"],
-    a.apply-btn{
-      -webkit-appearance: none;
-      appearance: none;
-      font: inherit;                 /* ✅ same font everywhere */
-      line-height: 1;                /* ✅ consistent button height */
-      letter-spacing: inherit;
-      text-rendering: geometricPrecision;
-      -webkit-tap-highlight-color: transparent;
-    }
-
-    /* 2) Firefox adds inner padding/border on buttons */
-    button::-moz-focus-inner{
-      border: 0;
-      padding: 0;
-    }
-
-    /* 3) Force your buttons to keep exact size on all browsers */
-    .btn,
-    .filter-apply-btn,
-    .pagebtn,
-    .apply-btn{
-      line-height: 1;                /* ✅ prevents tall/short buttons */
-      min-height: 40px;              /* ✅ stable height across devices */
-      user-select: none;
-      -webkit-user-select: none;
-    }
-
-    /* 4) Prevent Safari from resizing text inside buttons */
-    html{
-      -webkit-text-size-adjust: 100%;
-      text-size-adjust: 100%;
+      transform:none;
     }
   </style>
 </head>
+
 <body>
   <div class="container">
 
-    <!-- ✅ Banner (follow reference banner format) -->
+    <!-- ✅ Banner -->
     <div class="banner">
       <div class="banner-inner">
         <div class="banner-title">
           <span class="logo-wrap" aria-hidden="true">
-            <!-- music note quaver -->
             <svg class="banner-icon" viewBox="0 0 24 24" fill="none">
               <path d="M9 19a2 2 0 1 0 0-4a2 2 0 0 0 0 4Z"/>
               <path d="M11 15V6"/>
@@ -817,7 +821,6 @@
           </span>
 
           <div class="banner-text">
-            <!-- ✅ CHANGED (as ordered): page name -->
             <h1>尋找導師 <span class="accent">（音樂）</span></h1>
             <p>提供音樂及樂器導師，協助學生建立音樂基礎與興趣</p>
           </div>
@@ -855,8 +858,7 @@
         </div>
 
         <div class="field">
-          <span class="label fee-label">價位區間（HK$/小時）</span>
-
+          <span class="label">價位區間（HK$/小時）</span>
           <div class="slider-row">
             <div class="slider-col">
               <span class="mini">價位下限</span>
@@ -913,6 +915,7 @@
     </div>
   </div>
 
+  <!-- ✅ Profile modal -->
   <div id="backdrop" class="modal-backdrop" role="dialog" aria-modal="true" aria-hidden="true">
     <div class="modal" role="document" aria-labelledby="modalTitle">
       <header>
@@ -923,14 +926,17 @@
             <div id="modalSub" class="who muted" style="margin-top:4px"></div>
           </div>
         </div>
+
         <a
           href="https://forms.gle/E746boJXjZvdT4fN6"
           target="_blank"
           rel="noopener noreferrer"
           class="apply-btn"
         >立即申請！</a>
+
         <button class="close" id="modalClose" aria-label="關閉">✕</button>
       </header>
+
       <div class="body">
         <div class="profile-grid">
           <div class="profile-card">
@@ -953,10 +959,11 @@
     </div>
   </div>
 
+  <!-- ✅ Subject modal -->
   <div id="subjectBackdrop" class="modal-backdrop" role="dialog" aria-modal="true" aria-hidden="true">
     <div class="modal" role="document" aria-labelledby="subjectTitle">
       <header>
-        <h2 id="subjectTitle" style="margin:0; font-size:20px; color:#0369a1">音樂及樂器分類篩選</h2>
+        <h2 id="subjectTitle" style="margin:0; font-size:20px; color:#FFFFFF">音樂及樂器分類篩選</h2>
         <button class="close" id="subjectClose" aria-label="關閉">✕</button>
       </header>
       <div class="body">
@@ -974,6 +981,7 @@
     </div>
   </div>
 
+  <!-- ✅ Mobile filter sheet -->
   <div id="filterBackdrop" class="modal-backdrop" role="dialog" aria-modal="true" aria-hidden="true">
     <div class="filter-panel" role="document" aria-labelledby="filterTitle">
       <div class="filter-header">
@@ -986,7 +994,7 @@
       <div class="filter-body" id="filterPanelBody">
         <div class="field mobile-subject-row">
           <span class="label">音樂及樂器分類篩選</span>
-          <button id="mobileSubjectBtn" class="btn" style="padding-inline:12px">開啟音樂及樂器分類篩選</button>
+          <button id="mobileSubjectBtn" class="btn">開啟音樂及樂器分類篩選</button>
         </div>
       </div>
     </div>
@@ -1112,11 +1120,13 @@
       }
       return a;
     }
+
     function esc(str){
       return String(str ?? "").replace(/[&<>"'`=\/]/g, s => ({
         '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;','/':'&#x2F;','`':'&#x60;','=':'&#x3D;'
       }[s]));
     }
+
     function colorFromName(name){
       let h=0;
       for(let i=0;i<name.length;i++){
@@ -1124,9 +1134,11 @@
       }
       return `hsl(${h} 70% 50%)`;
     }
+
     function scrollToTop(){
       try{ window.scrollTo({top:0,behavior:'smooth'});}catch{ window.scrollTo(0,0);}
     }
+
     async function copyTextFallback(text){
       const ta = document.createElement('textarea');
       ta.value = text;
@@ -1140,6 +1152,7 @@
       document.body.removeChild(ta);
       return ok;
     }
+
     async function copyToClipboard(text){
       try{
         if (navigator.clipboard && window.isSecureContext){
@@ -1150,7 +1163,6 @@
       return await copyTextFallback(text);
     }
 
-    /* ✅ slider fill helper */
     function setRangeFill(r){
       if(!r) return;
       const min = Number(r.min ?? 0);
@@ -1213,20 +1225,14 @@
 
     const subjectsSelected = new Set();
 
-    /* ✅ Subject modal draft (only commit when pressing its apply; on mobile filter sheet, final commit happens on filter sheet apply) */
     let subjectDraft = null;
     let subjectModalFromSheet = false;
-
-    /* ✅ Mobile filter sheet draft for subjects (only commit when press 篩選條件「套用篩選」) */
     let sheetSubjectsDraft = null;
-
     let filtersInSheet = false;
 
-    /* ✅ slider touched flags */
     let feeMinTouched = false;
     let feeMaxTouched = false;
 
-    /* ✅ Mobile sheet snapshot: close without apply => revert */
     let sheetSnapshot = null;
     let suppressSheetEvents = false;
 
@@ -1272,7 +1278,6 @@
       feeMaxTouched = !!s.feeMaxTouched;
 
       syncFeeLabelAndFill();
-
       suppressSheetEvents = false;
     }
 
@@ -1282,6 +1287,7 @@
       const max = Math.max(...fees, 800);
       const lo = Math.floor(min/10)*10;
       const hi = Math.ceil(max/10)*10;
+
       feeMin.min = feeMax.min = String(lo);
       feeMin.max = feeMax.max = String(hi);
       feeMin.value = String(lo);
@@ -1325,10 +1331,8 @@
       subjectModalFromSheet = !!fromSheet;
 
       if(subjectModalFromSheet){
-        /* ✅ draft starts from sheet draft (NOT applied filters) */
         subjectDraft = new Set(sheetSubjectsDraft || subjectsSelected);
       } else {
-        /* ✅ desktop: draft starts from applied selection */
         subjectDraft = new Set(subjectsSelected);
       }
 
@@ -1345,8 +1349,6 @@
 
       subjectBackdrop.classList.remove('show');
       subjectBackdrop.setAttribute('aria-hidden','true');
-
-      /* ✅ if filter sheet is still open, keep locked */
       document.body.style.overflow = isFilterSheetOpen() ? 'hidden' : '';
     }
 
@@ -1366,13 +1368,11 @@
       if(!subjectDraft) return;
 
       if(subjectModalFromSheet){
-        /* ✅ in 篩選 page flow: only save to sheet draft (NOT apply to list yet) */
         sheetSubjectsDraft = new Set(subjectDraft);
         closeSubjectModal();
-        return; /* stay in filter sheet */
+        return;
       }
 
-      /* ✅ desktop (or not from sheet): apply immediately */
       subjectsSelected.clear();
       subjectDraft.forEach(s=>subjectsSelected.add(s));
       closeSubjectModal();
@@ -1411,6 +1411,7 @@
 
       return fee >= min && fee <= max;
     }
+
     function passesDistrict(c){
       const d = districtSel.value;
       if(!d) return true;
@@ -1444,6 +1445,7 @@
       if(!s) return true;
       return (c.id||'').toLowerCase().includes(s.toLowerCase());
     }
+
     function applyFilters(){
       return data.filter(c =>
         passesFee(c) &&
@@ -1484,7 +1486,7 @@
             <div class="top">
               <div class="avatar" style="background:${avatarColor};" aria-hidden="true">${initials}</div>
               <div class="who">
-                <div class="name">${esc(c.name)}　<small style="color:#334155">${esc(c.gender || '')}</small></div>
+                <div class="name">${esc(c.name)}　<small>${esc(c.gender || '')}</small></div>
                 <div class="muted">導師編號：${esc(c.id || '-') }</div>
               </div>
             </div>
@@ -1525,6 +1527,7 @@
               <span class="budget">${(c.fee || c.fee===0) ? `HK$ ${esc(c.fee)}/小時` : '面議'}</span>
             </div>
           `;
+
           card.addEventListener('click', ()=> openProfile(c));
           card.addEventListener('keydown', (e)=>{ if(e.key==='Enter' || e.key===' ') { e.preventDefault(); openProfile(c); }});
           grid.appendChild(card);
@@ -1574,6 +1577,7 @@
       document.body.style.overflow = 'hidden';
       modalClose.focus();
     }
+
     function closeProfile(){
       openedTeacher = null;
       backdrop.classList.remove('show');
@@ -1596,6 +1600,7 @@
       filterPanelBody.insertBefore(filtersSection, mobileSubjectRow);
       filtersInSheet = true;
     }
+
     function restoreFiltersHome(){
       if(!filtersInSheet) return;
       if(filtersHomeNextSibling && filtersHomeNextSibling.parentNode === filtersHomeParent){
@@ -1608,13 +1613,8 @@
 
     function openFilterSheet(){
       if(window.innerWidth > 560) return;
-
-      /* ✅ snapshot applied state when opening sheet */
       sheetSnapshot = snapshotSheetState();
-
-      /* ✅ start sheet subject draft from applied state */
       sheetSubjectsDraft = new Set(subjectsSelected);
-
       moveFiltersToSheet();
       filterBackdrop.classList.add('show');
       filterBackdrop.setAttribute('aria-hidden','false');
@@ -1624,14 +1624,12 @@
     function closeFilterSheet(applied=false){
       if(window.innerWidth > 560){ restoreFiltersHome(); }
 
-      /* ✅ if not applied, revert UI to snapshot and discard drafts */
       if(!applied){
         restoreSheetState(sheetSnapshot);
         sheetSubjectsDraft = null;
       }
 
       sheetSnapshot = null;
-
       filterBackdrop.classList.remove('show');
       filterBackdrop.setAttribute('aria-hidden','true');
       document.body.style.overflow = '';
@@ -1642,12 +1640,10 @@
 
     if(filterApplyBtn){
       filterApplyBtn.addEventListener('click', ()=>{
-        /* ✅ apply subject draft ONLY here */
         if(sheetSubjectsDraft){
           subjectsSelected.clear();
           sheetSubjectsDraft.forEach(s=>subjectsSelected.add(s));
         }
-
         currentPage = 1;
         refresh();
         closeFilterSheet(true);
@@ -1660,7 +1656,6 @@
       });
     }
 
-    /* ✅ ESC closes filter sheet without applying */
     document.addEventListener('keydown', (e)=>{
       if(e.key==='Escape' && isFilterSheetOpen() && !subjectBackdrop.classList.contains('show') && !backdrop.classList.contains('show')){
         closeFilterSheet(false);
@@ -1668,10 +1663,7 @@
     });
 
     if(mobileSubjectBtn){
-      mobileSubjectBtn.addEventListener('click', ()=>{
-        /* ✅ open subject modal INSIDE sheet flow (covers 篩選條件) */
-        openSubjectModal(true);
-      });
+      mobileSubjectBtn.addEventListener('click', ()=> openSubjectModal(true));
     }
 
     window.addEventListener('resize', ()=>{
@@ -1694,7 +1686,7 @@
       q.value = ''; idq.value = ''; districtSel.value = '';
       genderFilter.value = '';
       subjectsSelected.clear();
-      sheetSubjectsDraft = null; /* keep clean */
+      sheetSubjectsDraft = null;
       initFees();
       currentPage = 1;
       refresh();
@@ -1705,7 +1697,7 @@
 
     districtSel.addEventListener('change', ()=>{
       if(suppressSheetEvents) return;
-      if(isFilterSheetOpen()) return; /* ✅ only apply when press 篩選條件「套用篩選」 */
+      if(isFilterSheetOpen()) return;
       currentPage=1; refresh();
     });
 
@@ -1713,30 +1705,29 @@
       feeMinTouched = true;
       setRangeFill(feeMin);
       syncFeeLabelAndFill();
-
       if(suppressSheetEvents) return;
-      if(isFilterSheetOpen()) return; /* ✅ only apply when press 篩選條件「套用篩選」 */
+      if(isFilterSheetOpen()) return;
       currentPage=1; refresh();
     });
+
     feeMax.addEventListener('input', ()=>{
       feeMaxTouched = true;
       setRangeFill(feeMax);
       syncFeeLabelAndFill();
-
       if(suppressSheetEvents) return;
-      if(isFilterSheetOpen()) return; /* ✅ only apply when press 篩選條件「套用篩選」 */
+      if(isFilterSheetOpen()) return;
       currentPage=1; refresh();
     });
 
     feeBand.addEventListener('change', ()=>{
       if(suppressSheetEvents) return;
-      if(isFilterSheetOpen()) return; /* ✅ only apply when press 篩選條件「套用篩選」 */
+      if(isFilterSheetOpen()) return;
       currentPage=1; refresh();
     });
 
     genderFilter.addEventListener('change', ()=>{
       if(suppressSheetEvents) return;
-      if(isFilterSheetOpen()) return; /* ✅ only apply when press 篩選條件「套用篩選」 */
+      if(isFilterSheetOpen()) return;
       currentPage=1; refresh();
     });
 
@@ -1746,6 +1737,7 @@
         renderList();
       }
     });
+
     nextPageBtn.addEventListener('click', ()=>{
       const totalPages = Math.max(1, Math.ceil(view.length / PAGE_SIZE));
       if(currentPage < totalPages){
@@ -1758,7 +1750,7 @@
     function boot(){
       data = shuffle(data);
       initFees();
-      refresh();  
+      refresh();
     }
     document.addEventListener('DOMContentLoaded', boot);
   </script>
