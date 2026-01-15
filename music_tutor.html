@@ -3,15 +3,8 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-
   <!-- ✅ CHANGED (as ordered): page name -->
   <title>尋找導師 （音樂）</title>
-
-  <!-- ✅ NEW (cross-device consistency): load same font everywhere -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;600;700;900&display=swap" rel="stylesheet">
-
   <style>
     :root{
       /* ✅ follow your reference (black bg + midnight purple cards + pale purple buttons) */
@@ -31,75 +24,6 @@
       --tagBorder: rgba(196,181,253,.26);
       --tagText: #FFFFFF;
     }
-
-    /* =========================================================
-       ✅ NEW — Cross-browser consistency patch (NO behavior change)
-       ========================================================= */
-
-    /* Prevent iOS Safari auto text resizing */
-    html{
-      -webkit-text-size-adjust: 100%;
-      text-size-adjust: 100%;
-      height: 100%;
-    }
-
-    /* More consistent baseline across browsers */
-    body{
-      min-height: 100%;
-      line-height: 1.45;
-    }
-
-    /* Ensure form controls inherit your font consistently */
-    button, input, select, textarea{
-      font-family: inherit;
-      font-size: 14px;
-    }
-
-    /* Remove odd iOS tap highlight and keep click feeling same */
-    button, a{
-      -webkit-tap-highlight-color: transparent;
-    }
-
-    /* Make SVG baseline consistent (avoid “lowered icon” in Safari/Firefox) */
-    svg{
-      display:block;
-    }
-
-    /* Search input default decorations differ across browsers */
-    input[type="search"]::-webkit-search-decoration,
-    input[type="search"]::-webkit-search-cancel-button,
-    input[type="search"]::-webkit-search-results-button,
-    input[type="search"]::-webkit-search-results-decoration{
-      -webkit-appearance: none;
-    }
-
-    /* Better modal height on mobile Safari with dynamic viewport */
-    @supports (height: 100dvh){
-      .modal{
-        max-height: calc(100dvh - 40px);
-      }
-    }
-
-    /* Flex gap fallback for older Safari (only if gap unsupported) */
-    @supports not (gap: 10px){
-      .toolbar{ gap:0; }
-      .toolbar > *{ margin-right:10px; margin-bottom:10px; }
-      .toolbar > *:last-child{ margin-right:0; }
-
-      .meta{ gap:0; }
-      .meta > *{ margin-right:10px; }
-      .meta > *:last-child{ margin-right:0; }
-
-      .slider-row{ gap:0; }
-      .slider-row > *{ margin-right:16px; }
-      .slider-row > *:last-child{ margin-right:0; }
-
-      .banner-inner{ gap:0; }
-      .banner-inner > *{ margin-right:12px; margin-bottom:12px; }
-      .banner-inner > *:last-child{ margin-right:0; }
-    }
-
-    /* ========================================================= */
 
     *{box-sizing:border-box}
     html,body{height:100%}
@@ -258,19 +182,19 @@
       margin-top:-6px; /* center on 6px track */
       cursor:pointer;
     }
-
-    /* ✅ NEW (Firefox consistency): use moz progress for “fill-left + white-right” */
     .slider-col input[type="range"]::-moz-range-track{
       height:6px;
       border-radius:999px;
-      background:#ffffff;
+      background:
+        linear-gradient(to right,
+          var(--fill) 0%,
+          var(--fill) var(--pct),
+          #ffffff var(--pct),
+          #ffffff 100%
+        );
+      /* ✅ CHANGED (as ordered): border = rgba(167,139,250,.75) */
       border:1px solid rgba(167,139,250,.75);
       box-shadow:none;
-    }
-    .slider-col input[type="range"]::-moz-range-progress{
-      height:6px;
-      border-radius:999px;
-      background: var(--fill);
     }
     .slider-col input[type="range"]::-moz-range-thumb{
       width:16px;
@@ -281,7 +205,6 @@
       box-shadow:0 8px 18px rgba(0,0,0,.45);
       cursor:pointer;
     }
-    .slider-col input[type="range"]::-moz-focus-outer{ border:0; }
     .slider-col input[type="range"]:focus-visible{ outline:none; }
 
     /* 手機用價位下拉 */
@@ -357,7 +280,6 @@
       width:min(920px, 96vw); max-height:90vh; overflow:auto; background:#ffffff;
       border:1px solid var(--ring); border-radius:22px; box-shadow: 0 25px 70px rgba(0,0,0,.20);
       position:relative;
-      -webkit-overflow-scrolling: touch; /* ✅ smoother on iOS */
     }
     .modal header{
       padding:18px 20px 0 20px;
@@ -833,10 +755,54 @@
     #filterBackdrop #mobileSubjectBtn:active{
       transform:none; /* keep it input-like */
     }
+
+    /* =========================================================
+       ✅ Cross-browser button consistency patch (NO design change)
+       Put this at the END of your <style>
+       ========================================================= */
+
+    /* 1) Remove native button styling differences (Safari/iOS/Firefox) */
+    button,
+    input[type="button"],
+    input[type="submit"],
+    input[type="reset"],
+    a.apply-btn{
+      -webkit-appearance: none;
+      appearance: none;
+      font: inherit;                 /* ✅ same font everywhere */
+      line-height: 1;                /* ✅ consistent button height */
+      letter-spacing: inherit;
+      text-rendering: geometricPrecision;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    /* 2) Firefox adds inner padding/border on buttons */
+    button::-moz-focus-inner{
+      border: 0;
+      padding: 0;
+    }
+
+    /* 3) Force your buttons to keep exact size on all browsers */
+    .btn,
+    .filter-apply-btn,
+    .pagebtn,
+    .apply-btn{
+      line-height: 1;                /* ✅ prevents tall/short buttons */
+      min-height: 40px;              /* ✅ stable height across devices */
+      user-select: none;
+      -webkit-user-select: none;
+    }
+
+    /* 4) Prevent Safari from resizing text inside buttons */
+    html{
+      -webkit-text-size-adjust: 100%;
+      text-size-adjust: 100%;
+    }
   </style>
 </head>
 <body>
   <div class="container">
+
     <!-- ✅ Banner (follow reference banner format) -->
     <div class="banner">
       <div class="banner-inner">
@@ -947,9 +913,6 @@
     </div>
   </div>
 
-  <!-- ✅ 下面 JS / HTML 結構全部保持你原本（未改） -->
-  <!-- （為免超長，我保留你原本 script 原封不動） -->
-
   <div id="backdrop" class="modal-backdrop" role="dialog" aria-modal="true" aria-hidden="true">
     <div class="modal" role="document" aria-labelledby="modalTitle">
       <header>
@@ -1029,7 +992,6 @@
     </div>
   </div>
 
-  <!-- ✅ 你的原本 script（完全未改） -->
   <script>
     const SUBJECTS = [
       "鋼琴 Piano","小提琴 Violin","大提琴 Cello","結他 Guitar","烏克麗麗 Ukulele",
@@ -1796,7 +1758,7 @@
     function boot(){
       data = shuffle(data);
       initFees();
-      refresh();
+      refresh();  
     }
     document.addEventListener('DOMContentLoaded', boot);
   </script>
