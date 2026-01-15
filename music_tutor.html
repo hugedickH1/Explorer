@@ -3,29 +3,28 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>尋找教練 （體育)</title>
-
-  <!-- ✅ Load same font everywhere (prevents layout shift across devices) -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;600;700;900&display=swap" rel="stylesheet">
-
+  <!-- ✅ CHANGED (as ordered): page name -->
+  <title>尋找導師 （音樂）</title>
   <style>
     :root{
       /* ✅ follow your reference (black bg + midnight purple cards + pale purple buttons) */
       --bg: #000000;
       --card: #1a1033;
       --muted: #94A3B8;
-      --text: #F8FAFC;
-      --ring: rgba(255,255,255,.18);
+      --text: #0f172a;
+      --ring: #dbeafe;
       --accent: #0ea5e9;
+
       --shadow: 0 8px 22px rgba(15,23,42,.08);
       --radius: 16px;
-      --modalBg: rgba(0,0,0,.62);
+      --modalBg: rgba(2,6,23,.35);
+
+      /* ✅ tags match reference dark theme */
       --tagBg: rgba(167,139,250,.14);
       --tagBorder: rgba(196,181,253,.26);
       --tagText: #FFFFFF;
     }
+
     *{box-sizing:border-box}
     html,body{height:100%}
     body{
@@ -64,8 +63,8 @@
       justify-content:center;
       padding:10px 14px;
       border-radius:12px;
-      border:1px solid rgba(196,181,253,.35);
-      background:#EDE9FE; /* ✅ pale purple button */
+      border:1px solid var(--ring);
+      background:#EDE9FE; /* ✅ pale purple */
       color:#0f172a;
       cursor:pointer;
       transition: transform .06s ease, border-color .2s, background .2s;
@@ -76,21 +75,20 @@
     .btn:hover{ border-color:#C4B5FD; background:#DDD6FE }
     .btn:active{ transform: scale(.98);}
 
-    /* ✅ ONLY change requested buttons (desktop + mobile):
-       運動種類篩選(#sportBtn) / 重新隨機(#shuffle) / 重設所有篩選(#resetAll) / 篩選(#filterOpen) */
-    #sportBtn, #shuffle, #resetAll, #filterOpen{
+    /* ✅ ONLY these top buttons: 音樂及樂器分類篩選 / 重新隨機 / 重設所有篩選 / (phone) 篩選 */
+    .topbtn{
       background: rgba(255,255,255,.10);
-      border-color: var(--ring);
-      color: var(--text);
+      border-color: rgba(255,255,255,.18);
+      color: #F8FAFC;
     }
-    #sportBtn:hover, #shuffle:hover, #resetAll:hover, #filterOpen:hover{
+    .topbtn:hover{
       background: rgba(255,255,255,.14);
       border-color: #a78bfa;
     }
-    /* ✅ make the filter icon follow the new button text colour */
-    #filterOpen .filter-icon svg path{ stroke: var(--text); }
+    /* ✅ phone filter icon color (override inline stroke) */
+    #filterOpen .filter-icon svg path{ stroke:#F8FAFC !important; }
 
-    .filter-btn{display:none;}
+    .filter-btn{display:none;}          /* 手機才顯示 */
     .desktop-only{display:inline-flex;}
 
     .filter-icon{
@@ -100,29 +98,6 @@
     }
     .filter-icon svg{width:100%; height:100%;}
 
-    /* ====== 立即申請！(保持原本) ====== */
-    .apply-btn{
-      padding:8px 16px;
-      border-radius:999px;
-      border:none;
-      background:#22c55e;
-      color:#ffffff;
-      font-size:14px;
-      cursor:pointer;
-      text-decoration:none;
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-      box-shadow:var(--shadow);
-      transition:background .15s ease, transform .06s ease, box-shadow .15s ease;
-      white-space:nowrap;
-    }
-    .apply-btn:hover{background:#16a34a;}
-    .apply-btn:active{
-      transform:scale(.97);
-      box-shadow:0 4px 14px rgba(22,163,74,.35);
-    }
-
     /* 篩選 + 搜尋外層 */
     .filter-row{
       margin:16px 0 12px;
@@ -130,6 +105,7 @@
       flex-direction:column;
       gap:10px;
     }
+
     .filters,
     .search-row{
       display:grid;
@@ -141,27 +117,31 @@
       flex-direction:column;
       gap:6px;
     }
-    .label{font-size:12px; color:#FFFFFF}
-    .mini{font-size:12px; color:#FFFFFF}
+    .gender-field{
+      display:flex;
+      flex-direction:column;
+      gap:6px;
+    }
+    .label{font-size:12px; color:#334155}
+    .mini{font-size:12px; color:#334155}
+
+    /* ✅ words on (black) background -> white */
+    .filter-row .label,
+    .filter-row .mini{ color:#FFFFFF; }
+    .meta{ color:#FFFFFF; }
+    .pageinfo{ color:#FFFFFF; }
 
     select, input[type="search"], input[type="text"]{
-      width:100%;
-      padding:10px 12px;
-      border-radius:12px;
-      border:1px solid rgba(255,255,255,.18);
-      background:#fff;
-      color:#0f172a;
-      box-shadow:var(--shadow);
-      outline:none;
-      transition:border-color .2s, box-shadow .2s;
+      width:100%; padding:10px 12px; border-radius:12px; border:1px solid var(--ring); background:#fff; color:var(--text);
+      box-shadow:var(--shadow); outline:none; transition:border-color .2s, box-shadow .2s;
       font-size:14px;
     }
-    select:focus, input:focus{ border-color: #C4B5FD; box-shadow:0 0 0 3px rgba(196,181,253,.22) }
+    select:focus, input:focus{ border-color: var(--accent); box-shadow:0 0 0 3px rgba(14,165,233,.18) }
 
     .slider-row{display:flex; gap:16px; align-items:flex-start}
     .slider-col{display:flex; flex-direction:column; gap:6px; flex:1}
 
-    /* ✅ slider track white until user slides; fill uses clearer colour; solid bar */
+    /* ✅ Slider + bar colour: follow your description exactly */
     .slider-col input[type="range"]{
       width:100%;
       -webkit-appearance:none;
@@ -171,9 +151,11 @@
       margin:0;
       padding:0;
 
-      /* ✅ CHANGED: clearer fill colour */
+      /* ✅ CHANGED (as ordered): fill = #a78bfa */
       --fill: #a78bfa;
+      /* default (before user touches) will be forced to 0% by JS */
       --pct: 0%;
+      cursor:pointer;
     }
     .slider-col input[type="range"]::-webkit-slider-runnable-track{
       height:6px;
@@ -185,7 +167,7 @@
           #ffffff var(--pct),
           #ffffff 100%
         );
-      /* ✅ CHANGED: clearer border */
+      /* ✅ CHANGED (as ordered): border = rgba(167,139,250,.75) */
       border:1px solid rgba(167,139,250,.75);
       box-shadow:none;
     }
@@ -197,7 +179,7 @@
       background:#a78bfa;
       border:2px solid rgba(255,255,255,.88);
       box-shadow:0 8px 18px rgba(0,0,0,.45);
-      margin-top:-6px;
+      margin-top:-6px; /* center on 6px track */
       cursor:pointer;
     }
     .slider-col input[type="range"]::-moz-range-track{
@@ -210,7 +192,7 @@
           #ffffff var(--pct),
           #ffffff 100%
         );
-      /* ✅ CHANGED: clearer border */
+      /* ✅ CHANGED (as ordered): border = rgba(167,139,250,.75) */
       border:1px solid rgba(167,139,250,.75);
       box-shadow:none;
     }
@@ -231,13 +213,13 @@
       width:100%;
       padding:10px 12px;
       border-radius:12px;
-      border:1px solid rgba(255,255,255,.18);
+      border:1px solid var(--ring);
       background:#fff;
       box-shadow:var(--shadow);
       color:#0f172a;
     }
 
-    .meta{display:flex; align-items:center; gap:10px; margin:10px 2px 18px; color:#FFFFFF; font-size:14px;}
+    .meta{display:flex; align-items:center; gap:10px; margin:10px 2px 18px; font-size:14px;}
 
     .grid{display:grid; grid-template-columns: repeat(3, 1fr); gap:16px;}
     @media (max-width:980px){ .grid{grid-template-columns: repeat(2, 1fr);} }
@@ -253,7 +235,7 @@
       cursor:pointer;
     }
     .card:hover{ transform: translateY(-3px); border-color: rgba(196,181,253,.55) }
-    .card:focus{ outline: none; border-color: rgba(196,181,253,.75); box-shadow:0 0 0 3px rgba(167,139,250,.28)}
+    .card:focus{ outline: none; border-color: rgba(196,181,253,.75); box-shadow:0 0 0 3px rgba(167,139,250,.28) }
 
     .top{display:flex; align-items:center; gap:12px; margin-bottom:10px;}
     .avatar{
@@ -264,25 +246,26 @@
     .who{display:flex; flex-direction:column; gap:3px;}
     .who .name{font-weight:700; color: rgba(248,250,252,.96);}
     .who .muted{color: rgba(226,232,240,.78); font-size:13px}
+    .who .name small{ color: rgba(226,232,240,.78) !important; }
 
     .row{display:flex; align-items:center; gap:8px; margin:8px 0; color: rgba(226,232,240,.92); font-size:14px}
     .row svg{opacity:.95}
-    .card .row svg path{ stroke: #a78bfa !important; }
-    .card .row svg circle{ fill: #a78bfa !important; }
+
+    /* ✅ icons -> purple like reference */
+    .card .row svg path{ stroke:#a78bfa !important; }
+    .card .row svg circle{ fill:#a78bfa !important; }
 
     .tags{display:flex; gap:8px; flex-wrap:wrap; margin-top:8px;}
     .tag{
       font-size:12px; padding:6px 10px; border-radius:999px;
-      border:1px solid rgba(196,181,253,.26);
-      background: rgba(167,139,250,.14);
-      color:#FFFFFF;
+      border:1px solid var(--tagBorder); background:var(--tagBg); color:var(--tagText);
     }
+
     .foot{margin-top:12px; display:flex; align-items:center; justify-content:space-between; gap:8px; color: rgba(226,232,240,.68); font-size:13px;}
     .budget{color:#FFFFFF; font-weight:700}
     .note{margin-top:10px; color: rgba(226,232,240,.84); font-size:14px; line-height:1.5}
-    .empty{grid-column:1/-1; text-align:center; padding:40px 16px; color:#FFFFFF; border:1px dashed rgba(196,181,253,.35); border-radius:var(--radius); background:rgba(255,255,255,.06)}
+    .empty{grid-column:1/-1; text-align:center; padding:40px 16px; color:#64748b; border:1px dashed var(--ring); border-radius:var(--radius); background:#fff}
 
-    /* ===== Modal Backdrop ===== */
     .modal-backdrop{
       position:fixed; inset:0; background:var(--modalBg);
       display:none; align-items:center; justify-content:center;
@@ -290,20 +273,14 @@
     }
     .modal-backdrop.show{display:flex}
 
-    /* ===== Modal ===== */
-    .modal{
-      width:min(1120px, 96vw);
-      max-height:90vh;
-      overflow:auto;
-      background:#000000;
-      border:1px solid rgba(255,255,255,.18);
-      border-radius:28px;
-      box-shadow: 0 25px 70px rgba(0,0,0,.20);
-      position:relative;
-      color:#FFFFFF;
-    }
+    /* ✅ make Subject modal cover Filter sheet */
+    #subjectBackdrop{ z-index: 70; }
 
-    /* ===== Modal header：保持原結構，但跟 reference 黑底白字 ===== */
+    .modal{
+      width:min(920px, 96vw); max-height:90vh; overflow:auto; background:#ffffff;
+      border:1px solid var(--ring); border-radius:22px; box-shadow: 0 25px 70px rgba(0,0,0,.20);
+      position:relative;
+    }
     .modal header{
       padding:18px 20px 0 20px;
       display:flex;
@@ -312,97 +289,81 @@
       gap:10px;
       position:relative;
     }
+
+    /* === 使用「學術版」風格的 立即申請 按鈕 === */
+    .apply-btn{
+      padding:8px 16px;
+      border-radius:999px;
+      border:none;
+      background:#22c55e;
+      color:#ffffff;
+      font-size:14px;
+      cursor:pointer;
+      text-decoration:none;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      box-shadow:var(--shadow);
+      transition:background .15s ease, transform .06s ease, box-shadow .15s ease;
+      white-space:nowrap;
+    }
+    .modal header .apply-btn{ margin-right:40px; }
+    .apply-btn:hover{ background:#16a34a; }
+    .apply-btn:active{
+      transform:scale(.97);
+      box-shadow:0 4px 14px rgba(22,163,74,.35);
+    }
+
+    .modal .body{padding: 4px 20px 20px}
     .modal .close{
       border:none;
       background:transparent;
-      color:#FFFFFF;
+      color:#1e40af;
       cursor:pointer;
       font-size:22px;
       position:absolute;
       top:14px;
       right:18px;
     }
-    .modal header .apply-btn{
-      margin-right:40px;
-    }
-
-    .modal-body{ padding: 8px 26px 26px; }
 
     .profile-grid{
       display:grid;
-      grid-template-columns: 1fr 1fr;
-      gap:16px;
-      align-items:stretch;
+      grid-template-columns: 1.2fr 1fr;
+      gap:18px;
+      margin-top:6px;
+      justify-items:stretch;
     }
     .profile-card{
-      background:#000000;
-      border:1px solid rgba(255,255,255,.18);
-      border-radius:18px;
-      padding:18px;
+      background:#f8fafc;
+      border:1px solid var(--ring);
+      border-radius:16px;
+      padding:14px;
     }
-    .profile-title{
-      margin:0 0 14px 0;
-      font-size:18px;
-      font-weight:900;
-      color:#FFFFFF;
-      letter-spacing:.2px;
-    }
-    .kv{
-      display:grid;
-      grid-template-columns: 150px 1fr;
-      gap:12px 16px;
-      font-size:15px;
-      color:#FFFFFF;
-    }
-    .kv b{
-      font-weight:800;
-      color:#FFFFFF;
-      white-space:nowrap;
-    }
-    .kv div{ color:#FFFFFF; }
-    .cta-row{ margin-top:16px; }
+    .profile-title{margin:0 0 8px 0; font-size:15px; color:#0369a1}
+    .kv{display:grid; grid-template-columns: 120px 1fr; gap:8px 12px; font-size:14px}
+    .kv b{color:#0f172a; font-weight:600}
+    .cta-row{display:flex; gap:10px; flex-wrap:wrap; margin-top:12px}
+    .copy{cursor:pointer; border:1px solid var(--ring); background:#ffffff; color:#0f172a; padding:8px 10px; border-radius:10px; box-shadow:var(--shadow)}
+    .copy:hover{border-color:#93c5fd; background:#f0f9ff}
 
-    /* ✅ 複製教練編號 button -> white (follow reference) */
-    .copy{
-      cursor:pointer;
-      border:1px solid rgba(196,181,253,.26);
-      background:#FFFFFF;
-      color:#0f172a;
-      padding:10px 14px;
-      border-radius:12px;
-      box-shadow:var(--shadow);
-      font-weight:700;
-    }
-    .copy:hover{ border-color: rgba(196,181,253,.55); background:#F8FAFC; }
-
-    .profile-wide{ grid-column: 1 / -1; }
-
+    /* ✅ 手機：搜尋兩格一行 */
     @media (max-width:560px){
-      .profile-grid{ grid-template-columns:1fr; }
-      .kv{ grid-template-columns: 120px 1fr; }
-      .modal header{ padding:18px 16px 0 16px; }
-      .modal-body{ padding: 8px 16px 16px; }
+      .filters{ grid-template-columns:1fr; }
+      .search-row{ grid-template-columns:repeat(2,minmax(0,1fr)); }
+
+      .slider-row, #feeLabel{ display:none; }
+      #feeBand{ display:block; }
+
+      .profile-grid{ grid-template-columns:1fr; justify-items:center; }
+      .profile-card{ max-width:520px; width:100%; }
     }
 
-    /* ===== 分頁 ===== */
     .pager{display:flex; align-items:center; justify-content:center; gap:10px; margin-top:16px; flex-wrap:wrap}
-    .pagebtn{
-      /* ✅ 上一頁/下一頁 -> white */
-      border:1px solid rgba(196,181,253,.26);
-      background:#FFFFFF;
-      padding:8px 12px;
-      border-radius:10px;
-      cursor:pointer;
-      color:#0f172a;
-      box-shadow:var(--shadow);
-      transition: transform .06s ease, border-color .2s, background .2s;
-    }
-    .pagebtn:hover{ background:#F8FAFC; border-color: rgba(196,181,253,.55); }
-    .pagebtn:active{ transform:scale(.98); }
+    .pagebtn{border:1px solid var(--ring); background:#fff; padding:8px 12px; border-radius:10px; cursor:pointer}
     .pagebtn[disabled]{opacity:.5; cursor:not-allowed}
-    .pageinfo{font-size:13px; color:#FFFFFF}
+    .pageinfo{font-size:13px; color:#FFFFFF} /* ✅ CHANGED: make 第 1 / 1 頁 white */
 
-    /* ===== 手機 toolbar + filter bottom sheet ===== */
+    /* 手機 toolbar + filter bottom sheet 樣式 */
     @media (max-width:560px){
       .toolbar{
         width:100%;
@@ -414,26 +375,23 @@
       .toolbar .btn{ width:100%; }
       #resetAll{ grid-column:1 / -1; }
       .filter-btn{ display:inline-flex; }
-      .desktop-only{ display:none; }
+      .desktop-only{display:none;}
 
-      /* 手機：主畫面不直接顯示 filters，移入 bottom sheet */
+      /* 手機版：主畫面唔直接顯示 filters，會移入 bottom sheet */
       .filters{ display:none; }
 
-      /* 手機：關鍵字 + 編號 同一行 */
-      .search-row{
-        grid-template-columns:repeat(2, minmax(0,1fr));
+      .filter-panel .filters{
+        display:grid;
+        grid-template-columns:1fr;
         gap:10px;
+        margin:0; /* ✅ keep uniform spacing */
       }
-
-      /* 手機：價位改用 select */
-      .slider-row, #feeLabel{ display:none; }
-      #feeBand{ display:block; }
 
       .fee-label{ font-size:0; }
       .fee-label::before{
         content:"價位區間";
         font-size:12px;
-        color:#FFFFFF;
+        color:#334155;
       }
     }
 
@@ -442,8 +400,7 @@
       width:100%;
       max-width:640px;
       margin:0 auto;
-      background:#000000;
-      border:1px solid rgba(255,255,255,.18);
+      background:#f8fafc;
       border-radius:18px 18px 0 0;
       box-shadow:0 -16px 40px rgba(15,23,42,.3);
     }
@@ -456,7 +413,7 @@
     .filter-title{
       margin:0;
       font-size:18px;
-      color:#FFFFFF;
+      color:#0f172a;
     }
     .filter-header-right{
       display:flex;
@@ -464,77 +421,45 @@
       gap:8px;
     }
 
-    /* ✅ 篩選條件：統一 label ↔ 控件 的間距（基準） */
-    .filter-body .field{
-      display:flex;
-      flex-direction:column;
-      gap:6px;
-      margin:0;
-    }
-
-    /* ✅ 篩選條件's「套用篩選」= same colour as 運動種類篩選's「套用篩選」(.btn) */
+    /* ✅ 套用篩選 button matches desktop .btn style */
     .filter-apply-btn{
-      padding:10px 14px;          /* match .btn */
-      border-radius:12px;         /* match .btn */
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      padding:10px 14px;
+      border-radius:12px;
       border:1px solid rgba(196,181,253,.35);
       background:#EDE9FE;
-      font-size:14px;             /* match .btn */
+      color:#0f172a;
+      font-size:14px;
       cursor:pointer;
       white-space:nowrap;
-      color:#0f172a;
       box-shadow:var(--shadow);
       transition: transform .06s ease, border-color .2s, background .2s;
     }
     .filter-apply-btn:hover{ background:#DDD6FE; border-color:#C4B5FD; }
-    .filter-apply-btn:active{ transform:scale(.98); }
+    .filter-apply-btn:active{ transform: scale(.98); }
 
     .filter-close{
       border:none;
       background:transparent;
       font-size:24px;
       cursor:pointer;
-      color:#FFFFFF;
-    }
-    .filter-body{ padding:4px 18px 14px; }
-
-    /* ✅ 開啟運動種類篩選：white + SAME padding/align as selects (全部地區/全部價位/不限教練性別) */
-    #mobileSportBtn{
-      background:#FFFFFF;
-      border:1px solid rgba(255,255,255,.18);
       color:#0f172a;
-      box-shadow:var(--shadow);
-      width:100%;
-
-      /* match select: padding 10px 12px + left aligned text */
-      padding:10px 12px !important;
-      justify-content:flex-start;
-      text-align:left;
-      font-size:14px;
     }
-    #mobileSportBtn:hover{ background:#FFFFFF; border-color: rgba(255,255,255,.18); }
+
+    .filter-body{
+      padding:4px 18px 14px;
+      display:flex;
+      flex-direction:column;
+      gap:10px; /* ✅ uniform spacing between fields */
+    }
 
     @media (max-width:560px){
       #filterBackdrop.modal-backdrop{
         align-items:flex-end;
         justify-content:center;
         padding:0;
-      }
-
-      /* ✅ make spacing consistent across:
-         教練性別篩選 → 不限教練性別 → 運動種類篩選 → 開啟運動種類篩選 */
-      .filter-body{
-        display:grid;
-        gap:10px;
-      }
-      .filter-body .field{
-        gap:10px; /* ✅ key change: label↔control spacing matches section spacing */
-      }
-
-      .filter-panel .filters{
-        display:grid;
-        grid-template-columns:1fr;
-        gap:10px;
-        margin:0;
       }
     }
 
@@ -544,7 +469,6 @@
       .desktop-only{display:inline-flex;}
       #filterBackdrop{display:none !important;}
       .filters{display:grid;}
-      #feeBand{display:none !important;}
 
       .filter-row{
         display:grid;
@@ -553,11 +477,16 @@
         align-items:flex-start;
         margin:16px 0 12px;
       }
+
       .filter-row .filters,
       .filter-row .search-row{
         display:contents;
         margin:0;
       }
+
+      .filter-row .label,
+      .filter-row .mini{ white-space:nowrap; }
+
       .filter-row .filters .field:nth-child(1){ grid-column:1; grid-row:1; }
       .filter-row .filters .field:nth-child(2){ grid-column:2; grid-row:1; }
       .filter-row .filters .field:nth-child(3){ grid-column:5; grid-row:1; }
@@ -565,14 +494,14 @@
       .filter-row .search-row .field:nth-child(2){ grid-column:4; grid-row:1; }
     }
 
-    /* 運動種類篩選 Modal */
+    /* 樂器分類篩選 Modal */
     .subgrid{
       display:grid;
       grid-template-columns: repeat(3, minmax(0,1fr));
       gap:8px 12px;
       margin-top:10px;
     }
-    .subgrid label{display:flex; gap:8px; align-items:center; font-size:13px; color:#FFFFFF}
+    .subgrid label{display:flex; gap:8px; align-items:center; font-size:13px; color:#0f172a}
     .subgrid input{width:16px; height:16px}
     .bar{display:flex; gap:8px; align-items:center; flex-wrap:wrap; margin-top:8px}
     .fw{width:100%}
@@ -591,7 +520,7 @@
     }
 
     /* =========================
-       ✅ Banner — follow your reference banner format & colours
+       Banner ONLY — follow your reference banner format
        ========================= */
     .banner{
       position:relative;
@@ -601,7 +530,7 @@
       padding:22px 20px;
       margin-bottom:14px;
 
-      --accent: #a78bfa;
+      --accentBanner: #a78bfa;
 
       border:1.2px solid transparent;
       background:
@@ -619,6 +548,7 @@
         0 10px 26px rgba(15,23,42,.10),
         0 1px 0 rgba(255,255,255,.10) inset;
     }
+
     .banner::before{
       content:"";
       position:absolute;
@@ -638,6 +568,7 @@
       background: linear-gradient(180deg, transparent 55%, rgba(2,6,23,.22) 100%);
       pointer-events:none;
     }
+
     .banner-inner{
       position:relative;
       display:flex;
@@ -646,12 +577,14 @@
       gap:12px;
       flex-wrap:wrap;
     }
+
     .banner-title{
       display:flex;
       align-items:center;
       gap:12px;
       min-width:280px;
     }
+
     .logo-wrap{
       width:46px; height:46px;
       border-radius:14px;
@@ -662,6 +595,10 @@
       backdrop-filter: blur(10px);
       -webkit-backdrop-filter: blur(10px);
       position:relative;
+
+      /* ✅ CHANGED (as ordered): prevent shrinking on phone */
+      flex: 0 0 46px;
+      flex-shrink: 0;
     }
     .logo-wrap::before{
       content:"";
@@ -670,18 +607,20 @@
       background: radial-gradient(circle at 50% 50%, rgba(167,139,250,.22), transparent 62%);
       pointer-events:none;
     }
-    .book{ width:28px; height:28px; position:relative; z-index:1; }
-    .book path{
+
+    .banner-icon{ width:28px; height:28px; position:relative; z-index:1; flex-shrink:0; } /* ✅ keep icon size */
+    .banner-icon path{
       stroke:#c4b5fd;
-      stroke-width:1.9;
+      stroke-width:1.7;
       stroke-linecap:round;
       stroke-linejoin:round;
     }
-    .book{
+    .banner-icon{
       filter:
         drop-shadow(0 6px 12px rgba(0,0,0,.30))
         drop-shadow(0 0 10px rgba(167,139,250,.16));
     }
+
     .banner-text h1{
       margin:0;
       font-size:clamp(22px, 2.5vw, 30px);
@@ -690,7 +629,7 @@
       color: rgba(248,250,252,.96);
     }
     .banner-text h1 .accent{
-      color: var(--accent, #a78bfa);
+      color: var(--accentBanner, #a78bfa);
       font-weight:900;
     }
     .banner-text p{
@@ -701,7 +640,7 @@
       max-width:680px;
     }
 
-    /* ✅ Tablet buttons placement same as Desktop */
+    /* ✅ Tablet: buttons UNDER title/subtitle */
     @media (min-width:561px) and (max-width:980px){
       .banner-inner{
         flex-direction:column;
@@ -713,6 +652,7 @@
         margin-top:14px;
       }
     }
+
     /* ✅ Desktop: buttons UNDER title/subtitle */
     @media (min-width:981px){
       .banner{
@@ -730,116 +670,118 @@
       }
     }
 
-    /* =========================================
-       ✅ Cross-browser Consistency Patch (IMPORTANT)
-       Put at the VERY END of CSS
-       ========================================= */
-
-    /* Stop iOS Safari auto text scaling */
-    html{
-      -webkit-text-size-adjust:100%;
-      text-size-adjust:100%;
-      scrollbar-gutter: stable;
+    /* ✅ ONLY colour: Subject modal + Filter sheet + Profile modal -> black bg + white text */
+    #backdrop .modal{
+      background:#000000;
+      border:1px solid rgba(255,255,255,.18);
+      color:#FFFFFF;
+    }
+    #backdrop .modal header{ color:#FFFFFF; }
+    #backdrop .modal .close{ color:#FFFFFF !important; }
+    #backdrop .profile-card{
+      background:#000000;
+      border:1px solid rgba(255,255,255,.18);
+      color:#FFFFFF;
+    }
+    #backdrop .profile-title{ color:#FFFFFF !important; }
+    #backdrop .kv,
+    #backdrop .kv div,
+    #backdrop #kv-notes{ color:#FFFFFF !important; }
+    #backdrop .kv b{
+      color:#FFFFFF !important;
+      font-weight:600;
+    }
+    #backdrop .copy{
+      background:#FFFFFF;
+      border:1px solid rgba(196,181,253,.26);
+      color:#0f172a;
+    }
+    #backdrop .copy:hover{
+      background:#F8FAFC;
+      border-color: rgba(196,181,253,.55);
     }
 
-    button, input, select, textarea{
-      font-family: inherit;
-      letter-spacing: inherit;
+    #subjectBackdrop .modal{
+      background:#000000;
+      border:1px solid rgba(255,255,255,.18);
+      color:#FFFFFF;
+    }
+    #subjectBackdrop #subjectTitle{ color:#FFFFFF !important; }
+    #subjectBackdrop .close{ color:#FFFFFF !important; }
+    #subjectBackdrop .mini,
+    #subjectBackdrop .subgrid label{ color:#FFFFFF !important; }
+
+    #filterBackdrop .filter-panel{
+      background:#000000;
+      border:1px solid rgba(255,255,255,.18);
+    }
+    #filterBackdrop .filter-title,
+    #filterBackdrop .filter-close,
+    #filterBackdrop .label,
+    #filterBackdrop .mini{ color:#FFFFFF !important; }
+    #filterBackdrop .fee-label::before{ color:#FFFFFF !important; }
+    #filterBackdrop select,
+    #filterBackdrop input[type="search"],
+    #filterBackdrop input[type="text"],
+    #filterBackdrop #feeBand{
+      border-color: rgba(255,255,255,.18);
     }
 
-    /* Remove default search UI */
-    input[type="search"]::-webkit-search-decoration,
-    input[type="search"]::-webkit-search-cancel-button,
-    input[type="search"]::-webkit-search-results-button,
-    input[type="search"]::-webkit-search-results-decoration{
-      -webkit-appearance:none;
+    /* ✅ make label ↔ button spacing same as other fields (6px) */
+    #filterBackdrop .mobile-subject-row{
+      display:flex;
+      flex-direction:column;
+      gap:6px;
     }
 
-    /* Normalize controls */
-    select, input[type="search"], input[type="text"]{
-      -webkit-appearance:none;
-      appearance:none;
-      line-height: 1.2;
-      min-height: 42px;
+    /* ✅ phone filter sheet "開啟音樂及樂器分類篩選" button looks like a white input box */
+    #filterBackdrop #mobileSubjectBtn{
+      width:100%;
+      display:block;
+      padding:10px 12px;
+      border-radius:12px;
+      background:#FFFFFF;
+      color:#0f172a;
+      border:1px solid rgba(255,255,255,.18);
+      box-shadow:var(--shadow);
+      text-align:left;
+      justify-content:flex-start;
+      font-size:14px;
     }
-
-    /* iOS zoom fix */
-    @media (max-width:560px){
-      select, input[type="search"], input[type="text"]{
-        font-size:16px;
-      }
+    #filterBackdrop #mobileSubjectBtn:hover{
+      background:#FFFFFF;
+      border-color: rgba(255,255,255,.18);
     }
-
-    /* Custom select arrow */
-    select{
-      padding-right:38px;
-      background-repeat:no-repeat;
-      background-position: right 12px center;
-      background-size: 16px 16px;
-      background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none'><path d='M7 10l5 5 5-5' stroke='%230f172a' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/></svg>");
-    }
-
-    /* Range alignment normalization */
-    .slider-col input[type="range"]{
-      --track-h: 6px;
-      --thumb-s: 16px;
-    }
-    .slider-col input[type="range"]::-webkit-slider-runnable-track{
-      height: var(--track-h);
-    }
-    .slider-col input[type="range"]::-webkit-slider-thumb{
-      width: var(--thumb-s);
-      height: var(--thumb-s);
-      margin-top: calc((var(--track-h) - var(--thumb-s)) / 2);
-    }
-    .slider-col input[type="range"]::-moz-range-track{
-      height: var(--track-h);
-    }
-    .slider-col input[type="range"]::-moz-range-thumb{
-      width: var(--thumb-s);
-      height: var(--thumb-s);
-    }
-
-    button, a{
-      -webkit-tap-highlight-color: transparent;
-    }
-
-    /* iPhone safe area bottom padding */
-    @media (max-width:560px){
-      .filter-panel{
-        padding-bottom: calc(12px + env(safe-area-inset-bottom));
-      }
+    #filterBackdrop #mobileSubjectBtn:active{
+      transform:none; /* keep it input-like */
     }
   </style>
 </head>
 <body>
   <div class="container">
 
-    <!-- ✅ Banner (follow your reference banner format) -->
+    <!-- ✅ Banner (follow reference banner format) -->
     <div class="banner">
       <div class="banner-inner">
         <div class="banner-title">
           <span class="logo-wrap" aria-hidden="true">
-            <!-- ✅ sport logo: trophy icon -->
-            <svg class="book" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-              <path d="M8 4h8v3a4 4 0 0 1-8 0V4Z"/>
-              <path d="M6 6H4v1a3 3 0 0 0 3 3"/>
-              <path d="M18 6h2v1a3 3 0 0 1-3 3"/>
-              <path d="M12 11v3"/>
-              <path d="M10 14h4"/>
-              <path d="M9 20h6"/>
-              <path d="M9 20v-2a3 3 0 0 1 3-3a3 3 0 0 1 3 3v2"/>
+            <!-- music note quaver -->
+            <svg class="banner-icon" viewBox="0 0 24 24" fill="none">
+              <path d="M9 19a2 2 0 1 0 0-4a2 2 0 0 0 0 4Z"/>
+              <path d="M11 15V6"/>
+              <path d="M11 6c4 1 6 3 6 6"/>
             </svg>
           </span>
 
           <div class="banner-text">
-            <h1>尋找教練 <span class="accent">（體育)</span></h1>
-            <p>推廣體育運動，幫助學生找到適合的教練</p>
+            <!-- ✅ CHANGED (as ordered): page name -->
+            <h1>尋找導師 <span class="accent">（音樂）</span></h1>
+            <p>提供音樂及樂器導師，協助學生建立音樂基礎與興趣</p>
           </div>
         </div>
 
         <div class="toolbar">
-          <button id="filterOpen" class="btn filter-btn">
+          <button id="filterOpen" class="btn topbtn filter-btn">
             <span class="filter-icon" aria-hidden="true">
               <svg viewBox="0 0 24 24">
                 <path d="M4 5h16M7 11h10M10 17h4" stroke="#0f172a" stroke-width="1.6" stroke-linecap="round"/>
@@ -848,18 +790,17 @@
             篩選
           </button>
 
-          <button id="sportBtn" class="btn desktop-only">運動種類篩選</button>
-          <button id="shuffle" class="btn">重新隨機</button>
-          <button id="resetAll" class="btn">重設所有篩選</button>
+          <button id="subjectBtn" class="btn topbtn desktop-only">音樂及樂器分類篩選</button>
+          <button id="shuffle" class="btn topbtn">重新隨機</button>
+          <button id="resetAll" class="btn topbtn">重設所有篩選</button>
         </div>
       </div>
     </div>
 
-    <!-- 篩選 + 搜尋列 -->
     <section class="filter-row" aria-label="篩選與搜尋">
       <div class="filters" aria-label="篩選條件">
         <div class="field">
-          <span class="label">地區 / 網上授課</span>
+          <span class="label">上課及授課地區 / 網上授課</span>
           <select id="district">
             <option value="">全部地區</option>
             <option>網上授課</option>
@@ -871,7 +812,7 @@
         </div>
 
         <div class="field">
-          <span class="label fee-label">價位區間（HK$/時）</span>
+          <span class="label fee-label">價位區間（HK$/小時）</span>
 
           <div class="slider-row">
             <div class="slider-col">
@@ -895,12 +836,12 @@
           </select>
         </div>
 
-        <div class="field">
-          <span class="label">教練性別篩選</span>
+        <div class="field gender-field">
+          <span class="label">導師性別篩選</span>
           <select id="genderFilter">
-            <option value="">不限教練性別</option>
-            <option value="男教練">男教練</option>
-            <option value="女教練">女教練</option>
+            <option value="">不限導師性別</option>
+            <option value="男導師">男導師</option>
+            <option value="女導師">女導師</option>
           </select>
         </div>
       </div>
@@ -908,12 +849,12 @@
       <div class="search-row" aria-label="搜尋">
         <div class="field">
           <span class="label">關鍵字搜尋</span>
-          <input id="q" type="search" placeholder="教練姓名 / 運動 / 經驗 / 學歷 / 備註…" />
+          <input id="q" type="search" placeholder="導師姓名 / 樂器 / 經驗 / 學歷 / 備註…" />
         </div>
 
         <div class="field">
-          <span class="label">教練編號</span>
-          <input id="idq" type="text" placeholder="輸入編號（如：CO-202511-003）" />
+          <span class="label">導師編號</span>
+          <input id="idq" type="text" placeholder="輸入編號（如：MU-202511-003）" />
         </div>
       </div>
     </section>
@@ -929,76 +870,67 @@
     </div>
   </div>
 
-  <!-- 教練詳細 Modal（立即申請 + ✕ 同原本結構） -->
   <div id="backdrop" class="modal-backdrop" role="dialog" aria-modal="true" aria-hidden="true">
-    <div class="modal" role="document" aria-labelledby="modalName">
+    <div class="modal" role="document" aria-labelledby="modalTitle">
       <header>
         <div class="title" style="gap:10px">
-          <div id="modalAvatar" class="avatar" style="width:44px;height:44px" aria-hidden="true"></div>
+          <div id="modalAvatar" class="avatar" style="width:44px;height:44px"></div>
           <div>
-            <h2 id="modalName" style="margin:0; font-size:20px; color:#FFFFFF; font-weight:800"></h2>
-            <div id="modalCoachId" class="who muted" style="margin-top:4px"></div>
+            <h2 id="modalTitle" style="margin:0; font-size:20px"></h2>
+            <div id="modalSub" class="who muted" style="margin-top:4px"></div>
           </div>
         </div>
-
         <a
-          href="https://forms.gle/81rX1ZN634HKyLZo8"
+          href="https://forms.gle/E746boJXjZvdT4fN6"
           target="_blank"
           rel="noopener noreferrer"
           class="apply-btn"
         >立即申請！</a>
-
         <button class="close" id="modalClose" aria-label="關閉">✕</button>
       </header>
-
-      <div class="modal-body">
+      <div class="body">
         <div class="profile-grid">
           <div class="profile-card">
             <h3 class="profile-title">基本資料</h3>
             <div class="kv" id="kv-basic"></div>
             <div class="cta-row">
-              <button id="copyId" class="copy">複製教練編號</button>
+              <button id="copyId" class="copy">複製導師編號</button>
             </div>
           </div>
-
           <div class="profile-card">
-            <h3 class="profile-title">課程期望 / 招生資料</h3>
+            <h3 class="profile-title">課程資料</h3>
             <div class="kv" id="kv-expect"></div>
           </div>
-
-          <div class="profile-card profile-wide">
-            <h3 class="profile-title">課程備註 / 教學重點</h3>
-            <div id="kv-notes" style="white-space:pre-wrap; line-height:1.8; font-size:15px; color:#FFFFFF"></div>
+          <div class="profile-card" style="grid-column:1/-1">
+            <h3 class="profile-title">備註 / 自我介紹</h3>
+            <div id="kv-notes" style="white-space:pre-wrap; line-height:1.7; font-size:14px"></div>
           </div>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- 運動種類篩選 Modal -->
-  <div id="sportBackdrop" class="modal-backdrop" role="dialog" aria-modal="true" aria-hidden="true">
-    <div class="modal" role="document" aria-labelledby="sportTitle">
+  <div id="subjectBackdrop" class="modal-backdrop" role="dialog" aria-modal="true" aria-hidden="true">
+    <div class="modal" role="document" aria-labelledby="subjectTitle">
       <header>
-        <h2 id="sportTitle" style="margin:0; font-size:20px; color:#FFFFFF; font-weight:900">運動種類篩選</h2>
-        <button class="close" id="sportClose" aria-label="關閉">✕</button>
+        <h2 id="subjectTitle" style="margin:0; font-size:20px; color:#0369a1">音樂及樂器分類篩選</h2>
+        <button class="close" id="subjectClose" aria-label="關閉">✕</button>
       </header>
-
-      <div class="modal-body">
-        <div class="mini">勾選運動（可複選）；未勾選即不限運動種類</div>
-        <div id="sportList" class="subgrid" style="margin-top:12px"></div>
+      <div class="body">
+        <div class="mini">勾選樂器 / 項目（可複選）；未勾選即不限樂器種類</div>
+        <div id="subjectList" class="subgrid" style="margin-top:12px"></div>
         <div class="bar">
-          <button id="sportSelAll" class="btn">全選</button>
-          <button id="sportClrAll" class="btn">清除全部</button>
-          <span id="sportSelCount" class="mini fw">已選：0 種運動</span>
+          <button id="subjectSelAll" class="btn">全選</button>
+          <button id="subjectClrAll" class="btn">清除全部</button>
+          <span id="subjectSelCount" class="mini fw">已選：0 個項目</span>
         </div>
         <div class="bar" style="justify-content:flex-end; margin-top:12px">
-          <button id="applySport" class="btn">套用篩選</button>
+          <button id="applySubject" class="btn">套用篩選</button>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- 手機「篩選」底板 -->
   <div id="filterBackdrop" class="modal-backdrop" role="dialog" aria-modal="true" aria-hidden="true">
     <div class="filter-panel" role="document" aria-labelledby="filterTitle">
       <div class="filter-header">
@@ -1009,123 +941,123 @@
         </div>
       </div>
       <div class="filter-body" id="filterPanelBody">
-        <div class="field mobile-sport-row">
-          <span class="label">運動種類篩選</span>
-          <button id="mobileSportBtn" class="btn" style="padding-inline:12px">開啟運動種類篩選</button>
+        <div class="field mobile-subject-row">
+          <span class="label">音樂及樂器分類篩選</span>
+          <button id="mobileSubjectBtn" class="btn" style="padding-inline:12px">開啟音樂及樂器分類篩選</button>
         </div>
       </div>
     </div>
   </div>
 
   <script>
-    const SPORTS = [
-      "籃球","足球","排球","羽毛球","乒乓球",
-      "游泳","田徑","體操","舞蹈","跆拳道",
-      "空手道","武術","網球","攀石","其他","HYROX","業餘健身"
+    const SUBJECTS = [
+      "鋼琴 Piano","小提琴 Violin","大提琴 Cello","結他 Guitar","烏克麗麗 Ukulele",
+      "木鼓 Drums","歌唱聲樂 Vocal","薩克斯風 Saxophone","單簧管 Clarinet","長笛 Flute",
+      "樂理 Music Theory","其他"
     ];
 
-    const COACHES = [
+    const TEACHERS = [
       {
-        id:"CO-202511-001",
+        id:"MU-202511-001",
         name:"Kelvin Sir",
-        gender:"男教練",
-        age:28,
-        intro:"中學校隊籃球教練",
+        gender:"男導師",
+        years:"8 年",
+        mainCategory:"鋼琴導師",
+        instruments:["鋼琴 Piano"],
         district:"沙田區",
-        venue:"公園球場 / 體育館（可商議）",
-        sports:["籃球"],
-        mainCategory:"籃球訓練",
-        postedDate:"2025/11/20",
-        fee:420,
-        lessonsPerWeek:"1–2 堂 / 週",
-        hoursPerLesson:"1.5 小時 / 堂",
-        preferredTime:"一三五 晚上；週末日間",
-        notes:"訓練重視基本功（運球、傳球、腳步），同時配合實戰對抗。\n會按學生位置設計個人訓練計劃。"
-      },
-      {
-        id:"CO-202511-002",
-        name:"Joyce",
-        gender:"女教練",
-        age:26,
-        intro:"游泳教練（兒童至成人初學）",
-        district:"灣仔區",
-        venue:"會所泳池 / 公眾泳池",
-        sports:["游泳"],
-        mainCategory:"游泳教練",
-        postedDate:"2025/11/18",
+        areaDetail:"沙田 / 大圍 附近琴行或上門",
         fee:380,
-        lessonsPerWeek:"1–2 堂 / 週",
-        hoursPerLesson:"1 小時 / 堂",
-        preferredTime:"平日晚間；週六上午",
-        notes:"由適應水性開始，循序漸進教呼吸、漂浮、滑行，同時注重水中安全意識。"
+        mode:"面授為主，如有需要可網上上課",
+        targetLevels:["初學者","ABRSM Grade 1–5"],
+        experience:"多年教授兒童及青少年，熟悉 ABRSM 考試流程及要求。",
+        qualification:"音樂系畢業，已考獲 ABRSM 鋼琴演奏級",
+        timeSlots:"一三五 晚上；週末日間",
+        notes:"課堂會同時重視讀譜、節奏感同技巧，會按學生性格及目標調整教材，例如考試路線或純興趣。"
       },
       {
-        id:"CO-202511-003",
-        name:"Tommy",
-        gender:"男教練",
-        age:30,
-        intro:"足球技術訓練（U12–U16）",
-        district:"荃灣區",
-        venue:"人工草場 / 學校球場",
-        sports:["足球"],
-        mainCategory:"足球技術訓練",
-        postedDate:"2025/11/16",
-        fee:350,
-        lessonsPerWeek:"2 堂 / 週",
-        hoursPerLesson:"1.5 小時 / 堂",
-        preferredTime:"週末下午；部份平日晚上",
-        notes:"重視控球、傳接球及身體對抗訓練，會以比賽情境設計練習，提升實戰決策能力。"
-      },
-      {
-        id:"CO-202511-004",
+        id:"MU-202511-002",
         name:"Carmen",
-        gender:"女教練",
-        age:25,
-        intro:"舞蹈 / 體操基礎（學童）",
-        district:"油尖旺區",
-        venue:"舞蹈室 / 體操場",
-        sports:["舞蹈","體操"],
-        mainCategory:"舞蹈 / 體操基礎",
-        postedDate:"2025/11/14",
+        gender:"女導師",
+        years:"6 年",
+        mainCategory:"小提琴導師",
+        instruments:["小提琴 Violin"],
+        district:"灣仔區",
+        areaDetail:"灣仔 / 銅鑼灣 文化中心附近或上門",
+        fee:420,
+        mode:"面授個別 / 小組教學",
+        targetLevels:["小學","初中","校際音樂節備戰"],
+        experience:"帶過多位學生參加校際音樂節及弦樂團試音，熟悉拉琴姿勢及音色控制訓練。",
+        qualification:"ABRSM 小提琴八級，音樂教育文憑",
+        timeSlots:"平日放學後；週六下午",
+        notes:"以放鬆、自然運弓為主，避免因用力過度造成肩頸不適，會配合簡單視唱練耳練習。"
+      },
+      {
+        id:"MU-202511-003",
+        name:"Marcus",
+        gender:"男導師",
+        years:"5 年",
+        mainCategory:"鼓班導師",
+        instruments:["木鼓 Drums"],
+        district:"荃灣區",
+        areaDetail:"荃灣 鼓房 / Band 房",
+        fee:350,
+        mode:"面授一對一，另設 Band 課",
+        targetLevels:["小學高年級","中學","成人興趣"],
+        experience:"曾為多隊中學 band 做鼓手指導，熟悉 Pop、Rock 同 Worship 風格。",
+        qualification:"流行音樂專業文憑，曾任職琴行導師",
+        timeSlots:"週末下午；部份平日晚上",
+        notes:"注重節奏穩定同 Groove 感，會用學生喜歡嘅歌去做練習，增加練鼓動力。"
+      },
+      {
+        id:"MU-202511-004",
+        name:"Yuki",
+        gender:"女導師",
+        years:"4 年",
+        mainCategory:"結他 / Ukulele 導師",
+        instruments:["結他 Guitar","烏克麗麗 Ukulele"],
+        district:"中西區",
+        areaDetail:"中環 / 上環 咖啡店附近或上門",
         fee:320,
-        lessonsPerWeek:"1–2 堂 / 週",
-        hoursPerLesson:"1 小時 / 堂",
-        preferredTime:"平日放學後；週末上午",
-        notes:"課堂以安全為首要考慮，慢慢建立學生自信及舞台感。"
+        mode:"面授為主，可視像教學",
+        targetLevels:["中學","大專","成人興趣"],
+        experience:"專教自彈自唱，擅長幫學生改編適合自己音域的 key 同編曲。",
+        qualification:"流行音樂課程畢業，多年街頭表演及婚禮演出經驗",
+        timeSlots:"二四 晚上；週日 下午",
+        notes:"主打流行歌自彈自唱，同學生一齊揀歌練習，亦會教授基本樂理，幫助之後自學。"
       },
       {
-        id:"CO-202511-005",
-        name:"Leo",
-        gender:"男教練",
-        age:27,
-        intro:"大學校隊體能教練",
-        district:"九龍城區",
-        venue:"到教練指定地方、網上教學",
-        sports:["業餘健身","HYROX"],
-        mainCategory:"業餘健身、HYROX訓練",
-        postedDate:"2025/11/20",
+        id:"MU-202511-005",
+        name:"Ryan",
+        gender:"男導師",
+        years:"7 年",
+        mainCategory:"樂理導師",
+        instruments:["樂理 Music Theory"],
+        district:"網上授課",
+        areaDetail:"以網上 Zoom / Meet 上課",
         fee:450,
-        lessonsPerWeek:"2 堂 / 週",
-        hoursPerLesson:"1.5 小時 / 堂",
-        preferredTime:"二四 19:30 後",
-        notes:"適合準備 HYROX、功能性體能賽及想提升心肺能力的學生。"
+        mode:"網上小班 / 一對一",
+        targetLevels:["ABRSM Grade 5","ABRSM Grade 8"],
+        experience:"專門處理樂理考試及補底，學生整體合格率高。",
+        qualification:"音樂系碩士，已完成相關樂理師資訓練",
+        timeSlots:"平日晚上；週六 上午",
+        notes:"以歷屆試題配合重點筆記，幫學生建構系統概念，而非死背題目。"
       },
       {
-        id:"CO-202511-006",
-        name:"Mandy",
-        gender:"女教練",
-        age:24,
-        intro:"乒乓球訓練（兒童初學）",
-        district:"九龍城區",
-        venue:"體育館乒乓球室",
-        sports:["乒乓球"],
-        mainCategory:"乒乓球訓練",
-        postedDate:"2025/11/12",
+        id:"MU-202511-006",
+        name:"Zoey",
+        gender:"女導師",
+        years:"3 年",
+        mainCategory:"兒童音樂啟蒙",
+        instruments:["鋼琴 Piano","歌唱聲樂 Vocal"],
+        district:"元朗區",
+        areaDetail:"元朗 / 天水圍 上門或會所琴房",
         fee:260,
-        lessonsPerWeek:"1 堂 / 週",
-        hoursPerLesson:"1 小時 / 堂",
-        preferredTime:"一三 17:30 後；週末下午",
-        notes:"課堂氣氛輕鬆，會按學生性格調整練習節奏，避免過度壓力。"
+        mode:"面授一對一 / 小組 (2–3人)",
+        targetLevels:["幼稚園 K2–K3","小一–小三"],
+        experience:"熟悉幼兒教學，曾於幼稚園教授音樂遊戲班。",
+        qualification:"幼兒教育證書，鋼琴八級",
+        timeSlots:"平日下午；六 上午",
+        notes:"課堂以遊戲方式帶小朋友接觸節奏、音高同簡單樂器，著重建立對音樂嘅興趣。"
       }
     ];
 
@@ -1175,7 +1107,7 @@
       return await copyTextFallback(text);
     }
 
-    /* ✅ slider fill helpers (follow reference) */
+    /* ✅ slider fill helper */
     function setRangeFill(r){
       if(!r) return;
       const min = Number(r.min ?? 0);
@@ -1199,8 +1131,8 @@
     const backdrop = document.getElementById('backdrop');
     const modalClose = document.getElementById('modalClose');
     const modalAvatar = document.getElementById('modalAvatar');
-    const modalName = document.getElementById('modalName');
-    const modalCoachId = document.getElementById('modalCoachId');
+    const modalTitle = document.getElementById('modalTitle');
+    const modalSub = document.getElementById('modalSub');
     const kvBasic = document.getElementById('kv-basic');
     const kvExpect = document.getElementById('kv-expect');
     const kvNotes = document.getElementById('kv-notes');
@@ -1211,74 +1143,94 @@
     const nextPageBtn = document.getElementById('nextPage');
     const pageInfo = document.getElementById('pageInfo');
 
-    const sportBtn = document.getElementById('sportBtn');
-    const sportBackdrop = document.getElementById('sportBackdrop');
-    const sportClose = document.getElementById('sportClose');
-    const sportList = document.getElementById('sportList');
-    const sportSelAll = document.getElementById('sportSelAll');
-    const sportClrAll = document.getElementById('sportClrAll');
-    const sportSelCount = document.getElementById('sportSelCount');
-    const applySport = document.getElementById('applySport');
+    const subjectBtn = document.getElementById('subjectBtn');
+    const subjectBackdrop = document.getElementById('subjectBackdrop');
+    const subjectClose = document.getElementById('subjectClose');
+    const subjectList = document.getElementById('subjectList');
+    const subjectSelAll = document.getElementById('subjectSelAll');
+    const subjectClrAll = document.getElementById('subjectClrAll');
+    const subjectSelCount = document.getElementById('subjectSelCount');
+    const applySubject = document.getElementById('applySubject');
 
     const filterBackdrop = document.getElementById('filterBackdrop');
     const filterOpenBtn = document.getElementById('filterOpen');
     const filterCloseBtn = document.getElementById('filterClose');
     const filterApplyBtn = document.getElementById('filterApply');
     const filterPanelBody = document.getElementById('filterPanelBody');
-    const mobileSportBtn = document.getElementById('mobileSportBtn');
+    const mobileSubjectBtn = document.getElementById('mobileSubjectBtn');
     const filtersSection = document.querySelector('.filters');
-    const mobileSportRow = document.querySelector('.mobile-sport-row');
+    const mobileSubjectRow = document.querySelector('.mobile-subject-row');
     const filtersHomeParent = filtersSection.parentNode;
     const filtersHomeNextSibling = filtersSection.nextElementSibling;
 
     let currentPage = 1;
-    let data = COACHES.slice();
+    let data = TEACHERS.slice();
     let view = data.slice();
-    let openedCoach = null;
+    let openedTeacher = null;
 
-    const sportsSelected = new Set();
-    let sportDraft = null;
-    let sportsDraftInSheet = null;
-    let sportFromSheet = false;
+    const subjectsSelected = new Set();
+
+    /* ✅ Subject modal draft (only commit when pressing its apply; on mobile filter sheet, final commit happens on filter sheet apply) */
+    let subjectDraft = null;
+    let subjectModalFromSheet = false;
+
+    /* ✅ Mobile filter sheet draft for subjects (only commit when press 篩選條件「套用篩選」) */
+    let sheetSubjectsDraft = null;
 
     let filtersInSheet = false;
 
+    /* ✅ slider touched flags */
     let feeMinTouched = false;
     let feeMaxTouched = false;
 
-    let filterStateOnOpen = null;
+    /* ✅ Mobile sheet snapshot: close without apply => revert */
+    let sheetSnapshot = null;
+    let suppressSheetEvents = false;
 
     function isFilterSheetOpen(){
-      return window.innerWidth <= 560 && filterBackdrop.classList.contains('show');
+      return (window.innerWidth <= 560) && filterBackdrop.classList.contains('show');
     }
-    function captureFilterState(){
+
+    function snapshotSheetState(){
       return {
         district: districtSel.value,
-        feeBand: feeBand.value,
         feeMin: feeMin.value,
         feeMax: feeMax.value,
+        feeBand: feeBand.value,
         gender: genderFilter.value,
         feeMinTouched,
         feeMaxTouched
       };
     }
-    function restoreFilterState(st){
-      if(!st) return;
-      districtSel.value = st.district ?? '';
-      feeBand.value = st.feeBand ?? '';
-      feeMin.value = st.feeMin ?? feeMin.value;
-      feeMax.value = st.feeMax ?? feeMax.value;
-      genderFilter.value = st.gender ?? '';
 
-      feeMinTouched = !!st.feeMinTouched;
-      feeMaxTouched = !!st.feeMaxTouched;
-
+    function syncFeeLabelAndFill(){
       let min = Number(feeMin.value), max = Number(feeMax.value);
-      if(min > max){ [min, max] = [max, min]; }
+      if(min > max){
+        [min, max] = [max, min];
+        feeMin.value = String(min);
+        feeMax.value = String(max);
+      }
       feeLabel.textContent = `HK$ ${min} – ${max}`;
-
       if(feeMinTouched) setRangeFill(feeMin); else feeMin.style.setProperty('--pct','0%');
       if(feeMaxTouched) setRangeFill(feeMax); else feeMax.style.setProperty('--pct','0%');
+    }
+
+    function restoreSheetState(s){
+      if(!s) return;
+      suppressSheetEvents = true;
+
+      districtSel.value = s.district ?? '';
+      feeMin.value = String(s.feeMin ?? feeMin.value);
+      feeMax.value = String(s.feeMax ?? feeMax.value);
+      feeBand.value = s.feeBand ?? '';
+      genderFilter.value = s.gender ?? '';
+
+      feeMinTouched = !!s.feeMinTouched;
+      feeMaxTouched = !!s.feeMaxTouched;
+
+      syncFeeLabelAndFill();
+
+      suppressSheetEvents = false;
     }
 
     function initFees(){
@@ -1300,93 +1252,96 @@
       feeMax.style.setProperty('--pct','0%');
     }
 
-    function updateSportSelCount(){
-      const set = sportDraft ?? sportsSelected;
-      sportSelCount.textContent = `已選：${set.size} 種運動`;
+    function updateSubjectSelCount(){
+      subjectSelCount.textContent = `已選：${subjectDraft ? subjectDraft.size : 0} 個項目`;
     }
-    function renderSportList(){
-      const set = sportDraft ?? sportsSelected;
-      sportList.innerHTML = '';
-      SPORTS.forEach((s, i)=>{
-        const id = `sport-${i}`;
+
+    function renderSubjectList(){
+      subjectList.innerHTML = '';
+      SUBJECTS.forEach((s, i)=>{
+        const id = `subject-${i}`;
         const label = document.createElement('label');
         label.innerHTML = `<input type="checkbox" id="${id}"> <span>${esc(s)}</span>`;
         const input = label.querySelector('input');
-        input.checked = set.has(s);
+
+        input.checked = subjectDraft ? subjectDraft.has(s) : false;
+
         input.addEventListener('change', ()=>{
-          if(!sportDraft) return;
-          if(input.checked) sportDraft.add(s);
-          else sportDraft.delete(s);
-          updateSportSelCount();
+          if(!subjectDraft) return;
+          if(input.checked) subjectDraft.add(s);
+          else subjectDraft.delete(s);
+          updateSubjectSelCount();
         });
-        sportList.appendChild(label);
+
+        subjectList.appendChild(label);
       });
-      updateSportSelCount();
+      updateSubjectSelCount();
     }
 
-    function openSportModal(fromSheet=false){
-      sportFromSheet = !!fromSheet;
-      const base = sportFromSheet ? (sportsDraftInSheet ?? sportsSelected) : sportsSelected;
-      sportDraft = new Set(base);
+    function openSubjectModal(fromSheet=false){
+      subjectModalFromSheet = !!fromSheet;
 
-      renderSportList();
-      sportBackdrop.classList.add('show');
-      sportBackdrop.setAttribute('aria-hidden','false');
+      if(subjectModalFromSheet){
+        /* ✅ draft starts from sheet draft (NOT applied filters) */
+        subjectDraft = new Set(sheetSubjectsDraft || subjectsSelected);
+      } else {
+        /* ✅ desktop: draft starts from applied selection */
+        subjectDraft = new Set(subjectsSelected);
+      }
+
+      renderSubjectList();
+      subjectBackdrop.classList.add('show');
+      subjectBackdrop.setAttribute('aria-hidden','false');
       document.body.style.overflow = 'hidden';
-      sportClose.focus();
+      subjectClose.focus();
     }
 
-    function closeSportModal(applied=false){
-      if(!applied){
-        sportDraft = null;
-      }
+    function closeSubjectModal(){
+      subjectDraft = null;
+      subjectModalFromSheet = false;
 
-      sportBackdrop.classList.remove('show');
-      sportBackdrop.setAttribute('aria-hidden','true');
+      subjectBackdrop.classList.remove('show');
+      subjectBackdrop.setAttribute('aria-hidden','true');
 
-      if(sportFromSheet && window.innerWidth <= 560){
-        sportFromSheet = false;
-        resumeFilterSheetAfterSport();
-        return;
-      }
-
-      sportFromSheet = false;
-      document.body.style.overflow = '';
+      /* ✅ if filter sheet is still open, keep locked */
+      document.body.style.overflow = isFilterSheetOpen() ? 'hidden' : '';
     }
 
-    sportSelAll.addEventListener('click', ()=>{
-      if(!sportDraft) return;
-      SPORTS.forEach(s=>sportDraft.add(s));
-      renderSportList();
-    });
-    sportClrAll.addEventListener('click', ()=>{
-      if(!sportDraft) return;
-      sportDraft.clear();
-      renderSportList();
+    subjectSelAll.addEventListener('click', ()=>{
+      if(!subjectDraft) return;
+      SUBJECTS.forEach(s=>subjectDraft.add(s));
+      renderSubjectList();
     });
 
-    applySport.addEventListener('click', ()=>{
-      if(sportFromSheet){
-        sportsDraftInSheet = new Set(sportDraft || []);
-        sportDraft = null;
-        closeSportModal(true);
-        return;
+    subjectClrAll.addEventListener('click', ()=>{
+      if(!subjectDraft) return;
+      subjectDraft.clear();
+      renderSubjectList();
+    });
+
+    applySubject.addEventListener('click', ()=>{
+      if(!subjectDraft) return;
+
+      if(subjectModalFromSheet){
+        /* ✅ in 篩選 page flow: only save to sheet draft (NOT apply to list yet) */
+        sheetSubjectsDraft = new Set(subjectDraft);
+        closeSubjectModal();
+        return; /* stay in filter sheet */
       }
 
-      const next = sportDraft ? new Set(sportDraft) : new Set();
-      sportsSelected.clear();
-      next.forEach(s=>sportsSelected.add(s));
-      sportDraft = null;
+      /* ✅ desktop (or not from sheet): apply immediately */
+      subjectsSelected.clear();
+      subjectDraft.forEach(s=>subjectsSelected.add(s));
+      closeSubjectModal();
 
       currentPage = 1;
       refresh();
-      closeSportModal(true);
     });
 
-    if(sportBtn){ sportBtn.addEventListener('click', ()=> openSportModal(false)); }
-    sportClose.addEventListener('click', ()=> closeSportModal(false));
-    sportBackdrop.addEventListener('click', (e)=>{ if(e.target === sportBackdrop) closeSportModal(false); });
-    document.addEventListener('keydown', (e)=>{ if(e.key==='Escape' && sportBackdrop.classList.contains('show')) closeSportModal(false); });
+    if(subjectBtn){ subjectBtn.addEventListener('click', ()=>openSubjectModal(false)); }
+    subjectClose.addEventListener('click', closeSubjectModal);
+    subjectBackdrop.addEventListener('click', (e)=>{ if(e.target === subjectBackdrop) closeSubjectModal(); });
+    document.addEventListener('keydown', (e)=>{ if(e.key==='Escape' && subjectBackdrop.classList.contains('show')) closeSubjectModal(); });
 
     function passesFee(c){
       const fee = Number(c.fee ?? 0);
@@ -1413,7 +1368,6 @@
 
       return fee >= min && fee <= max;
     }
-
     function passesDistrict(c){
       const d = districtSel.value;
       if(!d) return true;
@@ -1424,22 +1378,21 @@
       if(!g) return true;
       return (c.gender || '') === g;
     }
-    function passesSports(c){
-      if(sportsSelected.size === 0) return true;
-      if(!Array.isArray(c.sports) || c.sports.length===0) return false;
-      return c.sports.some(s=>sportsSelected.has(s));
+    function passesSubjects(c){
+      if(subjectsSelected.size === 0) return true;
+      if(!Array.isArray(c.instruments) || c.instruments.length===0) return false;
+      return c.instruments.some(s=>subjectsSelected.has(s));
     }
     function passesKeyword(c){
       const k = q.value.trim().toLowerCase();
       if(!k) return true;
       const hay = [
-        c.id, c.name, c.gender, c.age, c.intro,
-        ...(c.sports||[]),
-        c.district, c.venue,
-        c.mainCategory,
-        c.fee, c.lessonsPerWeek, c.hoursPerLesson, c.preferredTime,
-        c.postedDate,
-        c.notes
+        c.id, c.name, c.gender, c.years, c.mainCategory,
+        ...(c.instruments||[]),
+        c.district, c.areaDetail, c.mode,
+        ...(c.targetLevels||[]),
+        c.experience, c.qualification, c.timeSlots, c.notes,
+        (c.fee ?? "") + ""
       ].join(' ').toLowerCase();
       return hay.includes(k);
     }
@@ -1453,7 +1406,7 @@
         passesFee(c) &&
         passesDistrict(c) &&
         passesGender(c) &&
-        passesSports(c) &&
+        passesSubjects(c) &&
         passesKeyword(c) &&
         passesId(c)
       );
@@ -1474,7 +1427,7 @@
       if(pageSlice.length === 0){
         const empty = document.createElement('div');
         empty.className = 'empty';
-        empty.textContent = '找不到符合條件的教練。請調整篩選或清除搜尋。';
+        empty.textContent = '找不到符合條件的導師。請調整篩選或清除搜尋。';
         grid.appendChild(empty);
       } else {
         for(const c of pageSlice){
@@ -1488,8 +1441,8 @@
             <div class="top">
               <div class="avatar" style="background:${avatarColor};" aria-hidden="true">${initials}</div>
               <div class="who">
-                <div class="name">${esc(c.name)}　<small style="color: rgba(226,232,240,.78)">${esc(c.gender || '')}</small></div>
-                <div class="muted">教練編號：${esc(c.id || '-') }</div>
+                <div class="name">${esc(c.name)}　<small style="color:#334155">${esc(c.gender || '')}</small></div>
+                <div class="muted">導師編號：${esc(c.id || '-') }</div>
               </div>
             </div>
 
@@ -1497,7 +1450,7 @@
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
                 <path d="M3 11h18M6 7h12M6 15h12M5 21l2-6m10 6l2-6" stroke="#3b82f6" stroke-width="1.4" stroke-linecap="round"/>
               </svg>
-              <span>${esc((c.sports||[]).join('、') || '—')}</span>
+              <span>${esc((c.instruments||[]).join('、') || '—')}</span>
             </div>
 
             <div class="row">
@@ -1512,18 +1465,20 @@
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
                 <path d="M4 7h16M4 12h16M4 17h10" stroke="#3b82f6" stroke-width="1.4"/>
               </svg>
-              <span>${esc(c.venue || '—')}</span>
+              <span>${esc(c.mode || '—')}</span>
             </div>
 
             <div class="tags">
               <span class="tag">${esc(c.mainCategory || '—')}</span>
+              ${(c.targetLevels && c.targetLevels.length)
+                ? `<span class="tag">對象：${esc(c.targetLevels.join('、'))}</span>` : ''}
               <span class="tag">學費：HK$ ${esc(c.fee ?? '—')}/小時</span>
             </div>
 
             ${c.notes ? `<p class="note">${esc(c.notes)}</p>`:''}
 
             <div class="foot">
-              <span>點擊查看完整教練資料</span>
+              <span>點擊查看完整導師資料</span>
               <span class="budget">${(c.fee || c.fee===0) ? `HK$ ${esc(c.fee)}/小時` : '面議'}</span>
             </div>
           `;
@@ -1535,7 +1490,7 @@
 
       const shownFrom = total === 0 ? 0 : (start + 1);
       const shownTo = end;
-      countEl.textContent = `符合 ${total} 位教練　·　顯示第 ${shownFrom}–${shownTo} 位`;
+      countEl.textContent = `符合 ${total} 位導師　·　顯示第 ${shownFrom}–${shownTo} 位`;
 
       pageInfo.textContent = `第 ${currentPage} / ${Math.max(1, Math.ceil(total / PAGE_SIZE))} 頁`;
       grid.removeAttribute('aria-busy');
@@ -1547,39 +1502,37 @@
     }
 
     function openProfile(c){
-      openedCoach = c;
+      openedTeacher = c;
       modalAvatar.style.background = colorFromName(c.name||'?');
       modalAvatar.textContent = (c.name||'?').slice(0,2);
 
-      modalName.textContent = `${c.name ?? '—'}`;
-      modalCoachId.textContent = `教練編號：${c.id ?? '—'}`;
+      modalTitle.textContent = `${c.name ?? '—'}`;
+      modalSub.textContent = `導師編號：${c.id ?? '—'}`;
 
       kvBasic.innerHTML = `
-        <b>教練年齡</b><div>${esc((c.age || c.age===0) ? (c.age + ' 歲') : '—')}</div>
-        <b>教練 / 課程簡介</b><div>${esc(c.intro ?? '—')}</div>
-        <b>期望授課地區</b><div>${esc(c.district ?? '—')}</div>
-        <b>場地安排</b><div>${esc(c.venue ?? '—')}</div>
-        <b>課程種類</b><div>${esc(c.mainCategory ?? '—')}</div>
-        <b>張貼日期</b><div>${esc(c.postedDate ?? '—')}</div>
+        <b>教學年資</b><div>${esc(c.years ?? '—')}</div>
+        <b>樂器 / 項目</b><div>${esc((c.instruments||[]).join('、') || '—')}</div>
+        <b>服務地區</b><div>${esc(c.district ?? '—')}｜${esc(c.areaDetail ?? '')}</div>
+        <b>授課模式</b><div>${esc(c.mode ?? '—')}</div>
       `;
-
       kvExpect.innerHTML = `
-        <b>學費</b><div>HK$ ${esc(c.fee ?? '—')} / 小時</div>
-        <b>每週堂數</b><div>${esc(c.lessonsPerWeek ?? '—')}</div>
-        <b>每堂時數</b><div>${esc(c.hoursPerLesson ?? '—')}</div>
-        <b>期望時段</b><div>${esc(c.preferredTime ?? '—')}</div>
+        <b>時薪</b><div>HK$ ${esc(c.fee ?? '—')} / 小時</div>
+        <b>主要對象</b><div>${esc((c.targetLevels||[]).join('、') || '—')}</div>
+        <b>教學經驗</b><div>${esc(c.experience ?? '—')}</div>
+        <b>學歷 / 資格</b><div>${esc(c.qualification ?? '—')}</div>
+        <b>可授課時間</b><div>${esc(c.timeSlots ?? '—')}</div>
       `;
-
       kvNotes.textContent = c.notes || '—';
 
-      copyIdBtn.textContent = '複製教練編號';
+      copyIdBtn.textContent = '複製導師編號';
+
       backdrop.classList.add('show');
       backdrop.setAttribute('aria-hidden','false');
       document.body.style.overflow = 'hidden';
       modalClose.focus();
     }
     function closeProfile(){
-      openedCoach = null;
+      openedTeacher = null;
       backdrop.classList.remove('show');
       backdrop.setAttribute('aria-hidden','true');
       document.body.style.overflow = '';
@@ -1589,15 +1542,15 @@
     document.addEventListener('keydown', (e)=>{ if(e.key==='Escape' && backdrop.classList.contains('show')) closeProfile(); });
 
     copyIdBtn.addEventListener('click', async ()=>{
-      if(!openedCoach) return;
-      const text = openedCoach.id || '';
+      if(!openedTeacher) return;
+      const text = openedTeacher.id || '';
       const ok = await copyToClipboard(text);
       copyIdBtn.textContent = ok ? '已複製！' : '複製失敗，請手動';
     });
 
     function moveFiltersToSheet(){
       if(filtersInSheet) return;
-      filterPanelBody.insertBefore(filtersSection, mobileSportRow);
+      filterPanelBody.insertBefore(filtersSection, mobileSubjectRow);
       filtersInSheet = true;
     }
     function restoreFiltersHome(){
@@ -1612,20 +1565,13 @@
 
     function openFilterSheet(){
       if(window.innerWidth > 560) return;
-      filterStateOnOpen = captureFilterState();
-      sportsDraftInSheet = new Set(sportsSelected);
-      moveFiltersToSheet();
-      filterBackdrop.classList.add('show');
-      filterBackdrop.setAttribute('aria-hidden','false');
-      document.body.style.overflow = 'hidden';
-    }
 
-    function suspendFilterSheetForSport(){
-      filterBackdrop.classList.remove('show');
-      filterBackdrop.setAttribute('aria-hidden','true');
-    }
-    function resumeFilterSheetAfterSport(){
-      if(window.innerWidth > 560) return;
+      /* ✅ snapshot applied state when opening sheet */
+      sheetSnapshot = snapshotSheetState();
+
+      /* ✅ start sheet subject draft from applied state */
+      sheetSubjectsDraft = new Set(subjectsSelected);
+
       moveFiltersToSheet();
       filterBackdrop.classList.add('show');
       filterBackdrop.setAttribute('aria-hidden','false');
@@ -1633,31 +1579,32 @@
     }
 
     function closeFilterSheet(applied=false){
-      if(!applied){
-        restoreFilterState(filterStateOnOpen);
-        sportsDraftInSheet = null;
-      } else {
-        sportsDraftInSheet = null;
-      }
-      filterStateOnOpen = null;
+      if(window.innerWidth > 560){ restoreFiltersHome(); }
 
-      if(window.innerWidth > 560){
-        restoreFiltersHome();
+      /* ✅ if not applied, revert UI to snapshot and discard drafts */
+      if(!applied){
+        restoreSheetState(sheetSnapshot);
+        sheetSubjectsDraft = null;
       }
+
+      sheetSnapshot = null;
+
       filterBackdrop.classList.remove('show');
       filterBackdrop.setAttribute('aria-hidden','true');
       document.body.style.overflow = '';
     }
 
     if(filterOpenBtn){ filterOpenBtn.addEventListener('click', openFilterSheet); }
-    if(filterCloseBtn){ filterCloseBtn.addEventListener('click', ()=> closeFilterSheet(false)); }
+    if(filterCloseBtn){ filterCloseBtn.addEventListener('click', ()=>closeFilterSheet(false)); }
 
     if(filterApplyBtn){
       filterApplyBtn.addEventListener('click', ()=>{
-        if(sportsDraftInSheet){
-          sportsSelected.clear();
-          sportsDraftInSheet.forEach(s=>sportsSelected.add(s));
+        /* ✅ apply subject draft ONLY here */
+        if(sheetSubjectsDraft){
+          subjectsSelected.clear();
+          sheetSubjectsDraft.forEach(s=>subjectsSelected.add(s));
         }
+
         currentPage = 1;
         refresh();
         closeFilterSheet(true);
@@ -1670,26 +1617,26 @@
       });
     }
 
-    if(mobileSportBtn){
-      mobileSportBtn.addEventListener('click', ()=>{
-        suspendFilterSheetForSport();
-        openSportModal(true);
+    /* ✅ ESC closes filter sheet without applying */
+    document.addEventListener('keydown', (e)=>{
+      if(e.key==='Escape' && isFilterSheetOpen() && !subjectBackdrop.classList.contains('show') && !backdrop.classList.contains('show')){
+        closeFilterSheet(false);
+      }
+    });
+
+    if(mobileSubjectBtn){
+      mobileSubjectBtn.addEventListener('click', ()=>{
+        /* ✅ open subject modal INSIDE sheet flow (covers 篩選條件) */
+        openSubjectModal(true);
       });
     }
 
     window.addEventListener('resize', ()=>{
-      if(window.innerWidth > 560){
-        if(filterBackdrop.classList.contains('show') && filterStateOnOpen){
-          restoreFilterState(filterStateOnOpen);
-          filterStateOnOpen = null;
-          sportsDraftInSheet = null;
-        }
-        if(filtersInSheet){
-          restoreFiltersHome();
-          filterBackdrop.classList.remove('show');
-          filterBackdrop.setAttribute('aria-hidden','true');
-          document.body.style.overflow = '';
-        }
+      if(window.innerWidth > 560 && filtersInSheet){
+        restoreFiltersHome();
+        filterBackdrop.classList.remove('show');
+        filterBackdrop.setAttribute('aria-hidden','true');
+        document.body.style.overflow = '';
       }
     });
 
@@ -1703,8 +1650,8 @@
     document.getElementById('resetAll').addEventListener('click', ()=>{
       q.value = ''; idq.value = ''; districtSel.value = '';
       genderFilter.value = '';
-      sportsSelected.clear();
-      sportsDraftInSheet = null;
+      subjectsSelected.clear();
+      sheetSubjectsDraft = null; /* keep clean */
       initFees();
       currentPage = 1;
       refresh();
@@ -1714,33 +1661,39 @@
     idq.addEventListener('input', ()=>{ currentPage=1; refresh(); });
 
     districtSel.addEventListener('change', ()=>{
-      if(isFilterSheetOpen()) return;
+      if(suppressSheetEvents) return;
+      if(isFilterSheetOpen()) return; /* ✅ only apply when press 篩選條件「套用篩選」 */
       currentPage=1; refresh();
     });
 
     feeMin.addEventListener('input', ()=>{
       feeMinTouched = true;
       setRangeFill(feeMin);
-      const a = Number(feeMin.value), b = Number(feeMax.value);
-      feeLabel.textContent = `HK$ ${Math.min(a,b)} – ${Math.max(a,b)}`;
-      if(isFilterSheetOpen()) return;
+      syncFeeLabelAndFill();
+
+      if(suppressSheetEvents) return;
+      if(isFilterSheetOpen()) return; /* ✅ only apply when press 篩選條件「套用篩選」 */
       currentPage=1; refresh();
     });
     feeMax.addEventListener('input', ()=>{
       feeMaxTouched = true;
       setRangeFill(feeMax);
-      const a = Number(feeMin.value), b = Number(feeMax.value);
-      feeLabel.textContent = `HK$ ${Math.min(a,b)} – ${Math.max(a,b)}`;
-      if(isFilterSheetOpen()) return;
+      syncFeeLabelAndFill();
+
+      if(suppressSheetEvents) return;
+      if(isFilterSheetOpen()) return; /* ✅ only apply when press 篩選條件「套用篩選」 */
       currentPage=1; refresh();
     });
 
     feeBand.addEventListener('change', ()=>{
-      if(isFilterSheetOpen()) return;
+      if(suppressSheetEvents) return;
+      if(isFilterSheetOpen()) return; /* ✅ only apply when press 篩選條件「套用篩選」 */
       currentPage=1; refresh();
     });
+
     genderFilter.addEventListener('change', ()=>{
-      if(isFilterSheetOpen()) return;
+      if(suppressSheetEvents) return;
+      if(isFilterSheetOpen()) return; /* ✅ only apply when press 篩選條件「套用篩選」 */
       currentPage=1; refresh();
     });
 
