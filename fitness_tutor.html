@@ -19,7 +19,58 @@
       --tagBorder: #bae6fd;
       --tagText: #075985;
     }
-    *{box-sizing:border-box}
+
+    /* =========================================================
+       ✅ NEW: Cross-browser consistency patch (KEEP YOUR DESIGN)
+       - Fix Safari/Firefox button rendering differences
+       - Fix tap highlight / default focus styles
+       - Keep your original design exactly the same
+       ========================================================= */
+
+    /* Keep your original box-sizing, but strengthen it */
+    *, *::before, *::after { box-sizing:border-box; }
+
+    /* Form controls should use the same font everywhere */
+    button, input, select, textarea{
+      font-family: inherit;
+      font-size: inherit;
+      letter-spacing: inherit;
+    }
+
+    /* Remove Safari native button styling differences (but keep your .btn styles) */
+    button,
+    [type="button"],
+    [type="submit"],
+    [type="reset"]{
+      -webkit-appearance: none;
+      appearance: none;
+    }
+
+    /* Firefox inner padding fix */
+    button::-moz-focus-inner{
+      border: 0;
+      padding: 0;
+    }
+
+    /* Remove iOS tap highlight glow */
+    a, button, input, select, textarea{
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    /* Make focus ring consistent (keyboard users) */
+    :focus-visible{
+      outline: 3px solid rgba(167,139,250,.55);
+      outline-offset: 2px;
+    }
+
+    /* Stop iOS Safari input zooming */
+    @media (max-width:560px){
+      input, select, textarea{
+        font-size:16px;
+      }
+    }
+    /* ========================================================= */
+
     html,body{height:100%}
     body{
       margin:0; color:var(--text);
@@ -60,6 +111,15 @@
       background:#EDE9FE; /* ✅ pale purple button */
       color:#0f172a;
       cursor:pointer;
+
+      /* ✅ NEW: keep consistent button height across Safari/Firefox */
+      line-height:1;
+      min-height:40px;
+      font-weight:600;
+      user-select:none;
+      -webkit-user-select:none;
+      touch-action: manipulation;
+
       transition: transform .06s ease, border-color .2s, background .2s;
       box-shadow:var(--shadow);
       white-space:nowrap;
@@ -76,7 +136,7 @@
       width:16px; height:16px;
       margin-right:6px;
     }
-    .filter-icon svg{width:100%; height:100%;}
+    .filter-icon svg{width:100%; height:100%; display:block;}
 
     /* ✅ ONLY changed: main toolbar buttons (desktop + mobile) to your requested colours */
     #typeBtn, #shuffle, #resetAll, #filterOpen{
@@ -275,7 +335,7 @@
     .card .who .name small{ color:#FFFFFF !important; }
 
     .row{display:flex; align-items:center; gap:8px; margin:8px 0; color: rgba(226,232,240,.92); font-size:14px}
-    .row svg{opacity:.95}
+    .row svg{opacity:.95; display:block;}
     .card .row svg path{ stroke: #a78bfa !important; }
     .card .row svg circle{ fill: #a78bfa !important; }
 
@@ -346,6 +406,13 @@
       align-items:center;
       justify-content:center;
       box-shadow:var(--shadow);
+
+      /* ✅ NEW: consistent */
+      line-height:1;
+      font-weight:700;
+      user-select:none;
+      -webkit-user-select:none;
+
       transition:background .15s ease, transform .06s ease, box-shadow .15s ease;
       white-space:nowrap;
     }
@@ -372,6 +439,7 @@
       position:absolute;
       top:14px;
       right:18px;
+      line-height:1;
     }
     .modal header .apply-btn{
       margin-right:40px;
@@ -406,6 +474,13 @@
       background:#ffffff; color:#0f172a;
       padding:8px 10px; border-radius:10px;
       box-shadow:var(--shadow);
+
+      /* ✅ NEW: consistent */
+      line-height:1;
+      font-weight:600;
+      min-height:36px;
+      user-select:none;
+      -webkit-user-select:none;
     }
     .copy:hover{border-color:#93c5fd; background:#f0f9ff}
     @media (max-width:560px){
@@ -432,6 +507,13 @@
       cursor:pointer;
       font-size:14px;
       line-height:1;
+
+      /* ✅ NEW: consistent */
+      min-height:40px;
+      font-weight:600;
+      user-select:none;
+      -webkit-user-select:none;
+      touch-action: manipulation;
     }
     .pagebtn[disabled]{opacity:.5; cursor:not-allowed}
     .pageinfo{
@@ -513,6 +595,15 @@
       cursor:pointer;
       white-space:nowrap;
       box-shadow:var(--shadow);
+
+      /* ✅ NEW: consistent */
+      line-height:1;
+      min-height:40px;
+      font-weight:600;
+      user-select:none;
+      -webkit-user-select:none;
+      touch-action: manipulation;
+
       transition: transform .06s ease, border-color .2s, background .2s;
     }
     .filter-apply-btn:hover{ background:#DDD6FE; border-color:#C4B5FD; }
@@ -524,6 +615,7 @@
       font-size:24px;
       cursor:pointer;
       color:#0f172a;
+      line-height:1;
     }
     .filter-body{ padding:4px 18px 14px; }
 
@@ -584,6 +676,11 @@
         text-align:left;
         box-shadow:var(--shadow);
         font-size:14px;
+
+        /* ✅ NEW: consistent */
+        line-height:1;
+        min-height:40px;
+        font-weight:600;
       }
       #filterBackdrop #mobileTypeBtn:hover{
         background:#F8FAFC;
