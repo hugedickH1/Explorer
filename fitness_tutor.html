@@ -3,9 +3,13 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <!-- ✅ FIX: prevent browsers doing auto text scaling / random form theming -->
+  <meta name="color-scheme" content="dark light">
+
   <title>學生尋找導師 (健身、瑜珈及普拉提) </title>
 
-  <!-- ✅ ADDED (consistency): Force same font across devices -->
+  <!-- ✅ FIX: load SAME font everywhere (this is the #1 reason layouts differ) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;600;700;900&display=swap" rel="stylesheet">
@@ -26,7 +30,7 @@
       --tagText: #075985;
     }
 
-    /* ✅ ADDED (consistency): prevent iOS/Safari auto text resizing */
+    /* ✅ FIX: cross-device text scaling stability */
     html{
       -webkit-text-size-adjust: 100%;
       text-size-adjust: 100%;
@@ -35,27 +39,52 @@
     *{box-sizing:border-box}
     html,body{height:100%}
 
-    /* ✅ ADDED (consistency): make all controls use the same font everywhere */
-    button, input, select, textarea{
-      font-family: inherit;
-      font-size: inherit;
-    }
-
-    /* ✅ ADDED (consistency): remove different search decorations in Safari/Chrome */
-    input[type="search"]::-webkit-search-decoration,
-    input[type="search"]::-webkit-search-cancel-button,
-    input[type="search"]::-webkit-search-results-button,
-    input[type="search"]::-webkit-search-results-decoration{
-      display:none;
-    }
-
     body{
       margin:0; color:var(--text);
       font-family: ui-sans-serif, -apple-system, "Noto Sans TC", system-ui, "PingFang TC", "Microsoft JhengHei", Segoe UI, Roboto, Helvetica, Arial, sans-serif;
       background: var(--bg); /* ✅ ONLY changed: black */
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
+      padding-bottom: env(safe-area-inset-bottom); /* ✅ FIX: iPhone safe area */
     }
+
+    /* ✅ FIX: make form controls look identical across iOS/Android/Windows */
+    button, input, select, textarea{
+      font-family: inherit;
+      font-size: 14px;
+    }
+    button{
+      -webkit-appearance: none;
+      appearance: none;
+      background-image: none;
+    }
+    button::-moz-focus-inner{ border:0; padding:0; }
+
+    select, input[type="search"], input[type="text"]{
+      -webkit-appearance:none;
+      appearance:none;
+      border-radius:12px;
+    }
+
+    /* ✅ FIX: consistent select arrow (some devices hide/change it) */
+    select{
+      padding-right:36px;
+      background-image:
+        linear-gradient(45deg, transparent 50%, #0f172a 50%),
+        linear-gradient(135deg, #0f172a 50%, transparent 50%);
+      background-position:
+        calc(100% - 18px) calc(50% - 3px),
+        calc(100% - 13px) calc(50% - 3px);
+      background-size:5px 5px,5px 5px;
+      background-repeat:no-repeat;
+    }
+
+    /* ✅ FIX: remove iOS search decorations causing padding mismatch */
+    input[type="search"]::-webkit-search-decoration,
+    input[type="search"]::-webkit-search-cancel-button{
+      -webkit-appearance:none;
+    }
+
     .container{max-width:1200px; margin:26px auto 80px; padding:0 20px;}
 
     header{
@@ -92,7 +121,8 @@
       box-shadow:var(--shadow);
       white-space:nowrap;
       font-size:14px;
-      -webkit-tap-highlight-color: transparent; /* ✅ ADDED (consistency) */
+      line-height:1;
+      -webkit-tap-highlight-color: transparent; /* ✅ FIX */
     }
     .btn:hover{ border-color:#C4B5FD; background:#DDD6FE }
     .btn:active{ transform: scale(.98);}
@@ -155,15 +185,8 @@
       outline:none;
       transition:border-color .2s, box-shadow .2s;
       font-size:14px;
+      line-height:1.2;
     }
-
-    /* ✅ ADDED (consistency): iOS Safari prevents input zoom (font >=16 on iOS only) */
-    @supports (-webkit-touch-callout: none){
-      select, input[type="search"], input[type="text"]{
-        font-size:16px;
-      }
-    }
-
     select:focus, input:focus{
       border-color: var(--accent);
       box-shadow:0 0 0 3px rgba(14,165,233,.18)
@@ -188,6 +211,7 @@
       --fill: #EDE9FE;
       /* default (before user touches) will be forced to 0% by JS */
       --pct: 0%;
+      touch-action: manipulation; /* ✅ FIX */
     }
 
     /* ✅ ONLY changed: bar more solid (track) */
@@ -361,16 +385,19 @@
       max-width:1100px;
       width:calc(100% - 40px);
 
-      /* ✅ ADDED (consistency): iOS dynamic viewport safe */
-      max-height:calc(100vh - 40px);
+      /* ✅ FIX: iPhone Safari uses dynamic viewport height */
       max-height:calc(100dvh - 40px);
-
       margin:20px;
+
       background:#ffffff;
       border:1px solid var(--ring);
       border-radius:22px;
       box-shadow:0 25px 70px rgba(0,0,0,.20);
       overflow:auto;
+      -webkit-overflow-scrolling: touch; /* ✅ FIX */
+    }
+    @supports not (height: 100dvh){
+      .modal{ max-height:calc(100vh - 40px); }
     }
 
     /* ===== 立即申請！ ===== */
@@ -389,7 +416,6 @@
       box-shadow:var(--shadow);
       transition:background .15s ease, transform .06s ease, box-shadow .15s ease;
       white-space:nowrap;
-      -webkit-tap-highlight-color: transparent; /* ✅ ADDED (consistency) */
     }
     .apply-btn:hover{background:#16a34a;}
     .apply-btn:active{
@@ -414,7 +440,6 @@
       position:absolute;
       top:14px;
       right:18px;
-      -webkit-tap-highlight-color: transparent; /* ✅ ADDED (consistency) */
     }
     .modal header .apply-btn{
       margin-right:40px;
@@ -449,7 +474,6 @@
       background:#ffffff; color:#0f172a;
       padding:8px 10px; border-radius:10px;
       box-shadow:var(--shadow);
-      -webkit-tap-highlight-color: transparent; /* ✅ ADDED (consistency) */
     }
     .copy:hover{border-color:#93c5fd; background:#f0f9ff}
     @media (max-width:560px){
@@ -476,7 +500,6 @@
       cursor:pointer;
       font-size:14px;
       line-height:1;
-      -webkit-tap-highlight-color: transparent; /* ✅ ADDED (consistency) */
     }
     .pagebtn[disabled]{opacity:.5; cursor:not-allowed}
     .pageinfo{
@@ -559,7 +582,6 @@
       white-space:nowrap;
       box-shadow:var(--shadow);
       transition: transform .06s ease, border-color .2s, background .2s;
-      -webkit-tap-highlight-color: transparent; /* ✅ ADDED (consistency) */
     }
     .filter-apply-btn:hover{ background:#DDD6FE; border-color:#C4B5FD; }
     .filter-apply-btn:active{ transform: scale(.98); }
@@ -570,7 +592,6 @@
       font-size:24px;
       cursor:pointer;
       color:#0f172a;
-      -webkit-tap-highlight-color: transparent; /* ✅ ADDED (consistency) */
     }
     .filter-body{ padding:4px 18px 14px; }
 
@@ -872,6 +893,7 @@
     }
   </style>
 </head>
+
 <body>
   <div class="container">
 
