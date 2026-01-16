@@ -4,6 +4,12 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>學生尋找導師 (健身、瑜珈及普拉提) </title>
+
+  <!-- ✅ ADDED (consistency): Force same font across devices -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;600;700;900&display=swap" rel="stylesheet">
+
   <style>
     :root{
       --bg: #000000; /* ✅ ONLY changed: background to black */
@@ -19,8 +25,30 @@
       --tagBorder: #bae6fd;
       --tagText: #075985;
     }
+
+    /* ✅ ADDED (consistency): prevent iOS/Safari auto text resizing */
+    html{
+      -webkit-text-size-adjust: 100%;
+      text-size-adjust: 100%;
+    }
+
     *{box-sizing:border-box}
     html,body{height:100%}
+
+    /* ✅ ADDED (consistency): make all controls use the same font everywhere */
+    button, input, select, textarea{
+      font-family: inherit;
+      font-size: inherit;
+    }
+
+    /* ✅ ADDED (consistency): remove different search decorations in Safari/Chrome */
+    input[type="search"]::-webkit-search-decoration,
+    input[type="search"]::-webkit-search-cancel-button,
+    input[type="search"]::-webkit-search-results-button,
+    input[type="search"]::-webkit-search-results-decoration{
+      display:none;
+    }
+
     body{
       margin:0; color:var(--text);
       font-family: ui-sans-serif, -apple-system, "Noto Sans TC", system-ui, "PingFang TC", "Microsoft JhengHei", Segoe UI, Roboto, Helvetica, Arial, sans-serif;
@@ -64,6 +92,7 @@
       box-shadow:var(--shadow);
       white-space:nowrap;
       font-size:14px;
+      -webkit-tap-highlight-color: transparent; /* ✅ ADDED (consistency) */
     }
     .btn:hover{ border-color:#C4B5FD; background:#DDD6FE }
     .btn:active{ transform: scale(.98);}
@@ -127,6 +156,14 @@
       transition:border-color .2s, box-shadow .2s;
       font-size:14px;
     }
+
+    /* ✅ ADDED (consistency): iOS Safari prevents input zoom (font >=16 on iOS only) */
+    @supports (-webkit-touch-callout: none){
+      select, input[type="search"], input[type="text"]{
+        font-size:16px;
+      }
+    }
+
     select:focus, input:focus{
       border-color: var(--accent);
       box-shadow:0 0 0 3px rgba(14,165,233,.18)
@@ -323,7 +360,11 @@
       position:relative;
       max-width:1100px;
       width:calc(100% - 40px);
+
+      /* ✅ ADDED (consistency): iOS dynamic viewport safe */
       max-height:calc(100vh - 40px);
+      max-height:calc(100dvh - 40px);
+
       margin:20px;
       background:#ffffff;
       border:1px solid var(--ring);
@@ -348,6 +389,7 @@
       box-shadow:var(--shadow);
       transition:background .15s ease, transform .06s ease, box-shadow .15s ease;
       white-space:nowrap;
+      -webkit-tap-highlight-color: transparent; /* ✅ ADDED (consistency) */
     }
     .apply-btn:hover{background:#16a34a;}
     .apply-btn:active{
@@ -372,6 +414,7 @@
       position:absolute;
       top:14px;
       right:18px;
+      -webkit-tap-highlight-color: transparent; /* ✅ ADDED (consistency) */
     }
     .modal header .apply-btn{
       margin-right:40px;
@@ -406,6 +449,7 @@
       background:#ffffff; color:#0f172a;
       padding:8px 10px; border-radius:10px;
       box-shadow:var(--shadow);
+      -webkit-tap-highlight-color: transparent; /* ✅ ADDED (consistency) */
     }
     .copy:hover{border-color:#93c5fd; background:#f0f9ff}
     @media (max-width:560px){
@@ -432,6 +476,7 @@
       cursor:pointer;
       font-size:14px;
       line-height:1;
+      -webkit-tap-highlight-color: transparent; /* ✅ ADDED (consistency) */
     }
     .pagebtn[disabled]{opacity:.5; cursor:not-allowed}
     .pageinfo{
@@ -514,6 +559,7 @@
       white-space:nowrap;
       box-shadow:var(--shadow);
       transition: transform .06s ease, border-color .2s, background .2s;
+      -webkit-tap-highlight-color: transparent; /* ✅ ADDED (consistency) */
     }
     .filter-apply-btn:hover{ background:#DDD6FE; border-color:#C4B5FD; }
     .filter-apply-btn:active{ transform: scale(.98); }
@@ -524,6 +570,7 @@
       font-size:24px;
       cursor:pointer;
       color:#0f172a;
+      -webkit-tap-highlight-color: transparent; /* ✅ ADDED (consistency) */
     }
     .filter-body{ padding:4px 18px 14px; }
 
@@ -1290,20 +1337,13 @@
     renderTypeList();
     typeClose.focus();
   }
-
-  // ✅ UPDATED: closeTypeModal can return to mobile filter sheet (and discard draft)
-  function closeTypeModal({ returnToFilter = false } = {}){
+  function closeTypeModal(){
     // discard draft if not applied
     typesDraft = null;
 
     typeBackdrop.classList.remove('show');
     typeBackdrop.setAttribute('aria-hidden','true');
     document.body.style.overflow = '';
-
-    // ✅ if opened from mobile filter sheet, return to it
-    if(returnToFilter && isMobile()){
-      openFilterSheet();
-    }
   }
 
   typeSelAll.addEventListener('click', ()=>{
@@ -1317,20 +1357,23 @@
     renderTypeList();
   });
 
-  // ✅ UPDATED: apply -> commit only when pressed, then optionally return to filter sheet
   applyType.addEventListener('click', ()=>{
     // commit draft -> applied ONLY when pressed
     if(typesDraft){
       typesSelected.clear();
       typesDraft.forEach(t=>typesSelected.add(t));
     }
-
     currentPage = 1;
     refresh();
+    closeTypeModal();
 
-    const backToFilter = typeOpenedFromFilter; // remember origin
-    typeOpenedFromFilter = false;
-    closeTypeModal({ returnToFilter: backToFilter });
+    // phone: after apply types, return to 篩選條件 (filter sheet) if opened from there
+    if(typeOpenedFromFilter && isMobile()){
+      typeOpenedFromFilter = false;
+      openFilterSheet();
+    }else{
+      typeOpenedFromFilter = false;
+    }
   });
 
   // ===== Mobile filter sheet =====
@@ -1406,13 +1449,6 @@
     });
   }
 
-  // ✅ (optional but useful): ESC closes mobile filter sheet and cancels draft
-  document.addEventListener('keydown', e=>{
-    if(e.key === 'Escape' && filterBackdrop.classList.contains('show')){
-      closeFilterSheet(true);
-    }
-  });
-
   window.addEventListener('resize', ()=>{
     if(window.innerWidth > 560 && filtersInSheet){
       cancelMobileDraft();
@@ -1422,27 +1458,6 @@
       filterBackdrop.classList.remove('show');
       filterBackdrop.setAttribute('aria-hidden','true');
       document.body.style.overflow = '';
-    }
-  });
-
-  // ✅ UPDATED: close events for type modal (X / click outside / ESC) -> discard draft and return to filter sheet if needed
-  typeClose.addEventListener('click', ()=>{
-    const backToFilter = typeOpenedFromFilter;
-    typeOpenedFromFilter = false;
-    closeTypeModal({ returnToFilter: backToFilter });
-  });
-  typeBackdrop.addEventListener('click', e=>{
-    if(e.target === typeBackdrop){
-      const backToFilter = typeOpenedFromFilter;
-      typeOpenedFromFilter = false;
-      closeTypeModal({ returnToFilter: backToFilter });
-    }
-  });
-  document.addEventListener('keydown', e=>{
-    if(e.key === 'Escape' && typeBackdrop.classList.contains('show')){
-      const backToFilter = typeOpenedFromFilter;
-      typeOpenedFromFilter = false;
-      closeTypeModal({ returnToFilter: backToFilter });
     }
   });
 
@@ -1813,8 +1828,14 @@
     }
   });
 
-  // Desktop type button (will be hidden on mobile)
   typeBtn.addEventListener('click', openTypeModal);
+  typeClose.addEventListener('click', closeTypeModal);
+  typeBackdrop.addEventListener('click', e=>{
+    if(e.target === typeBackdrop) closeTypeModal();
+  });
+  document.addEventListener('keydown', e=>{
+    if(e.key === 'Escape' && typeBackdrop.classList.contains('show')) closeTypeModal();
+  });
 
   function refresh(){
     view = applyFilters();
