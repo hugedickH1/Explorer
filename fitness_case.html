@@ -2,8 +2,14 @@
 <html lang="zh-Hant">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <title>學生招聘個案 (健身，瑜珈及普拉提)</title>
+
+  <!-- ✅ Cross-platform font lock (prevents different font rendering across devices) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;600;700;900&display=swap" rel="stylesheet">
+
   <style>
     :root{
       /* ✅ CHANGED: follow your reference dark theme + format 100% */
@@ -34,6 +40,42 @@
       --thumbSize: 16px;
     }
 
+    /* ✅ Cross-platform consistency fixes (do NOT change your UI design) */
+    html{
+      -webkit-text-size-adjust:100%;
+      text-size-adjust:100%;
+    }
+    button,input,select,textarea{
+      font: inherit;
+      letter-spacing: inherit;
+    }
+    button{
+      -webkit-tap-highlight-color: transparent;
+    }
+    input, select{
+      -webkit-appearance:none;
+      appearance:none;
+      background-clip: padding-box;
+    }
+    input[type="search"]::-webkit-search-decoration,
+    input[type="search"]::-webkit-search-cancel-button,
+    input[type="search"]::-webkit-search-results-button,
+    input[type="search"]::-webkit-search-results-decoration{
+      -webkit-appearance:none;
+    }
+    /* ✅ Custom select arrow for consistent look across iOS/Android/Windows/macOS */
+    select{
+      -webkit-appearance:none;
+      -moz-appearance:none;
+      appearance:none;
+      padding-right:38px;
+      background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none'%3E%3Cpath d='M7 10l5 5 5-5' stroke='%230F172A' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+      background-repeat:no-repeat;
+      background-position:right 12px center;
+      background-size:16px 16px;
+    }
+    select::-ms-expand{ display:none; }
+
     *{box-sizing:border-box}
     html,body{height:100%}
     body{
@@ -45,7 +87,14 @@
         var(--bg);
       -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;
     }
-    .container{max-width:1200px; margin:26px auto 80px; padding:0 20px;}
+    .container{
+      max-width:1200px; margin:26px auto 80px;
+      padding:
+        0
+        calc(20px + env(safe-area-inset-right))
+        0
+        calc(20px + env(safe-area-inset-left));
+    }
 
     header{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;margin-bottom:14px;flex-wrap:wrap;}
     .title{display:flex;align-items:center;gap:10px;}
@@ -108,6 +157,11 @@
       color:#0F172A;
     }
     #q::placeholder,#idq::placeholder{color:rgba(15,23,42,.45);}
+
+    /* ✅ Keep custom select arrow dark on white selects */
+    #district,#sortDate,#genderFilter,#feeBand{
+      background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none'%3E%3Cpath d='M7 10l5 5 5-5' stroke='%230F172A' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    }
 
     .slider-row{display:flex;gap:16px;align-items:flex-start}
     .slider-col{display:flex;flex-direction:column;gap:6px;flex:1}
