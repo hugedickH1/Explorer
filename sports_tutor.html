@@ -322,7 +322,7 @@
       background: rgba(255,255,255,.14);
       border-color: #a78bfa;
     }
-    
+
     /* ✅ make the filter icon follow the new button text colour */
     #filterOpen .filter-icon svg path{ stroke: var(--text); }
 
@@ -622,28 +622,34 @@
 
     /* ===== 分頁 ===== */
     .pager{display:flex; align-items:center; justify-content:center; gap:10px; margin-top:16px; flex-wrap:wrap}
+
+    /* ✅ CHANGED ONLY: match academic pagination size + colour */
     .pagebtn{
-      border:1px solid rgba(255,255,255,.18);
-      background: rgba(255,255,255,.10);
-      color: var(--text);
-      padding:8px 12px;
-      border-radius:10px;
+      border:1px solid rgba(196,181,253,.35);
+      background:#EDE9FE;
+      color:#0f172a;
+      padding:10px 14px;
+      border-radius:12px;
       cursor:pointer;
       box-shadow:var(--shadow);
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
       line-height:1.2;
+      font-size:14px;
       -webkit-appearance:none;
       appearance:none;
+      transition: transform .06s ease, border-color .2s, background .2s;
+      white-space:nowrap;
     }
     .pagebtn:hover{
-      border-color: rgba(196,181,253,.55);
-      background: rgba(255,255,255,.14);
+      border-color:#C4B5FD;
+      background:#DDD6FE;
     }
-    .pagebtn[disabled]{opacity:.5; cursor:not-allowed}
+    .pagebtn:active{ transform: scale(.98); }
+    .pagebtn[disabled]{opacity:.55; cursor:not-allowed}
+
+    /* ✅ CHANGED ONLY: match academic page info colour */
     .pageinfo{
       font-size:13px;
-      color: rgba(148,163,184,.95);
+      color:#FFFFFF;
     }
 
     /* ===== 手機 toolbar + filter bottom sheet ===== */
