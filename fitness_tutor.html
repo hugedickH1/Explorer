@@ -87,6 +87,13 @@
       line-height:1;
       font-weight:600;
     }
+    #typeSelAll,
+    #typeClrAll,
+    #applyType,
+    #filterApply,
+    #mobileTypeBtn{
+      font-weight:400;
+    }
 
     /* consistent focus ring across browsers */
     .btn:focus-visible,
@@ -471,23 +478,36 @@
       gap:18px; margin-top:6px;
     }
     .profile-card{
-      background:#f8fafc; border:1px solid var(--ring);
-      border-radius:16px; padding:14px;
+      background: rgba(255,255,255,.06);
+      border:1px solid rgba(255,255,255,.14);
+      border-radius:16px;
+      padding:14px;
+      box-shadow:var(--shadow);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
     }
-    .profile-title{margin:0 0 8px 0; font-size:15px; color:#0369a1}
+    .profile-title{margin:0 0 8px 0; font-size:15px; color: rgba(196,181,253,.92)}
     .kv{
       display:grid; grid-template-columns: 120px 1fr;
       gap:8px 12px; font-size:14px;
     }
-    .kv b{color:#0f172a; font-weight:600}
+    .kv b{color: rgba(248,250,252,.92); font-weight:700}
     .cta-row{display:flex; gap:10px; flex-wrap:wrap; margin-top:12px}
     .copy{
-      cursor:pointer; border:1px solid var(--ring);
-      background:#ffffff; color:#0f172a;
-      padding:8px 10px; border-radius:10px;
+      cursor:pointer;
+      border:1px solid rgba(255,255,255,.18);
+      background: rgba(255,255,255,.10);
+      color: var(--text);
+      padding:8px 10px;
+      border-radius:10px;
       box-shadow:var(--shadow);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      line-height:1.2;
+      -webkit-appearance:none;
+      appearance:none;
     }
-    .copy:hover{border-color:#93c5fd; background:#f0f9ff}
+    .copy:hover{border-color: rgba(196,181,253,.55); background: rgba(255,255,255,.14)}
     @media (max-width:560px){
       .profile-grid{
         grid-template-columns:1fr;
@@ -576,6 +596,7 @@
       margin:0;
       font-size:18px;
       color:#0f172a;
+      font-weight:400;
     }
     .filter-header-right{
       display:flex;
@@ -882,27 +903,34 @@
     #backdrop .modal .close{ color:#FFFFFF !important; }
 
     #backdrop .profile-card{
-      background:#000000;
-      border:1px solid rgba(255,255,255,.18);
+      background: rgba(255,255,255,.06);
+      border:1px solid rgba(255,255,255,.14);
       color:#FFFFFF;
+      box-shadow:var(--shadow);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
     }
-    #backdrop .profile-title{ color:#FFFFFF !important; }
+    #backdrop .profile-title{ color: rgba(196,181,253,.92) !important; }
     #backdrop .kv,
     #backdrop .kv div,
     #backdrop #kv-notes{ color:#FFFFFF !important; }
     #backdrop .kv b{
-      color:#FFFFFF !important;
-      font-weight:600;
+      color: rgba(248,250,252,.92) !important;
+      font-weight:700;
     }
 
-    /* ✅ ONLY changed: 複製教練編號 button -> white */
     #backdrop .copy{
-      background:#FFFFFF;
-      border:1px solid rgba(196,181,253,.26);
-      color:#0f172a;
+      background: rgba(255,255,255,.10);
+      border:1px solid rgba(255,255,255,.18);
+      color: var(--text);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      line-height:1.2;
+      -webkit-appearance:none;
+      appearance:none;
     }
     #backdrop .copy:hover{
-      background:#F8FAFC;
+      background: rgba(255,255,255,.14);
       border-color: rgba(196,181,253,.55);
     }
   </style>
@@ -1071,7 +1099,7 @@
   <div id="typeBackdrop" class="modal-backdrop" role="dialog" aria-modal="true" aria-hidden="true">
     <div class="modal" role="document" aria-labelledby="typeTitle">
       <header style="padding:18px 32px 8px">
-        <h2 id="typeTitle" style="margin:0; font-size:20px; color:#0369a1">種類篩選</h2>
+        <h2 id="typeTitle" style="margin:0; font-size:20px; color:#0369a1; font-weight:400">種類篩選</h2>
         <button class="close" id="typeClose" aria-label="關閉">✕</button>
       </header>
       <div class="body" style="padding:4px 32px 20px">
