@@ -1,0 +1,1204 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Explorer｜使用條款</title>
+
+  <style>
+    :root{
+      --base:#070d14;
+      --text:#eaf4ff;
+      --muted: rgba(184,199,217,.92);
+
+      --card: rgba(255,255,255,.06);
+      --card2: rgba(255,255,255,.05);
+      --stroke: rgba(255,255,255,.12);
+      --stroke2: rgba(255,255,255,.10);
+      --shadow: 0 18px 60px rgba(0,0,0,.35);
+      --radius: 18px;
+
+      --rg1:#ffe7d7;
+      --rg2:#f3c9b7;
+      --rg3:#d9a596;
+      --rg4:#b47b6f;
+
+      --glassBlur: 14px;
+      --max: 1020px;
+
+      --modalBg: rgba(0,0,0,.65);
+    }
+
+    *{ box-sizing:border-box; }
+    html,body{ height:100%; }
+    html{ scroll-behavior: smooth; }
+    body{
+      margin:0;
+      font-family: ui-sans-serif, -apple-system, "Noto Sans TC", system-ui, "PingFang TC", "Heiti TC", Arial, sans-serif;
+      color: var(--text);
+      background: var(--base);
+      overflow-x:hidden;
+    }
+
+    body::before{
+      content:"";
+      position: fixed;
+      inset:-20%;
+      z-index:-2;
+      background:
+        radial-gradient(1200px 800px at 12% 20%, rgba(21,76,107,.55), transparent 60%),
+        radial-gradient(900px 700px at 85% 30%, rgba(111,231,255,.18), transparent 55%),
+        radial-gradient(900px 700px at 55% 90%, rgba(21,76,107,.32), transparent 55%),
+        repeating-linear-gradient(90deg, rgba(255,255,255,.05) 0, rgba(255,255,255,.05) 1px, transparent 1px, transparent 88px),
+        repeating-linear-gradient(0deg, rgba(255,255,255,.04) 0, rgba(255,255,255,.04) 1px, transparent 1px, transparent 88px),
+        linear-gradient(180deg, var(--base), var(--base));
+      opacity:.24;
+      pointer-events:none;
+    }
+    body::after{
+      content:"";
+      position: fixed;
+      inset:-160px;
+      z-index:-1;
+      background:
+        radial-gradient(circle at 30% 40%, rgba(111,231,255,.14), transparent 44%),
+        radial-gradient(circle at 75% 60%, rgba(21,76,107,.24), transparent 52%);
+      filter: blur(18px);
+      opacity:.95;
+      pointer-events:none;
+    }
+
+    .wrap{
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 18px 18px 56px;
+    }
+
+    .topbar{
+      position: sticky;
+      top: 0;
+      z-index: 30;
+      backdrop-filter: blur(var(--glassBlur));
+      -webkit-backdrop-filter: blur(var(--glassBlur));
+      background: rgba(255,255,255,.06);
+      border-bottom: 1px solid rgba(255,255,255,.10);
+    }
+    .topbar-inner{
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 12px 18px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap: 12px;
+    }
+
+    .brand{
+      display:flex;
+      align-items:center;
+      gap: 10px;
+      min-width: 0;
+    }
+
+    .logo{
+      width: 40px; height: 40px;
+      border-radius: 14px;
+      background: rgba(255,255,255,.06);
+      border: 1px solid rgba(255,255,255,.12);
+      box-shadow: 0 14px 40px rgba(0,0,0,.35);
+      display:grid; place-items:center;
+      flex: 0 0 auto;
+      color: rgba(234,244,255,.92);
+    }
+    .logo svg{ width: 22px; height: 22px; }
+    .logo svg path{ stroke: currentColor !important; }
+
+    .brandText{
+      line-height: 1.05;
+      min-width: 0;
+    }
+    .brandText .title{
+      font-weight: 950;
+      letter-spacing: .12em;
+      font-size: 13px;
+      text-transform: uppercase;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .brandText .sub{
+      font-size: 12px;
+      color: var(--muted);
+      margin-top: 2px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .menuBtn{
+      width: 44px;
+      height: 44px;
+      border-radius: 16px;
+      display:grid;
+      place-items:center;
+      background: rgba(255,255,255,.06);
+      border: 1px solid rgba(255,255,255,.12);
+      box-shadow: 0 14px 40px rgba(0,0,0,.35);
+      color: rgba(234,244,255,.92);
+      cursor:pointer;
+      transition: transform .16s ease, border-color .16s ease, background .16s ease;
+    }
+    .menuBtn:hover{
+      transform: translateY(-1px);
+      border-color: rgba(255,255,255,.20);
+      background: rgba(255,255,255,.07);
+    }
+    .menuBtn:active{ transform: translateY(0) scale(.99); }
+    .menuBtn svg{ width: 22px; height: 22px; }
+    .menuBtn svg path{ stroke: currentColor !important; }
+
+    .overlay{
+      position: fixed;
+      inset: 0;
+      background: var(--modalBg);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .22s ease;
+      z-index: 40;
+    }
+    .overlay.open{
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .drawer{
+      position: fixed;
+      top: 0;
+      right: 0;
+      height: 100%;
+      width: min(92vw, 360px);
+      transform: translateX(105%);
+      transition: transform .28s cubic-bezier(.2,.8,.2,1);
+      z-index: 50;
+
+      background: rgba(255,255,255,.06);
+      border-left: 1px solid rgba(255,255,255,.12);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      box-shadow: -18px 0 60px rgba(0,0,0,.45);
+      overflow: hidden;
+    }
+    .drawer.open{ transform: translateX(0); }
+
+    .drawer::before{
+      content:"";
+      position:absolute; inset:0;
+      background:
+        radial-gradient(520px 240px at 20% 20%, rgba(111,231,255,.12), transparent 60%),
+        radial-gradient(520px 260px at 90% 30%, rgba(21,76,107,.22), transparent 60%),
+        repeating-linear-gradient(115deg, rgba(255,255,255,.02) 0px, rgba(255,255,255,.02) 1px, rgba(0,0,0,0) 1px, rgba(0,0,0,0) 10px);
+      opacity: .9;
+      pointer-events:none;
+    }
+
+    .drawerInner{
+      position:relative;
+      height: 100%;
+      display:flex;
+      flex-direction: column;
+      padding: 16px;
+      gap: 12px;
+    }
+
+    .drawerTop{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap: 12px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid rgba(255,255,255,.10);
+    }
+
+    .drawerTitle{
+      font-weight: 950;
+      letter-spacing: .08em;
+      color: rgba(234,244,255,.98);
+      font-size: 13px;
+      text-transform: none;
+    }
+
+    .closeBtn{
+      width: 42px;
+      height: 42px;
+      border-radius: 16px;
+      display:grid;
+      place-items:center;
+      background: rgba(255,255,255,.06);
+      border: 1px solid rgba(255,255,255,.12);
+      color: rgba(234,244,255,.92);
+      cursor:pointer;
+      transition: transform .16s ease, border-color .16s ease, background .16s ease;
+    }
+    .closeBtn:hover{
+      transform: translateY(-1px);
+      border-color: rgba(255,255,255,.20);
+      background: rgba(255,255,255,.07);
+    }
+    .closeBtn:active{ transform: translateY(0) scale(.99); }
+    .closeBtn svg{ width: 20px; height: 20px; }
+    .closeBtn svg path{ stroke: currentColor !important; }
+
+    .navList{
+      display:flex;
+      flex-direction: column;
+      gap: 10px;
+      padding-top: 6px;
+    }
+    .navItem{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap: 10px;
+      padding: 12px 12px;
+      border-radius: 16px;
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.05);
+      text-decoration:none;
+      color: rgba(234,244,255,.95);
+      transition: transform .16s ease, border-color .16s ease, background .16s ease;
+      min-height: 52px;
+    }
+    .navItem:hover{
+      transform: translateY(-1px);
+      border-color: rgba(255,255,255,.22);
+      background: rgba(255,255,255,.07);
+    }
+    .navLeft{
+      display:flex;
+      flex-direction: column;
+      gap: 0;
+      min-width: 0;
+    }
+    .navMain{
+      font-weight: 950;
+      letter-spacing: .04em;
+      font-size: 13px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .navArrow{ width: 28px; height: 28px; border-radius: 999px; display:grid; place-items:center; border: 1px solid rgba(255,255,255,.10); background: rgba(255,255,255,.05); flex: 0 0 auto; }
+    .navArrow svg{ width: 16px; height: 16px; color: rgba(234,244,255,.92); }
+    .navArrow svg path{ stroke: currentColor !important; }
+
+    .drawerFoot{
+      margin-top:auto;
+      padding-top: 12px;
+      border-top: 1px solid rgba(255,255,255,.10);
+      color: rgba(184,199,217,.92);
+      font-size: 12px;
+      line-height: 1.7;
+    }
+
+    .hero{ padding: 24px 0 10px; }
+    .heroGrid{
+      display:grid;
+      grid-template-columns: 1fr;
+      gap: 16px;
+      align-items: stretch;
+    }
+
+    .heroCard,
+    .sideCard,
+    .section{
+      border-radius: calc(var(--radius) + 6px);
+      background: rgba(255,255,255,.06);
+      border: 1px solid rgba(255,255,255,.12);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+      position: relative;
+    }
+
+    .heroCard{ padding: 18px 18px 16px; }
+    .heroCard::before{
+      content:"";
+      position:absolute;
+      inset:-30%;
+      background:
+        radial-gradient(520px 240px at 20% 20%, rgba(111,231,255,.12), transparent 60%),
+        radial-gradient(520px 260px at 90% 30%, rgba(21,76,107,.22), transparent 60%),
+        repeating-linear-gradient(115deg, rgba(255,255,255,.012) 0px, rgba(255,255,255,.012) 1px, rgba(0,0,0,0) 1px, rgba(0,0,0,0) 9px);
+      transform: rotate(-6deg);
+      pointer-events:none;
+      opacity:.95;
+    }
+    .heroCard > *{ position: relative; }
+
+    .h1{
+      margin:0;
+      font-size: 28px;
+      letter-spacing: .2px;
+      font-weight: 950;
+      color: rgba(234,244,255,.98);
+    }
+    .lead{
+      margin: 10px 0 0;
+      color: var(--muted);
+      line-height: 1.7;
+      font-size: 14px;
+      max-width: 62ch;
+      text-align: left;
+    }
+
+    .noWrap{ white-space: nowrap; }
+
+    .langSwitch{
+      margin-top: 16px;
+      display:flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .langBtn{
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.05);
+      color: rgba(234,244,255,.95);
+      padding: 9px 14px;
+      font-weight: 900;
+      letter-spacing: .02em;
+      font-size: 13px;
+      cursor: pointer;
+      transition: transform .15s ease, border-color .15s ease, background .15s ease;
+    }
+    .langBtn:hover{
+      transform: translateY(-1px);
+      border-color: rgba(255,255,255,.22);
+      background: rgba(255,255,255,.07);
+    }
+    .langBtn[aria-pressed="true"]{
+      border-color: rgba(111,231,255,.5);
+      background: rgba(111,231,255,.12);
+    }
+
+    .termsSection[hidden]{
+      display:none;
+    }
+
+    .section{
+      margin-top: 18px;
+      padding: 18px;
+    }
+    #terms-zh, #terms-en { scroll-margin-top: 86px; }
+
+    .sectionHead{
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+    .sectionTitle{
+      margin:0;
+      font-size: 18px;
+      font-weight: 950;
+      letter-spacing: .2px;
+      color: rgba(234,244,255,.98);
+    }
+
+    .termsMeta{
+      font-size: 13px;
+      color: var(--muted);
+      margin-bottom: 12px;
+    }
+
+    .termsBlock{
+      border-radius: var(--radius);
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.05);
+      padding: 14px;
+      color: rgba(234,244,255,.95);
+      margin-bottom: 14px;
+    }
+
+    .termsBlock h3{
+      margin: 0 0 8px;
+      font-size: 15px;
+      font-weight: 950;
+      color: rgba(234,244,255,.98);
+    }
+
+    .termsBlock p{
+      margin: 0 0 10px;
+      color: var(--muted);
+      line-height: 1.7;
+      font-size: 13px;
+      text-align: left;
+    }
+
+    .termsBlock p:last-child{
+      margin-bottom: 0;
+    }
+
+    .termsList,
+    .termsSub{
+      margin: 0;
+      padding-left: 0;
+      color: var(--muted);
+      line-height: 1.7;
+      font-size: 13px;
+      list-style: none;
+    }
+
+    .termsSub li{
+      margin: 6px 0;
+      text-align: left;
+    }
+
+    .termsSub .termsSub{
+      list-style: lower-alpha;
+      padding-left: 18px;
+    }
+
+    .termsEm{
+      color: rgba(234,244,255,.98);
+      font-weight: 700;
+    }
+
+    .note{
+      display:block;
+      margin-top: 6px;
+      color: rgba(184,199,217,.9);
+      font-size: 12px;
+    }
+
+    @media (max-width: 720px){
+      .wrap{ padding: 12px 14px 40px; }
+      .topbar-inner{ padding: 10px 14px; }
+      .heroCard{ padding: 16px; }
+      .h1{ font-size: 24px; }
+    }
+  </style>
+</head>
+
+<body>
+  <header class="topbar" role="banner">
+    <div class="topbar-inner">
+      <div class="brand">
+        <div class="logo" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none">
+            <path d="M3.5 11.5 21 3.5l-8 17-2.5-6-7-3Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
+            <path d="M21 3.5 10.5 14.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div class="brandText">
+          <div class="title">EXPLORER</div>
+          <div class="sub">使用條款</div>
+        </div>
+      </div>
+
+      <button class="menuBtn" id="menuBtn" type="button" aria-label="開啟導航列" aria-controls="drawer" aria-expanded="false">
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M5 7h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          <path d="M5 12h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          <path d="M5 17h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </button>
+    </div>
+  </header>
+
+  <div class="overlay" id="overlay" aria-hidden="true"></div>
+
+  <nav class="drawer" id="drawer" aria-label="導航列" aria-hidden="true">
+    <div class="drawerInner">
+      <div class="drawerTop">
+        <div class="drawerTitle">導航</div>
+        <button class="closeBtn" id="closeBtn" type="button" aria-label="關閉導航列">
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            <path d="M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </button>
+      </div>
+
+      <div class="navList">
+        <a class="navItem" href="/index.html">
+          <div class="navLeft"><div class="navMain">主頁</div></div>
+          <div class="navArrow" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none">
+              <path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+        </a>
+
+        <a class="navItem" href="/index.html#flowPanel">
+          <div class="navLeft"><div class="navMain">配對方法</div></div>
+          <div class="navArrow" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none">
+              <path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+        </a>
+
+        <a class="navItem" href="/fees.html">
+          <div class="navLeft"><div class="navMain">收費及付款詳情</div></div>
+          <div class="navArrow" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none">
+              <path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+        </a>
+
+        <a class="navItem" href="/contact.html">
+          <div class="navLeft"><div class="navMain">聯絡我們</div></div>
+          <div class="navArrow" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none">
+              <path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+        </a>
+
+        <a class="navItem" href="/terms.html">
+          <div class="navLeft"><div class="navMain">使用條款</div></div>
+          <div class="navArrow" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none">
+              <path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+        </a>
+      </div>
+
+      <div class="drawerFoot">
+        點擊空白位置或按 ESC 可關閉導航列。
+      </div>
+    </div>
+  </nav>
+
+  <main class="wrap" role="main">
+    <section class="hero">
+      <div class="heroGrid">
+        <div class="heroCard">
+          <h1 class="h1">使用條款 / Terms of Use</h1>
+          <p class="lead">
+            本頁提供 Explorer 平台的使用條款中文版及英文版。請在使用服務前仔細閱讀，以<span class="noWrap">了解配對</span>、收費、取消安排及雙方責任。
+          </p>
+          <p class="lead">
+            This page provides the Chinese and English versions of Explorer’s Terms of Use.
+            Please read carefully before using the Services to understand matching, <span class="noWrap">fees, cancellations</span>, and responsibilities.
+          </p>
+
+          <div class="langSwitch" role="group" aria-label="切換語言">
+            <button class="langBtn" type="button" data-lang="zh" aria-pressed="true">中文</button>
+            <button class="langBtn" type="button" data-lang="en" aria-pressed="false">English</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="terms-zh" class="section termsSection">
+      <div class="sectionHead">
+        <h2 class="sectionTitle">使用條款（中文）</h2>
+      </div>
+      <div class="termsMeta">生效日期：2026 年 1 月 1 日</div>
+
+      <div class="termsBlock">
+        <p>本《使用條款》（下稱「本條款」）規管你使用 Explorer（下稱「本平台」）之網站、頁面、表格、通訊功能及相關服務（合稱「服務」）。</p>
+        <p>本平台由 Explorer 持有人許文晉及李政浩（下稱「營運方」、「我們」）提供及管理。</p>
+      </div>
+
+      <div class="termsBlock">
+        <h3>1. 定義</h3>
+        <ol class="termsSub">
+          <li>1.1 「用戶」指任何使用服務之人士，包括導師／教練／服務提供者、學生、家長或監護人、機構客戶等。</li>
+          <li>1.2 「導師」包括提供學術、體育、音樂、健身或其他興趣類別之導師、教練或服務提供者。</li>
+          <li>1.3 「學生」包括提出學習／訓練需求之學生、家長或監護人。</li>
+          <li>1.4 「配對」指學生於平台選定導師並透過平台確認、或平台以系統推薦／客服協助方式完成對接，並使雙方能就課堂安排作進一步聯絡。</li>
+          <li>1.5 「平台服務費」指按本條款第 8 條收取之費用（包括但不限於「首兩堂課學費作為平台服務費」）。</li>
+          <li>1.6 「內容」指用戶於平台上載、提交或透過平台傳送之任何文字、相片、影片、評價、文件、連結、訊息及其他資料。</li>
+          <li>1.7 「每堂」指導師與學生最終約定的一次教學或訓練時段；每堂並無固定分鐘數，以雙方最後確認之時長為準。</li>
+          <li>1.8 「每堂費用」指雙方用戶最後約定之每小時時薪 × 雙方最後約定之每堂時數。</li>
+          <li>1.9 「實際約定收費」指雙方透過平台訊息或客服所同意的每堂費用。如未有特別列明，首兩堂之每堂費用默認相同（同一時薪及同一時數）。</li>
+        </ol>
+      </div>
+
+      <div class="termsBlock">
+        <h3>2. 接受條款及修改</h3>
+        <ol class="termsSub">
+          <li>2.1 你使用服務（包括瀏覽本平台、提交表格、註冊、登入、聯絡他人或安排課堂）即表示你已閱讀、理解並同意受本條款約束。</li>
+          <li>2.2 你於提交任何表格、登記及付款前勾選「我已閱讀並同意本條款」； 或點擊「同意」或「繼續」按鈕，即構成你以電子方式接受本條款；我們可保留相關電子紀錄作證據。</li>
+          <li>2.3 我們可不時修訂本條款並於平台公布。你於修訂後繼續使用服務，即視為接受修訂後條款。</li>
+        </ol>
+      </div>
+
+      <div class="termsBlock">
+        <h3>3. 平台性質</h3>
+        <ol class="termsSub">
+          <li>3.1 本平台為一個中介平台，提供一個配對及資訊展示場域，讓導師與學生互相接觸、溝通及安排課堂。</li>
+          <li>3.2 除非我們以書面明確表示，我們並非任何導師或學生的代理人、僱主、僱員、合夥人或合營者；導師與學生之間的課堂安排、收費（第三堂起）、教學質素、出席、取消、爭議等，原則上屬雙方之私下協議及責任。</li>
+          <li>3.3 我們一般會向用戶作資格審查，但並不能作完全保證。用戶須自行判斷並承擔與其他用戶互動的風險（見第 12 條）。</li>
+        </ol>
+      </div>
+
+      <div class="termsBlock">
+        <h3>4. 使用資格、未成年人及監護責任</h3>
+        <ol class="termsSub">
+          <li>4.1 你聲明你具備法律能力訂立具約束力的合約。</li>
+          <li>4.2 如你未滿 18 歲，必須在父母或法定監護人同意及監督下使用服務；該監護人同意對你在平台上的一切行為及費用承擔責任。</li>
+          <li>4.3 你提供的資料必須真實、準確及最新；如資料失實或具誤導性，我們可暫停或終止你使用服務。</li>
+          <li>4.4 只有 16 歲或以上人士才可以登記成為本平台導師。16至17 歲導師必須提供監護人同意及監護人作付款及賠償責任承擔，否則平台可拒絕配對或暫停帳戶。</li>
+        </ol>
+      </div>
+
+      <div class="termsBlock">
+        <h3>5. 帳戶／登記及通訊</h3>
+        <ol class="termsSub">
+          <li>5.1 你可能需要提交表格或提供聯絡資料以使用部分服務。你須妥善保管你所使用之電郵、電話、第三方帳戶或任何登入及驗證資料。</li>
+          <li>5.2 你同意我們可透過電郵、WhatsApp、SMS、平台訊息或其他合理方式，就配對、收費、服務更新及安全通知聯絡你。</li>
+        </ol>
+      </div>
+
+      <div class="termsBlock">
+        <h3>6. 用戶行為守則（禁止事項）</h3>
+        <p>你不得（亦不得促使他人）：</p>
+        <ol class="termsSub">
+          <li>6.1 以任何方式作出欺詐、冒認身份、提供虛假資料或誤導性陳述；</li>
+          <li>6.2 發布或傳送侮辱、恐嚇、騷擾、淫褻、誹謗、侵犯私隱或其他不當內容；</li>
+          <li>6.3 侵犯第三方知識產權、肖像權或其他權利；</li>
+          <li>6.4 未經同意收集、儲存、公開或散布他人個人資料（包括「起底」或任何具傷害意圖的披露）；</li>
+          <li>6.5 以機械人、爬蟲、抓取工具或任何自動化方式大量存取、複製或監察平台內容；</li>
+          <li>6.6 逆向工程、干擾、攻擊或破壞平台系統、繞過安全機制；</li>
+          <li>6.7 以任何方式規避平台服務費（詳見第 8.6 條「反避費」。）</li>
+          <li>6.8 作出任何違法行為或違反香港法律及（如適用）你所在地法律之行為。</li>
+        </ol>
+      </div>
+
+      <div class="termsBlock">
+        <h3>7. 配對流程與合同關係</h3>
+        <ol class="termsSub">
+          <li>7.1 學生端流程（概述）：(i) 提交需求（科目／類別、年級、地點或線上、目標等）(ii) 系統推薦／平台協助 (iii) 學生瀏覽並選擇導師 (iv) 透過平台確認配對及安排課堂。</li>
+          <li>7.2 導師端流程：導師提交個人簡介、類別、可用時間、地點／線上、收費等資料；平台可將導師資料展示於不同分類頁面供學生瀏覽。</li>
+          <li>7.3 聯絡資料提供安排
+            <ol class="termsSub">
+              <li>(a) 在配對確認前，用戶只可透過本平台工作人員作初步溝通。</li>
+              <li>(b) 配對成功以及學生已繳付平台服務費後，本平台方會向雙方提供已登記之聯絡電話以便安排後續課堂。</li>
+              <li>(c) 你同意在配對確認前，不得要求、誘使或主動披露任何聯絡資料（包括電話、WhatsApp、電郵、社交媒體帳號等）以繞過平台流程或平台服務費；如我們有合理理由相信你違反本條，則適用第 8.6 條（反避費）及第 18 條（暫停／終止）之處理。</li>
+            </ol>
+          </li>
+          <li>7.4 課堂合約：除本條款另有明文規定（例如平台服務費），導師與學生就課堂內容、時數、地點、第三堂起之費用、取消政策等所達成的協議，屬導師與學生之間的合同關係，本平台並非該合同一方。</li>
+          <li>7.5 我們可（但無義務）就溝通、排程、付款提示、爭議調停作協助。</li>
+        </ol>
+      </div>
+
+      <div class="termsBlock">
+        <h3>8. 收費、付款及平台服務費（首兩堂）</h3>
+        <ol class="termsSub">
+          <li>8.1 收費原則：為維持平台營運及提供客服與安全保障，我們會按平台公布的《收費方式》收取平台服務費。</li>
+          <li>8.2 本平台將收取首兩堂課學費作為服務費。若學生透過本平台成功配對導師，則首兩堂課的學費將作為平台服務費，並由學生支付。</li>
+          <li>8.3 平台服務費：平台服務費金額以下列之一為準（以較可核實者為準）：
+            <ol class="termsSub">
+              <li>(a) 平台在配對確認時於訊息或系統顯示或客服書面確認之首兩堂費用；或</li>
+              <li>(b) 如首兩堂安排包含不同時長或不同單價，按平台確認之首兩堂「實際約定收費」合計。</li>
+              <li>(c) 如上述紀錄不足，按雙方於平台訊息或客服書面確認之首兩堂「實際約定收費」合計計算。</li>
+            </ol>
+          </li>
+          <li>8.4 付款時間與方式：
+            <ol class="termsSub">
+              <li>(a) 你同意按我們指示於指定期限內以轉數快、銀行轉帳、電子支付或其他我們接受方式支付平台服務費（如有第三方支付服務，亦須同意其條款）。</li>
+              <li>(b) 學生須在預定上課時間的 48 小時前交付平台服務費。若配對成功及首節上課時間相差小於 48 小時，學生方則需要先行繳付平台服務費才當作完成配對。如學生未能按上述期限繳付平台服務費，我們可暫停配對、取消已安排之首堂時間，並可把配對視作未完成。</li>
+            </ol>
+          </li>
+          <li>8.5 第三堂起費用：除非平台另有書面安排，第三堂起之課堂費用原則上由學生直接支付導師；學生與導師可自行協商付款方式。</li>
+          <li>8.6 反避費（重要）：
+            <ol class="termsSub">
+              <li>(a) 如你因使用本平台而取得對方聯絡方式、或經平台促成認識或配對，即使其後改以平台以外方式聯絡、上課或付款，平台服務費仍然到期應付。</li>
+              <li>(b) 如我們有合理理由相信你有規避平台服務費之行為，我們可 (i) 暫停／終止你使用服務、拒絕你日後使用配對 (ii) 並追討應付平台服務費及追收合理行政費（上限港幣一千元正）以反映我們為調查、客服、追討而產生的成本。</li>
+              <li>(c) 如我們有合理理由相信或發現導師串謀家長或學生詐騙平台以減少支付行政費，我們保留向執法機關報告及採取法律行動的權利（包括民事追討及在適當情況下刑事舉報）。</li>
+              <li>(d) 如用戶在配對確認前以任何方式取得或交換聯絡資料並安排課堂／付款，或於配對確認後將首兩堂以「折扣、贈送、改名目、分拆收費」等方式變相規避平台服務費，本平台有權按配對確認紀錄或合理推算之首兩堂「實際約定收費」追收平台服務費。</li>
+            </ol>
+          </li>
+          <li>8.7 退款：除非第 9.1(c)(iii) 適用或我們另有書面承諾，平台服務費一般不設退款。如因重大系統錯誤導致重複收費，或我們書面確認屬平台過失，我們可按個別情況作更正或退款。</li>
+          <li>8.8 支付平台服務費後我們不保證導師或學生必然繼續上課或達至任何學習成果。</li>
+        </ol>
+      </div>
+
+      <div class="termsBlock">
+        <h3>9. 取消、缺席與爭議（導師／學生之間）</h3>
+        <ol class="termsSub">
+          <li>9.1 首兩堂（平台服務費期）取消、改期及違約處理
+            <ol class="termsSub">
+              <li>(a) 適用範圍：本條適用於配對成功後、且學生已完成支付平台服務費（首兩堂「實際約定收費」合計）之情況。第三堂或之後的課堂，除非平台另有書面安排，按第 9.1(g) 條處理。</li>
+              <li>(b) 定義：首兩堂及學費計算。首兩堂的每堂費用為雙方用戶最後約定之每小時時薪 × 最後約定之每堂時數（每堂無固定分鐘數）。如首兩堂不同時長或不同單價，按平台配對確認紀錄所確認之首兩堂「實際約定收費」合計為準。</li>
+              <li>(c) 導師於首兩堂未能在約定時間上課（導師方違約）
+                <ol class="termsSub">
+                  <li>(i) 如導師因任何原因未能在雙方約定時間進行第一或第二節課，在學生同意下，雙方可重新協商該堂的上課時間（可包括調整時數、改為線上、更改地點等），並以平台配對確認紀錄或其後雙方書面訊息確認作準。</li>
+                  <li>(ii) 如學生不同意改期，該堂視為由導師方取消，導師須向學生賠償該堂費用（即該堂的「實際約定收費」。）</li>
+                  <li>(iii) 如導師在首兩堂期間連續兩次未能在約定時間上課，而學生因此決定終止聘用導師， 平台有權向導師追討首兩堂的「實際約定收費」合計作為平台已向學生履行退款賠償。平台將向學生方退回其先前所支付的平台服務費（以平台實際收取之金額為指標）。</li>
+                  <li>(iv) 導師被追討時須於平台發出追討通知起計 48 小時內支付；逾期平台可暫停帳戶直至清付。</li>
+                  <li>(v) 若導師已就第 (ii) 或 (iii) 向學生支付賠償，而平台亦已向學生退回平台服務費，平台可按公平原則要求學生避免重複得益（例如扣減已收取之導師賠償部分），以確保同一堂課不會出現「雙重退款／雙重賠償」。</li>
+                </ol>
+              </li>
+              <li>(d) 學生於首兩堂未能在約定時間上課（學生方違約）
+                <ol class="termsSub">
+                  <li>(i) 如學生因任何原因未能在雙方約定時間進行第一或第二節課，在導師同意下，雙方可重新協商該堂的上課時間。</li>
+                  <li>(ii) 如導師不同意改期，則該堂視作已完成；學生不得就該堂向平台或導師追討退款、扣減或任何形式的回贈。</li>
+                  <li>(iii) 如學生要求改期而導師同意，建議雙方以訊息保留改期紀錄；平台可要求提供相關紀錄以處理後續爭議（如有）。</li>
+                </ol>
+              </li>
+              <li>(e) 未能在約定時間上課定義
+                <ol class="termsSub">
+                  <li>(i) 除非雙方另有書面同意，如任何一方在約定開始時間後 30 分鐘仍未能開始上課（包括未出現、未提供上課連結、或未能開始教學或訓練），視為「未能在約定時間上課」；或</li>
+                  <li>(ii) 除非雙方另有書面同意，如任何一方在課堂約定開始時間前 24 小時內通知未能在商議好的時間上課，亦視為「未能在約定時間上課」。</li>
+                </ol>
+              </li>
+              <li>(f) 爭議處理與證據
+                <ol class="termsSub">
+                  <li>(i) 如就首兩堂取消／改期／是否按時上課發生爭議，雙方同意以平台的配對確認紀錄、平台訊息、客服書面確認、以及雙方可驗證的通訊紀錄（例如 WhatsApp 對話截圖、電郵、上課連結紀錄等）作為主要依據。</li>
+                  <li>(ii) 平台可（但無義務）以合理方式協助雙方調停；但平台並非第三堂或以後課堂安排之仲裁方。一切爭議發生在第三堂或以後課堂將由學生及導師自行處理。</li>
+                </ol>
+              </li>
+              <li>(g) 第三堂或以後課堂：除非平台另有書面安排，第三堂或以後課堂之取消、缺席、改期、退款及任何違約事項，概由導師及學生自行協商處理；平台不承擔代收、退款或賠償責任。</li>
+            </ol>
+          </li>
+          <li>9.2 除首兩堂平台服務費安排外，導師與學生應自行訂明取消政策（例如提前多少小時取消、缺席如何收費等）。</li>
+          <li>9.3 你同意就你與其他用戶之爭議，於法律允許範圍內免除我們因此而生之申索（但不影響我們因自身過失依法需承擔的責任）。</li>
+        </ol>
+      </div>
+
+      <div class="termsBlock">
+        <h3>10. 內容及授權</h3>
+        <ol class="termsSub">
+          <li>10.1 你保留你內容的權利；但你授予我們一項全球性、免版稅、可轉授權及可轉讓之使用許可，讓我們為營運、展示、推廣、改良服務而使用、儲存、複製、展示、編輯及分發該等內容（並會按我們的私隱政策處理個人資料）。</li>
+          <li>10.2 你保證你有權上載該等內容，且內容不侵犯任何第三方權利。</li>
+          <li>10.3 我們可（但無義務）移除任何我們合理認為違反本條款、具風險、或接獲投訴之內容，且毋須就此承擔責任或退款。</li>
+        </ol>
+      </div>
+
+      <div class="termsBlock">
+        <h3>11. 私隱與個人資料</h3>
+        <ol class="termsSub">
+          <li>11.1 我們會按香港《個人資料（私隱）條例》（Cap. 486）及適用法律處理個人資料，並以合理措施保護資料安全。</li>
+          <li>11.2 你同意你從平台取得之任何個人資料（例如電話、電郵、住址、學生資料），只可用於配對及課堂安排目的，不得作推銷、轉售、公開披露或任何未獲同意用途。</li>
+          <li>11.3 你不得在平台或任何地方作出「起底」或以意圖或罔顧後果造成傷害而披露個人資料之行為；違者我們可即時終止服務並配合執法或監管機構要求提供必要資料（如法律或執法部門要求）。</li>
+        </ol>
+      </div>
+
+      <div class="termsBlock">
+        <h3>12. 安全提示與線下會面風險</h3>
+        <ol class="termsSub">
+          <li>12.1 任何線下見面、到訪住所、戶外訓練或上門授課均存在風險。你應採取合理安全措施（例如在公共場所首次見面、告知家人行程、保留訊息紀錄、避免單獨進入陌生場所等）。</li>
+          <li>12.2 我們不保證任何用戶之身份、品格、能力、健康狀況或背景；你同意自行承擔與其他用戶互動所引致之風險。</li>
+        </ol>
+      </div>
+
+      <div class="termsBlock">
+        <h3>13. 知識產權</h3>
+        <ol class="termsSub">
+          <li>13.1 本平台之介面、設計、標誌、程式、文本及資料結構等（不包括用戶內容）均屬我們或授權方所有。未經我們書面同意，你不得複製、改作、分發或用作商業用途。</li>
+        </ol>
+      </div>
+
+      <div class="termsBlock">
+        <h3>14. 第三方服務與連結</h3>
+        <ol class="termsSub">
+          <li>14.1 平台可能包含第三方連結或使用第三方服務（例如 Google 表格／通訊工具／付款服務）。第三方服務受其自身條款規管，我們不對第三方服務的可用性或內容負責。</li>
+        </ol>
+      </div>
+
+      <div class="termsBlock">
+        <h3>15. 免責聲明</h3>
+        <ol class="termsSub">
+          <li>15.1 服務按「現狀」及「可提供狀態」提供。我們不保證服務必定不間斷、無錯誤或完全安全。</li>
+          <li>15.2 我們不對任何導師或學生的行為、教學成果、課堂質素、出席情況、私人協議內容、或任何因用戶內容而起之損失作出保證或承擔責任。</li>
+        </ol>
+      </div>
+
+      <div class="termsBlock">
+        <h3>16. 責任限制</h3>
+        <ol class="termsSub">
+          <li>16.1 在法律允許之最大範圍內，我們不對任何間接、附帶、特殊、懲罰性或相應而生之損失（包括收益損失、名譽損失、資料損失）負責。</li>
+          <li>16.2 如我們就服務需承擔責任，我們的總責任（不論基於合約、侵權、法例或其他）以你就引致申索之事項而實際支付予我們之平台服務費總額為上限。</li>
+          <li>16.3 本條款任何豁免或限制責任的條文，均以香港《管制免責條款條例》（Cap.71）及其他適用法律所容許者為限。</li>
+        </ol>
+      </div>
+
+      <div class="termsBlock">
+        <h3>17. 彌償（Indemnity）</h3>
+        <p>你同意就因你使用服務、你內容、你違反本條款或你侵犯第三方權利而引致我們遭受的任何申索、損失、責任、費用（包括合理法律費用），向我們作出彌償並使我們免受損害。</p>
+      </div>
+
+      <div class="termsBlock">
+        <h3>18. 暫停與終止</h3>
+        <ol class="termsSub">
+          <li>18.1 你可暫停或停止使用服務。</li>
+          <li>18.2 如你違反本條款、我們接獲合理投訴、或我們合理相信存在安全、欺詐或避費風險，我們可在不事先通知下暫停或終止你使用服務。</li>
+          <li>18.3 終止後，你於本條款下已到期之付款責任（包括平台服務費及追收成本）仍然有效。</li>
+        </ol>
+      </div>
+
+      <div class="termsBlock">
+        <h3>19. 通知</h3>
+        <ol class="termsSub">
+          <li>19.1 我們向你發出的通知可透過平台公告、電郵、WhatsApp、SMS 或你提供之其他聯絡方式送達；你向我們發出的通知以我們確認收到為準。</li>
+        </ol>
+      </div>
+
+      <div class="termsBlock">
+        <h3>20. 準據法及司法管轄</h3>
+        <ol class="termsSub">
+          <li>20.1 本條款受香港特別行政區法律管轄。若用戶所在地存在不可排除的強制性法律規定，該等規定在適用範圍內不受本條款影響。</li>
+          <li>20.2 因本條款或服務而生或與之相關之任何爭議，香港特別行政區法院具有非專屬司法管轄權。</li>
+        </ol>
+      </div>
+
+      <div class="termsBlock">
+        <h3>21. 其他</h3>
+        <ol class="termsSub">
+          <li>21.1 如本條款任何部分被裁定無效或不可執行，其餘部分仍具完全效力。</li>
+          <li>21.2 本條款構成你與我們就使用服務的完整協議，並取代先前就同一事項之任何口頭或書面理解。</li>
+          <li>21.3 如中英文版本有歧義，以中文版本為準。</li>
+        </ol>
+      </div>
+    </section>
+
+    <section id="terms-en" class="section termsSection" hidden>
+      <div class="sectionHead">
+        <h2 class="sectionTitle">Terms of Use (English)</h2>
+      </div>
+      <div class="termsMeta">Effective Date: 1 January 2026</div>
+
+      <div class="termsBlock">
+        <p>These Terms of Use (the “Terms”) govern your access to and use of Explorer (the “Platform”), including all websites, pages, forms, communication features and any related services (collectively, the “Services”).</p>
+        <p>The Platform is provided and administered by the holders of Explorer, Hui Man Chun and Lee Andrew Ching Ho (the “Operators”, “we”, “us”, or “our”).</p>
+      </div>
+
+      <div class="termsBlock">
+        <h3>1. Definitions</h3>
+        <ol class="termsSub">
+          <li>1.1 “User” means any person who accesses or uses the Services, including Tutors/Coaches/Service Providers, Students, parents or guardians, institutional clients, and any other users.</li>
+          <li>1.2 “Tutor” includes any tutor, coach, instructor, trainer, or service provider offering academic, sports, music, fitness or other interest-based services.</li>
+          <li>1.3 “Student” includes any student, parent or guardian who submits learning and/or training needs.</li>
+          <li>1.4 “Match” / “Matching” means: (i) a Student selects a Tutor on the Platform and confirms through the Platform; or (ii) the Platform completes the connection through system recommendation and/or customer service assistance, enabling both parties to further communicate for lesson arrangement.</li>
+          <li>1.5 “Platform Service Fee” means the fee charged under Clause 8 (including, without limitation, the tuition fees of the first two Lessons being collected as the Platform Service Fee).</li>
+          <li>1.6 “Content” means any text, photograph, video, review, document, link, message, or other materials uploaded, submitted, or transmitted by a User on or through the Platform.</li>
+          <li>1.7 “Lesson” means one teaching or training session ultimately agreed between a Tutor and a Student. A Lesson has no fixed duration in minutes and shall be of the duration finally confirmed by both parties.</li>
+          <li>1.8 “Per-Lesson Fee” means the finally agreed hourly rate multiplied by the finally agreed duration (in hours) per Lesson.</li>
+          <li>1.9 “Agreed Fee” means the Per-Lesson Fee agreed by both parties through Platform messages and/or customer service confirmation. Unless otherwise expressly specified, the Per-Lesson Fee for the first two Lessons is deemed to be the same (same hourly rate and same duration).</li>
+        </ol>
+      </div>
+
+      <div class="termsBlock">
+        <h3>2. Acceptance and Amendments</h3>
+        <ol class="termsSub">
+          <li>2.1 By using the Services (including browsing the Platform, submitting forms, registering, logging in, contacting others, or arranging Lessons), you acknowledge that you have read, understood, and agree to be bound by these Terms.</li>
+          <li>2.2 By checking “I have read and agree to these Terms” before submitting any form, registration, or payment, and/or by clicking “Agree” or “Continue”, you are deemed to have accepted these Terms electronically. We may retain relevant electronic records as evidence.</li>
+          <li>2.3 We may amend these Terms from time to time by publishing an updated version on the Platform. Your continued use of the Services after publication constitutes acceptance of the amended Terms.</li>
+        </ol>
+      </div>
+
+      <div class="termsBlock">
+        <h3>3. Nature of the Platform</h3>
+        <ol class="termsSub">
+          <li>3.1 The Platform is an intermediary platform providing a venue for matching and information display, enabling Tutors and Students to connect, communicate, and arrange Lessons.</li>
+          <li>3.2 Unless we expressly state otherwise in writing, we are not the agent, employer, employee, partner, or joint venturer of any Tutor or Student. Lesson arrangements between Tutors and Students, fees (from the third Lesson onwards), teaching quality, attendance, cancellations, disputes, and similar matters are, as a matter of principle, private agreements and responsibilities between the Tutor and the Student.</li>
+          <li>3.3 We generally conduct screening of Users’ qualifications; however, we do not and cannot give any absolute guarantee. Users must make their own assessment and bear the risks of interacting with other Users (see Clause 12).</li>
+        </ol>
+      </div>
+
+      <div class="termsBlock">
+        <h3>4. Eligibility, Minors, and Guardian Responsibility</h3>
+        <ol class="termsSub">
+          <li>4.1 You represent and warrant that you have the legal capacity to enter into a binding contract.</li>
+          <li>4.2 If you are under 18, you must use the Services with the consent and supervision of your parent or legal guardian, who agrees to be responsible for your conduct and any fees incurred on the Platform.</li>
+          <li>4.3 Information you provide must be true, accurate, and up to date. If any information is false or misleading, we may suspend or terminate your access to the Services.</li>
+          <li>4.4 Only persons aged 16 or above may register as a Tutor on the Platform. Tutors aged 16 to 17 must provide guardian consent, and the guardian must assume liability for payment and compensation; failing which, the Platform may refuse matching or suspend the account.</li>
+        </ol>
+      </div>
+
+      <div class="termsBlock">
+        <h3>5. Registration and Communications</h3>
+        <ol class="termsSub">
+          <li>5.1 You may be required to submit forms and/or provide contact details to use certain Services. You must properly safeguard your email address, phone number, third-party account credentials, and any login or verification information you use.</li>
+          <li>5.2 You consent to our contacting you via email, WhatsApp, SMS, Platform messages, or other reasonable means regarding matching, fees, service updates, and security notices.</li>
+        </ol>
+      </div>
+
+      <div class="termsBlock">
+        <h3>6. User Conduct and Prohibited Acts</h3>
+        <p>You must not (and must not procure or encourage others to):</p>
+        <ol class="termsSub">
+          <li>6.1 commit fraud, impersonate any person, provide false information, or make misleading statements;</li>
+          <li>6.2 publish or transmit insulting, threatening, harassing, obscene, defamatory, privacy-infringing, or otherwise inappropriate content;</li>
+          <li>6.3 infringe any third party’s intellectual property rights, portrait/image rights, or other rights;</li>
+          <li>6.4 collect, store, disclose, or disseminate personal data of others without consent (including “doxxing” or any disclosure intended to cause harm);</li>
+          <li>6.5 use bots, crawlers, scraping tools, or other automated means to access, copy, or monitor Platform content at scale;</li>
+          <li>6.6 reverse engineer, interfere with, attack, damage, or disrupt Platform systems or circumvent security measures;</li>
+          <li>6.7 circumvent the Platform Service Fee in any manner (see Clause 8.6 “Anti-Circumvention”);</li>
+          <li>6.8 engage in any unlawful conduct or any conduct that violates Hong Kong laws and (where applicable) the laws of your place of residence.</li>
+        </ol>
+      </div>
+
+      <div class="termsBlock">
+        <h3>7. Matching Process and Contractual Relationship</h3>
+        <ol class="termsSub">
+          <li>7.1 Student process (overview): (i) submit requirements (subject/category, level, location or online, goals, etc.) (ii) system recommendation / Platform assistance (iii) browse and select a Tutor (iv) confirm the Match and arrange Lessons via the Platform.</li>
+          <li>7.2 Tutor process: Tutors submit profile information, categories, availability, location/online options, fees, and other information; the Platform may display Tutor information on different category pages for Students to browse.</li>
+          <li>7.3 Provision of Contact Details
+            <ol class="termsSub">
+              <li>(a) Before a Match is confirmed, Users may only conduct initial communications through Platform staff.</li>
+              <li>(b) Upon a successful Match and after the Student has paid the Platform Service Fee, the Platform will provide the registered contact phone numbers of both parties for further lesson arrangements.</li>
+              <li>(c) Before a Match is confirmed, you agree not to request, induce, or proactively disclose any contact details (including phone number, WhatsApp, email address, social media accounts, etc.) to bypass Platform procedures or the Platform Service Fee. If we reasonably believe you have breached this clause, Clause 8.6 (Anti-Circumvention) and Clause 18 (Suspension/Termination) apply.</li>
+            </ol>
+          </li>
+          <li>7.4 Lesson contract: Except as expressly provided in these Terms (e.g., the Platform Service Fee), any agreement between a Tutor and a Student regarding lesson content, hours, location, fees from the third Lesson onwards, cancellation policy, and similar matters constitutes a contract between the Tutor and the Student only, and the Platform is not a party to such contract.</li>
+          <li>7.5 We may (but are not obliged to) assist with communication, scheduling, payment reminders, and dispute mediation.</li>
+        </ol>
+      </div>
+
+      <div class="termsBlock">
+        <h3>8. Fees, Payment, and Platform Service Fee (First Two Lessons)</h3>
+        <ol class="termsSub">
+          <li>8.1 To maintain Platform operations and to provide customer service and safety safeguards, we charge the Platform Service Fee in accordance with the Platform’s published “Fee Arrangement”.</li>
+          <li>8.2 The Platform collects the tuition fees of the first two Lessons as the Platform Service Fee. If a Student successfully matches with a Tutor through the Platform, the tuition fees of the first two Lessons will be treated as the Platform Service Fee and shall be paid by the Student.</li>
+          <li>8.3 Determination of the Platform Service Fee: The Platform Service Fee shall be determined by one of the following, whichever is more readily verifiable:
+            <ol class="termsSub">
+              <li>(a) the fees for the first two Lessons as displayed in Platform messages/system records or confirmed in writing by customer service at the time of Match confirmation; or</li>
+              <li>(b) if the first two Lessons involve different durations and/or unit prices, the aggregate of the Agreed Fee for the first two Lessons as confirmed by the Platform; or</li>
+              <li>(c) if the above records are insufficient, the aggregate of the Agreed Fee for the first two Lessons as confirmed through Platform messages or in writing by customer service.</li>
+            </ol>
+          </li>
+          <li>8.4 Payment timing and method
+            <ol class="termsSub">
+              <li>(a) You agree to pay the Platform Service Fee within the specified deadline by FPS, bank transfer, electronic payment, or other methods accepted by us (and where a third-party payment service is used, you must also agree to its terms).</li>
+              <li>(b) The Student must pay the Platform Service Fee at least 48 hours before the scheduled lesson time. If the time between Match confirmation and the first scheduled Lesson is less than 48 hours, the Student must first pay the Platform Service Fee for the Match to be treated as completed. If the Student fails to pay within the above timeframe, we may suspend matching, cancel the scheduled first Lesson time, and treat the Match as not completed.</li>
+            </ol>
+          </li>
+          <li>8.5 Fees from the third Lesson onwards: Unless the Platform otherwise arranges in writing, from the third Lesson onwards, lesson fees shall in principle be paid by the Student directly to the Tutor. The Student and Tutor may agree their own payment method.</li>
+          <li>8.6 Anti-Circumvention (Important)
+            <ol class="termsSub">
+              <li>(a) If you obtain the other party’s contact details through the Platform, or you are introduced/matched through the Platform, the Platform Service Fee remains due and payable even if you subsequently communicate, conduct Lessons, or make payments outside the Platform.</li>
+              <li>(b) If we have reasonable grounds to believe you have engaged in circumvention of the Platform Service Fee, we may: (i) suspend/terminate your access to the Services and refuse your future use of matching; and (ii) recover the Platform Service Fee due and charge reasonable administrative costs (capped at HKD 1,000) reflecting costs incurred for investigation, customer service, and recovery.</li>
+              <li>(c) If we have reasonable grounds to believe or discover that a Tutor colluded with a Student or parent to defraud the Platform in order to reduce administrative fees, we reserve the right to report to law enforcement and take legal action (including civil recovery and, where appropriate, criminal reporting).</li>
+              <li>(d) If a User obtains or exchanges contact details by any means and arranges Lessons/payment before Match confirmation, or after Match confirmation circumvents the Platform Service Fee by “discounting, gifting, renaming items, splitting charges” or similar arrangements, the Platform may recover the Platform Service Fee based on Match confirmation records or a reasonable estimation of the Agreed Fee for the first two Lessons.</li>
+            </ol>
+          </li>
+          <li>8.7 Refunds: Except where Clause 9.1(c)(iii) applies or we otherwise make a written commitment, the Platform Service Fee is generally non-refundable. If a material system error results in duplicate charges, or we confirm in writing that the error is attributable to the Platform, we may rectify or refund on a case-by-case basis.</li>
+          <li>8.8 Payment of the Platform Service Fee does not guarantee that a Tutor or Student will continue Lessons or that any learning outcome will be achieved.</li>
+        </ol>
+      </div>
+
+      <div class="termsBlock">
+        <h3>9. Cancellations, Absences, and Disputes (Between Tutor and Student)</h3>
+        <ol class="termsSub">
+          <li>9.1 First two Lessons (Platform Service Fee period): cancellation, rescheduling, and breach handling
+            <ol class="termsSub">
+              <li>(a) Scope: This clause applies where a Match has been confirmed and the Student has paid the Platform Service Fee (the aggregate Agreed Fee for the first two Lessons). From the third Lesson onwards, unless the Platform otherwise arranges in writing, Clause 9.1(g) applies.</li>
+              <li>(b) Fee calculation for the first two Lessons. The Per-Lesson Fee for each of the first two Lessons is the finally agreed hourly rate × the finally agreed duration per Lesson (no fixed minutes). If the first two Lessons involve different durations or unit prices, the aggregate Agreed Fee for the first two Lessons as confirmed in the Platform’s Match confirmation records shall prevail.</li>
+              <li>(c) Tutor’s failure to conduct the first two Lessons at the agreed time (Tutor breach)
+                <ol class="termsSub">
+                  <li>(i) If the Tutor cannot conduct the first or second Lesson at the agreed time for any reason, and with the Student’s consent, the parties may renegotiate the lesson time (including adjusting duration, switching to online, changing location, etc.), and the Platform’s Match confirmation records or subsequent written confirmation/messages between the parties shall prevail.</li>
+                  <li>(ii) If the Student does not agree to reschedule, the Lesson shall be treated as cancelled by the Tutor, and the Tutor must pay compensation to the Student equal to that Lesson’s Agreed Fee.</li>
+                  <li>(iii) If the Tutor fails to conduct both Lessons within the first two Lessons period consecutively at the agreed times, and the Student decides to terminate the engagement, the Platform may recover from the Tutor the aggregate Agreed Fee for the first two Lessons as reimbursement for the Platform’s refund/compensation to the Student. The Platform will refund the Student the Platform Service Fee previously paid (by reference to the amount actually received by the Platform).</li>
+                  <li>(iv) Where a Tutor is subject to recovery under this clause, payment must be made within 48 hours from the Platform’s recovery notice; overdue accounts may be suspended until settlement.</li>
+                  <li>(v) If the Tutor has already paid compensation to the Student under (ii) or (iii), and the Platform has also refunded the Platform Service Fee to the Student, the Platform may, on a fairness basis, require the Student to avoid double recovery (e.g., by offsetting any compensation already received from the Tutor), so that the same Lesson does not result in “double refund/double compensation”.</li>
+                </ol>
+              </li>
+              <li>(d) Student’s failure to attend the first two Lessons at the agreed time (Student breach)
+                <ol class="termsSub">
+                  <li>(i) If the Student cannot attend the first or second Lesson at the agreed time for any reason, and with the Tutor’s consent, the parties may renegotiate the lesson time.</li>
+                  <li>(ii) If the Tutor does not agree to reschedule, the Lesson shall be deemed completed; the Student may not seek any refund, deduction, or rebate from the Platform or the Tutor for that Lesson.</li>
+                  <li>(iii) If the Tutor agrees to reschedule, the parties are advised to keep written message records; the Platform may request such records for handling subsequent disputes (if any).</li>
+                </ol>
+              </li>
+              <li>(e) Definition of “failure to conduct at the agreed time”
+                <ol class="termsSub">
+                  <li>(i) Unless otherwise agreed in writing by both parties: if either party has not commenced the Lesson within 30 minutes after the agreed start time (including no-show, failure to provide the lesson link, or inability to commence teaching/training), it shall be deemed a “failure to conduct at the agreed time”; or</li>
+                  <li>(ii) if either party notifies within 24 hours before the agreed start time that they cannot conduct the Lesson at the agreed time, it shall also be deemed a “failure to conduct at the agreed time”.</li>
+                </ol>
+              </li>
+              <li>(f) Dispute handling and evidence
+                <ol class="termsSub">
+                  <li>(i) In the event of a dispute regarding cancellation/rescheduling/attendance for the first two Lessons, both parties agree that the Platform’s Match confirmation records, Platform messages, written customer service confirmations, and verifiable communication records (e.g., WhatsApp chat screenshots, emails, lesson-link logs, etc.) shall constitute the primary evidence.</li>
+                  <li>(ii) The Platform may (but is not obliged to) assist with mediation in a reasonable manner; however, the Platform is not an arbitrator for Lessons from the third Lesson onwards. Any dispute arising from the third Lesson onwards shall be handled by the Tutor and Student themselves.</li>
+                </ol>
+              </li>
+              <li>(g) Third Lesson onwards. Unless the Platform otherwise arranges in writing, from the third Lesson onwards, cancellations, absences, rescheduling, refunds, and any breach matters shall be handled by the Tutor and Student through their own agreement; the Platform does not assume responsibility for collection, refunds, or compensation.</li>
+            </ol>
+          </li>
+          <li>9.2 Other than the first two Lessons under the Platform Service Fee arrangement, Tutors and Students should agree their own cancellation policy (e.g., required notice period, no-show charges, etc.).</li>
+          <li>9.3 To the extent permitted by law, you agree to release us from claims arising out of disputes between you and other Users (without affecting liability we must bear by law for our own fault).</li>
+        </ol>
+      </div>
+
+      <div class="termsBlock">
+        <h3>10. Content and Licence</h3>
+        <ol class="termsSub">
+          <li>10.1 You retain ownership of your Content. You grant us a worldwide, royalty-free, transferable, and sublicensable licence to use, store, copy, display, edit, and distribute such Content for operating, displaying, promoting, and improving the Services (and we will handle personal data in accordance with our privacy practices/policies).</li>
+          <li>10.2 You represent and warrant that you have the right to upload the Content and that it does not infringe any third-party rights.</li>
+          <li>10.3 We may (but are not obliged to) remove any Content we reasonably believe violates these Terms, poses risk, or is subject to complaint, without liability or refund.</li>
+        </ol>
+      </div>
+
+      <div class="termsBlock">
+        <h3>11. Privacy and Personal Data</h3>
+        <ol class="termsSub">
+          <li>11.1 We handle personal data in accordance with the Hong Kong Personal Data (Privacy) Ordinance (Cap. 486) and applicable laws, and will take reasonable measures to protect data security.</li>
+          <li>11.2 You agree that any personal data obtained from the Platform (e.g., phone number, email, address, Student information) may only be used for matching and lesson arrangement purposes and must not be used for marketing, resale, public disclosure, or any other purpose without consent.</li>
+          <li>11.3 You must not “dox” or disclose personal data with intent or recklessness as to causing harm on the Platform or elsewhere. We may terminate Services immediately and cooperate with law enforcement or regulators by providing necessary information where required (e.g., pursuant to lawful requests).</li>
+        </ol>
+      </div>
+
+      <div class="termsBlock">
+        <h3>12. Safety Tips and Offline Risks</h3>
+        <ol class="termsSub">
+          <li>12.1 Offline meetings, home visits, outdoor training, or in-person tutoring carry risks. You should take reasonable safety precautions (e.g., meet in public for the first meeting, inform family of your itinerary, keep message records, avoid entering unfamiliar places alone, etc.).</li>
+          <li>12.2 We do not guarantee any User’s identity, character, capability, health condition, or background. You agree to bear the risks arising from interactions with other Users.</li>
+        </ol>
+      </div>
+
+      <div class="termsBlock">
+        <h3>13. Intellectual Property</h3>
+        <ol class="termsSub">
+          <li>13.1 The Platform interface, design, logo, software, text, and data structure (excluding User Content) are owned by us or our licensors. You must not copy, adapt, distribute, or use them for commercial purposes without our prior written consent.</li>
+        </ol>
+      </div>
+
+      <div class="termsBlock">
+        <h3>14. Third-Party Services and Links</h3>
+        <ol class="termsSub">
+          <li>14.1 The Platform may contain third-party links or use third-party services (e.g., Google Forms, communication tools, payment services). Such third-party services are governed by their own terms, and we are not responsible for their availability or content.</li>
+        </ol>
+      </div>
+
+      <div class="termsBlock">
+        <h3>15. Disclaimers</h3>
+        <ol class="termsSub">
+          <li>15.1 The Services are provided on an “as is” and “as available” basis. We do not warrant uninterrupted operation, error-free performance, or complete security.</li>
+          <li>15.2 We do not warrant or assume liability for any Tutor or Student conduct, learning outcomes, lesson quality, attendance, private agreement content, or any losses arising from User Content.</li>
+        </ol>
+      </div>
+
+      <div class="termsBlock">
+        <h3>16. Limitation of Liability</h3>
+        <ol class="termsSub">
+          <li>16.1 To the maximum extent permitted by law, we are not liable for any indirect, incidental, special, punitive, or consequential losses (including loss of profits, reputation, or data).</li>
+          <li>16.2 Where we are liable in respect of the Services, our total aggregate liability (whether in contract, tort, statute, or otherwise) is limited to the total Platform Service Fee actually paid by you in respect of the matter giving rise to the claim.</li>
+          <li>16.3 Any clause in these Terms that excludes or limits liability applies only to the extent permitted under the Hong Kong Control of Exemption Clauses Ordinance (Cap. 71) and other applicable laws.</li>
+        </ol>
+      </div>
+
+      <div class="termsBlock">
+        <h3>17. Indemnity</h3>
+        <p>You agree to indemnify and hold us harmless from and against any claims, losses, liabilities, costs, and expenses (including reasonable legal fees) arising out of or in connection with your use of the Services, your Content, your breach of these Terms, or your infringement of any third-party rights.</p>
+      </div>
+
+      <div class="termsBlock">
+        <h3>18. Suspension and Termination</h3>
+        <ol class="termsSub">
+          <li>18.1 You may suspend or stop using the Services at any time.</li>
+          <li>18.2 If you breach these Terms, we receive a reasonable complaint, or we reasonably believe there are security, fraud, or fee-circumvention risks, we may suspend or terminate your access to the Services without prior notice.</li>
+          <li>18.3 Upon termination, all payment obligations already due under these Terms (including Platform Service Fee and recovery costs) remain in effect.</li>
+        </ol>
+      </div>
+
+      <div class="termsBlock">
+        <h3>19. Notices</h3>
+        <ol class="termsSub">
+          <li>19.1 Notices we send to you may be delivered via Platform announcements, email, WhatsApp, SMS, or other contact methods you provide. Notices you send to us shall be deemed received only upon our confirmation of receipt.</li>
+        </ol>
+      </div>
+
+      <div class="termsBlock">
+        <h3>20. Governing Law and Jurisdiction</h3>
+        <ol class="termsSub">
+          <li>20.1 These Terms are governed by the laws of the Hong Kong Special Administrative Region. Where mandatory, non-excludable laws in your location apply, those laws are not affected by these Terms to the extent applicable.</li>
+          <li>20.2 Any dispute arising out of or in connection with these Terms or the Services shall be subject to the non-exclusive jurisdiction of the courts of the Hong Kong Special Administrative Region.</li>
+        </ol>
+      </div>
+
+      <div class="termsBlock">
+        <h3>21. Miscellaneous</h3>
+        <ol class="termsSub">
+          <li>21.1 If any provision of these Terms is held invalid or unenforceable, the remaining provisions remain in full force and effect.</li>
+          <li>21.2 These Terms constitute the entire agreement between you and us regarding the Services and supersede all prior oral or written understandings on the same subject matter.</li>
+          <li>21.3 In the event of any inconsistency or ambiguity between the Chinese and English versions, the Chinese version shall prevail.</li>
+        </ol>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    (function(){
+      const menuBtn = document.getElementById('menuBtn');
+      const drawer  = document.getElementById('drawer');
+      const overlay = document.getElementById('overlay');
+      const closeBtn= document.getElementById('closeBtn');
+
+      if(!menuBtn || !drawer || !overlay || !closeBtn) return;
+      let lastFocus = null;
+
+      function openNav(){
+        lastFocus = document.activeElement;
+        drawer.classList.add('open');
+        overlay.classList.add('open');
+        drawer.setAttribute('aria-hidden','false');
+        overlay.setAttribute('aria-hidden','false');
+        menuBtn.setAttribute('aria-expanded','true');
+        closeBtn.focus({ preventScroll:true });
+      }
+
+      function closeNav(){
+        drawer.classList.remove('open');
+        overlay.classList.remove('open');
+        drawer.setAttribute('aria-hidden','true');
+        overlay.setAttribute('aria-hidden','true');
+        menuBtn.setAttribute('aria-expanded','false');
+        if(lastFocus && typeof lastFocus.focus === 'function'){
+          lastFocus.focus({ preventScroll:true });
+        }else{
+          menuBtn.focus({ preventScroll:true });
+        }
+      }
+
+      menuBtn.addEventListener('click', () => {
+        const isOpen = drawer.classList.contains('open');
+        if(isOpen) closeNav(); else openNav();
+      });
+
+      closeBtn.addEventListener('click', closeNav);
+      overlay.addEventListener('click', closeNav);
+
+      document.addEventListener('keydown', (e)=>{
+        if(e.key === 'Escape' && drawer.classList.contains('open')){
+          closeNav();
+        }
+      });
+
+      drawer.addEventListener('click', (e)=>{
+        const a = e.target.closest('a');
+        if(a) closeNav();
+      });
+    })();
+
+    (function(){
+      const buttons = Array.from(document.querySelectorAll('.langBtn'));
+      const sections = {
+        zh: document.getElementById('terms-zh'),
+        en: document.getElementById('terms-en')
+      };
+
+      if(buttons.length === 0 || !sections.zh || !sections.en) return;
+
+      function setLang(lang){
+        sections.zh.hidden = lang !== 'zh';
+        sections.en.hidden = lang !== 'en';
+        buttons.forEach((btn)=>{
+          btn.setAttribute('aria-pressed', String(btn.dataset.lang === lang));
+        });
+      }
+
+      buttons.forEach((btn)=>{
+        btn.addEventListener('click', ()=> setLang(btn.dataset.lang));
+      });
+    })();
+  </script>
+</body>
+</html>
