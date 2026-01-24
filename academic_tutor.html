@@ -342,7 +342,11 @@
     }
 
     .modal .body{padding: 4px 20px 20px}
-
+    .modal .body .field{
+      display:flex;
+      flex-direction:column;
+      gap:8px;
+    }
     .profile-grid{display:grid; grid-template-columns: 1.2fr 1fr; gap:18px; margin-top:6px}
     .profile-card{
       background: rgba(255,255,255,.06);
@@ -769,7 +773,11 @@
 
     /* 1) HK$ 0 – 800 label -> white */
     #feeLabel{ color:#ffffff !important; }
-
+    /* 1a) 篩選欄位標籤（地區/價位/關鍵字/導師編號/性別/價位上下限）-> white */
+    .filter-row .label,
+    .filter-row .mini{
+      color:#ffffff !important;
+    }
     /* 2) Tutor profile section titles -> white */
     .profile-title{ color: rgba(248,250,252,.96) !important; }
 
