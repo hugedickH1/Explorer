@@ -1403,21 +1403,21 @@
       <div class="search-row" aria-label="搜尋">
         <div class="field">
           <span class="label">關鍵字搜尋</span>
-          <input id="q" type="search" placeholder="導師姓名 / 科目 / 學歷 / 備註…" />
+          <input id="q" type="search" placeholder="教練姓名 / 運動項目 / 資歷 / 備註…" />
         </div>
 
         <div class="field">
-          <span class="label"> 導師編號</span>
-          <input id="idq" type="text" placeholder="輸入編號（如：AG-202511-003）" />
+         <span class="label"> 教練編號</span>
+          <input id="idq" type="text" placeholder="輸入編號（如：SP-202511-003）" />
         </div>
       </div>
 
       <div class="gender-field">
-        <span class="label">導師性別篩選</span>
+        <span class="label">教練性別篩選</span>
         <select id="genderFilter">
-          <option value="">不限導師性別</option>
-          <option value="男導師">男導師</option>
-          <option value="女導師">女導師</option>
+          <option value="">不限教練性別</option>
+          <option value="男教練">男教練</option>
+          <option value="女教練">女教練</option>
         </select>
       </div>
     </section>
@@ -1463,11 +1463,11 @@
             <h3 class="profile-title">基本資料</h3>
             <div class="kv" id="kv-basic"></div>
             <div class="cta-row">
-              <button id="copyId" class="copy" type="button">複製導師編號</button>
+             <button id="copyId" class="copy" type="button">複製教練編號</button>
             </div>
           </div>
           <div class="profile-card">
-            <h3 class="profile-title">課程 / 服務資料</h3>
+            <h3 class="profile-title">訓練 / 服務資料</h3>
             <div class="kv" id="kv-expect"></div>
           </div>
           <div class="profile-card" style="grid-column:1/-1">
@@ -1495,7 +1495,7 @@
         <div class="bar">
           <button id="selAll" class="btn" type="button">全選</button>
           <button id="clrAll" class="btn" type="button">清除全部</button>
-          <span id="selCount" class="mini fw">已選：0 個科目</span>
+          <span id="selCount" class="mini fw">已選：0 個運動</span>
         </div>
         <div class="bar" style="justify-content:flex-end; margin-top:12px">
           <button id="applyCategory" class="btn" type="button">套用篩選</button>
@@ -1599,81 +1599,89 @@
 
     const AGENTS = [
       {
-        id:"AG-202511-001",
-        name:"Miss Chan",
-        gender:"女導師",
-        years:"3 年",
-        mainCategory:"學科補習",
-        subjects:["中一至中三數學","NCEA Level 1 數學"],
-        district:"網上授課",
-        areaDetail:"Zoom / Google Meet",
-        fee:280,
-        mode:"網上為主，如有需要可面授",
-        targetLevels:["中學","海外 / NCEA"],
-        examType:["NCEA"],
-        experience:"曾於補習社任教，熟悉NCEA題型及評分標準",
-        qualification:"港大理學士（數學）",
+        id:"SP-202511-001",
+        name:"Jason Lee",
+        gender:"男教練",
+        age:"32 歲",
+        intro:"專注籃球基礎到校隊戰術，兼顧體能與協調訓練。",
+        years:"8 年",
+        mainCategory:"籃球",
+        subjects:["控球節奏","投籃姿勢","防守腳步"],
+        district:"中西區",
+        areaDetail:"中環 / 上環；可安排戶外球場",
+        fee:320,
+        mode:"面授為主 / 可網上影片分析",
+        targetLevels:["中學","成人入門"],
+        examType:["體能測試","校隊選拔"],
+        experience:"曾任校隊助教，協助學生提升投籃穩定度與比賽判讀。",
+        qualification:"香港籃總一級教練證",
         contact:"WhatsApp：+852 6123 4567",
-        timeSlots:"平日 18:00 後；週末彈性",
-        notes:"擅長幫學生拆題、建立公式概念，而唔係死背。\n提供手寫筆記同小測，方便學生自我檢查。"
+        timeSlots:"平日 19:00 後；週末上午",
+        notes:"會按球員位置設計訓練計劃，提供課後動作影片回饋。"
       },
       {
-        id:"AG-202511-002",
-        name:"Kelvin Sir",
-        gender:"男導師",
+        id:"SP-202511-002",
+        name:"Nicole Wong",
+        gender:"女教練",
+        age:"29 歲",
+        intro:"羽毛球步法與力量訓練，改善爆發力與回球角度。",
         years:"6 年",
-        mainCategory:"學科補習",
-        subjects:["DSE 物理","DSE 數學 M1"],
+        mainCategory:"羽毛球",
+        subjects:["步法移動","殺球技巧","體能強化"],
         district:"沙田區",
-        areaDetail:"沙田 / 大圍 可面授；其他地區可再商議",
-        fee:420,
-        mode:"面授 / 網上皆可",
-        targetLevels:["高中","重讀生"],
-        examType:["HKDSE"],
-        experience:"多年操卷經驗，多位學生由 Level 3 升到 Level 5 或以上",
-        qualification:"中大工程學系畢業",
+        areaDetail:"沙田 / 大圍 體育館",
+        fee:380,
+        mode:"面授 / 小組皆可",
+        targetLevels:["青少年","校隊"],
+        examType:["校隊試訓","比賽準備"],
+        experience:"帶領多位學生成為校隊主力，重視腳步與反應速度。",
+        qualification:"羽毛球教練證書（中級）",
         contact:"WhatsApp：+852 9234 5678",
-        timeSlots:"一三五 晚上；週末日間",
-        notes:"上堂重視互動同理解，會先了解學生弱項再作針對訓練。\n可提供模擬試卷同進度報告畀家長 / 學生參考。"
+        timeSlots:"二四晚間；週末彈性",
+        notes:"提供每月訓練報告，協助家長掌握進度。"
       },
       {
-        id:"AG-202511-006",
-        name:"Chris Bumstead",
-        gender:"男導師",
-        years:"7 年",
-        mainCategory:"學科補習",
-        subjects:["小學全科","K1-K3 幼稚園學前班"],
+        id:"SP-202511-003",
+        name:"Leo Chan",
+        gender:"男教練",
+        age:"35 歲",
+        intro:"游泳技巧與呼吸節奏調整，適合初學與提升速度。",
+        years:"10 年",
+        mainCategory:"游泳",
+        subjects:["自由式","蝶式","水中體能"],
         district:"元朗區",
-        areaDetail:"天水圍 / 元朗 上門或屋苑會所",
-        fee:230,
-        mode:"上門教學 / 小組",
-        targetLevels:["幼稚園","小學"],
-        examType:[],
-        experience:"專教基礎打好中文、英文及數學，幫助學生自我檢查。".replace("自我檢查","適應小學課程"),
-        qualification:"幼兒教育學文憑",
+        areaDetail:"天水圍 / 元朗 泳池",
+        fee:260,
+        mode:"面授 / 可安排小組",
+        targetLevels:["小學","成人"],
+        examType:["泳測考核","比賽技術"],
+        experience:"協助學員改善划水效率，提升耐力與速度。",
+        qualification:"拯溺銅章 / 游泳教練證",
         contact:"WhatsApp：+852 5566 7788",
         timeSlots:"平日放學後；六日上午",
-        notes:"用肌肉教學，令小朋友唔敢抗拒做功課。",
+        notes:"課程包含水中安全與自救技巧。",
         avatarUrl:"/assets/img/AG-202511-006.jpeg"
       },
       {
-        id:"AG-202511-008",
-        name:"Joyce",
-        gender:"女導師",
-        years:"5 年",
-        mainCategory:"學科補習",
-        subjects:["IELTS 英文","日常英會話"],
+        id:"SP-202511-004",
+        name:"Amy Ho",
+        gender:"女教練",
+        age:"27 歲",
+        intro:"瑜伽伸展與核心穩定訓練，提升柔軟度與體態。",
+        years:"4 年",
+        mainCategory:"瑜伽",
+        subjects:["核心訓練","伸展放鬆","呼吸調節"],
         district:"灣仔區",
-        areaDetail:"灣仔 / 銅鑼灣 咖啡室或自修室；亦可網上",
-        fee:380,
+        areaDetail:"灣仔 / 銅鑼灣 瑜伽室；亦可上門",
+        fee:360,
         mode:"面授 / 網上",
-        targetLevels:["大專","在職人士"],
-        examType:["IELTS"],
-        experience:"平均幫學生由 Band 5 升到 Band 6.5–7.0",
-        qualification:"英國碩士畢業，IELTS 8.0",
+        targetLevels:["初學者","在職人士"],
+        examType:["體態改善","壓力舒緩"],
+        experience:"設計適合上班族的伸展計劃，改善肩頸緊繃。",
+        qualification:"RYT200 認證",
         contact:"WhatsApp：+852 6666 7777",
         timeSlots:"平日晚間；週末部分時間",
-        notes:"重視口語及實際應用，會設計模擬考試情境。"
+        notes:"可提供客製化伸展清單，方便自我練習。"
       }
     ];
 
@@ -1824,7 +1832,7 @@
 
     function updateSelCount(){
       const size = (draftCategorySelected ? draftCategorySelected.size : categorySelected.size);
-      selCount.textContent = `已選：${size} 個科目`;
+      selCount.textContent = `已選：${size} 個運動`;
     }
 
     function renderCategoryList(){
@@ -1964,7 +1972,7 @@
       const k = q.value.trim().toLowerCase();
       if(!k) return true;
       const hay = [
-        c.id, c.name, c.gender, c.years, c.mainCategory,
+        c.id, c.name, c.gender, c.age, c.intro, c.years, c.mainCategory,
         ...(c.subjects||[]),
         c.district, c.areaDetail, c.mode,
         ...(c.targetLevels||[]),
@@ -2000,7 +2008,7 @@
         return;
       }
       activeBar.classList.remove('hidden');
-      activeBar.innerHTML = `<span class="mini">科目：</span>`;
+      activeBar.innerHTML = `<span class="mini">運動：</span>`;
       for(const c of chips){
         const chip = document.createElement('span');
         chip.className = 'chip';
@@ -2055,7 +2063,7 @@
               </div>
               <div class="who">
                 <div class="name">${esc(c.name)}　<small class="gender">${esc(c.gender || '')}</small></div>
-                <div class="muted">導師編號：${esc(c.id || '-') }</div>
+                <div class="muted">教練編號：${esc(c.id || '-') }</div>
               </div>
             </div>
 
@@ -2079,14 +2087,14 @@
               ${(c.targetLevels && c.targetLevels.length)
                 ? `<span class="tag">對象：${esc(c.targetLevels.join('、'))}</span>` : ''}
               ${(c.examType && c.examType.length)
-                ? `<span class="tag">應試：${esc(c.examType.join('、'))}</span>` : ''}
+                ? `<span class="tag">訓練重點：${esc(c.examType.join('、'))}</span>` : ''}
               <span class="tag">學費：HK$ ${esc(c.fee ?? '—')}/時</span>
             </div>
 
             ${c.notes ? `<p class="note">${esc(c.notes)}</p>`:''}
 
             <div class="foot">
-              <span>點擊查看完整導師資料</span>
+              <span>點擊查看完整教練資料</span>
               <span class="budget">${(c.fee || c.fee===0) ? `HK$ ${esc(c.fee)}/時` : '面議'}</span>
             </div>
           `;
@@ -2123,26 +2131,26 @@
       }
 
       modalTitle.textContent = c.name ?? '—';
-      modalSub.textContent = `導師編號：${c.id ?? '—'}`;
+      modalSub.textContent = `教練編號：${c.id ?? '—'}`;
 
       kvBasic.innerHTML = `
-        <b>教學年資</b><div>${esc(c.years ?? '—')}</div>
-        <b>導師性別</b><div>${esc(c.gender ?? '—')}</div>
-        <b>教學類別 / 科目</b><div>${esc(c.mainCategory ?? '—')}｜${esc((c.subjects||[]).join('、') || '—')}</div>
+        <b>教練年齡</b><div>${esc(c.age ?? '—')}</div>
+        <b>教練性別</b><div>${esc(c.gender ?? '—')}</div>
+        <b>課程簡介</b><div>${esc(c.intro ?? '—')}</div>
         <b>服務地區</b><div>${esc(c.district ?? '—')}｜${esc(c.areaDetail ?? '')}</div>
         <b>授課模式</b><div>${esc(c.mode ?? '—')}</div>
       `;
       kvExpect.innerHTML = `
         <b>時薪</b><div>HK$ ${esc(c.fee ?? '—')} / 小時</div>
         <b>對象</b><div>${esc((c.targetLevels||[]).join('、') || '—')}</div>
-        <b>應試 / 課程</b><div>${esc((c.examType||[]).join('、') || '—')}</div>
-        <b>教學經驗</b><div>${esc(c.experience ?? '—')}</div>
-        <b>學歷 / 資格</b><div>${esc(c.qualification ?? '—')}</div>
+        <b>訓練重點</b><div>${esc((c.examType||[]).join('、') || '—')}</div>
+        <b>教練經驗</b><div>${esc(c.experience ?? '—')}</div>
+        <b>資歷 / 證照</b><div>${esc(c.qualification ?? '—')}</div>
         <b>可授課時間</b><div>${esc(c.timeSlots ?? '—')}</div>
       `;
       kvNotes.textContent = c.notes || '—';
 
-      copyIdBtn.textContent = '複製導師編號';
+      copyIdBtn.textContent = '複製教練編號';
 
       backdrop.classList.add('show');
       backdrop.setAttribute('aria-hidden','false');
