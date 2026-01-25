@@ -1742,7 +1742,6 @@
     const clrAll = document.getElementById('clrAll');
     const selCount = document.getElementById('selCount');
     const applyCategory = document.getElementById('applyCategory');
-    const examTypeSelect = document.getElementById('examTypeSelect');
 
     const PAGE_SIZE = 9;
     const prevPageBtn = document.getElementById('prevPage');
@@ -1768,7 +1767,7 @@
     let view = data.slice();
 
     const categorySelected = new Set();
-    let currentExamType = 'DSE';
+    
 
     let filtersInSheet = false;
     let subjectOpenedFromFilterSheet = false;
@@ -1776,7 +1775,6 @@
     let isFilterSheetOpen = false;
     let sheetSnapshot = null;
 
-    let draftExamType = null;
     let draftCategorySelected = null;
 
     function setRangeFill(el){
@@ -1831,12 +1829,11 @@
 
     function renderCategoryList(){
       categoryList.innerHTML = '';
-      const et = draftExamType ?? currentExamType;
       const setRef = draftCategorySelected ?? categorySelected;
-      const list = SUBJECT_GROUPS[et] || [];
+      const list = SPORTS;
 
       list.forEach((subject, i)=>{
-        const id = `sub-${et}-${i}`;
+        const id = `sub-sport-${i}`;
         const label = document.createElement('label');
         label.innerHTML = `<input type="checkbox" id="${id}"> <span>${esc(subject)}</span>`;
         const input = label.querySelector('input');
@@ -1852,9 +1849,7 @@
     }
 
     function openCategoryModal(){
-      draftExamType = currentExamType;
       draftCategorySelected = new Set(categorySelected);
-      examTypeSelect.value = draftExamType;
 
       categoryBackdrop.classList.add('show');
       categoryBackdrop.setAttribute('aria-hidden','false');
@@ -1864,7 +1859,6 @@
     }
 
     function closeCategoryModal({returnToSheet=false} = {}){
-      draftExamType = null;
       draftCategorySelected = null;
       categoryBackdrop.classList.remove('show');
       categoryBackdrop.setAttribute('aria-hidden','true');
@@ -1876,16 +1870,10 @@
       subjectOpenedFromFilterSheet = false;
     }
 
-    examTypeSelect.addEventListener('change', ()=>{
-      if(!draftCategorySelected) return;
-      draftExamType = examTypeSelect.value;
-      renderCategoryList();
-    });
-
+  
     selAll.addEventListener('click', ()=>{
       if(!draftCategorySelected) return;
-      const list = SUBJECT_GROUPS[draftExamType] || [];
-      list.forEach(sub => draftCategorySelected.add(sub));
+      const id = `sub-sport-${i}`;
       renderCategoryList();
     });
     clrAll.addEventListener('click', ()=>{
@@ -1901,8 +1889,7 @@
         categorySelected.clear();
         draftCategorySelected.forEach(x => categorySelected.add(x));
       }
-      if(draftExamType) currentExamType = draftExamType;
-
+  
       if(fromSheet){
         closeCategoryModal({returnToSheet:false});
         if(window.innerWidth <= 560){
@@ -2186,7 +2173,6 @@
         feeBand: feeBand.value,
         gender: genderFilter.value,
         category: Array.from(categorySelected),
-        examType: currentExamType,
         feeMinTouched: feeMin.dataset.touched,
         feeMaxTouched: feeMax.dataset.touched
       };
@@ -2204,9 +2190,6 @@
 
       categorySelected.clear();
       snap.category.forEach(x => categorySelected.add(x));
-      currentExamType = snap.examType;
-
-      examTypeSelect.value = currentExamType;
       syncFeeLabelAndFill();
     }
 
@@ -2353,7 +2336,6 @@
 
     function boot(){
       data = shuffle(data);
-      examTypeSelect.value = currentExamType;
       initFees();
       renderCategoryList();
       refresh();
