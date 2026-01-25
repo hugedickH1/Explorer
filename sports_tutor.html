@@ -1358,8 +1358,7 @@
             篩選
           </button>
 
-          <button id="categoryBtn" class="btn desktop-only" type="button">科目篩選</button>
-
+          <button id="categoryBtn" class="btn desktop-only" type="button">運動種類篩選</button>
           <button id="shuffle" class="btn" type="button">重新隨機</button>
           <button id="resetAll" class="btn" type="button">重設所有篩選</button>
         </div>
@@ -1486,11 +1485,11 @@
     </div>
   </div>
 
-  <!-- 科目篩選 Modal -->
+  <!-- 運動種類篩選 Modal -->
   <div id="categoryBackdrop" class="modal-backdrop" role="dialog" aria-modal="true" aria-hidden="true">
     <div class="modal" role="document" aria-labelledby="categoryTitle">
       <header>
-        <h2 id="categoryTitle" style="margin:0; font-size:20px; color:#0369a1">科目篩選</h2>
+        <h2 id="categoryTitle" style="margin:0; font-size:20px; color:#0369a1">運動種類篩選</h2>
         <button class="close" id="categoryClose" aria-label="關閉" type="button">✕</button>
       </header>
       <div class="body">
@@ -1507,7 +1506,7 @@
           </select>
         </div>
         <div class="mini" style="margin-top:8px">
-          勾選科目（可複選）；若不勾選直接「套用篩選」，將不限制科目
+          勾選運動（可複選）；未勾選即不限運動種類
         </div>
         <div id="categoryList" class="subgrid" style="margin-top:12px"></div>
         <div class="bar">
@@ -1534,8 +1533,8 @@
       </div>
       <div class="filter-body" id="filterPanelBody">
         <div class="field mobile-subject-row">
-          <span class="label">科目篩選</span>
-          <button id="mobileSubjectBtn" class="btn" type="button" style="padding-inline:12px">開啟科目篩選</button>
+          <span class="label">運動種類篩選</span>
+          <button id="mobileSubjectBtn" class="btn" type="button" style="padding-inline:12px">開啟運動種類篩選</button>
         </div>
       </div>
     </div>
@@ -2144,7 +2143,7 @@
 
       const shownFrom = total === 0 ? 0 : (start + 1);
       const shownTo = end;
-      countEl.textContent = `符合 ${total} 位學術導師　·　顯示第 ${shownFrom}–${shownTo} 位`;
+      countEl.textContent = `符合 ${total} 位教練　·　顯示第 ${shownFrom}–${shownTo} 位`;
 
       pageInfo.textContent = `第 ${currentPage} / ${Math.max(1, Math.ceil(total / PAGE_SIZE))} 頁`;
       grid.removeAttribute('aria-busy');
