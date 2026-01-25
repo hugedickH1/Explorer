@@ -1206,13 +1206,7 @@
       }
     }
 
-    /* ✅ ONLY CHANGE NOW:
-       Increase spacing between 「考試總類 / 課程類別」(label) and the select button (#examTypeSelect)
-       without affecting other fields.
-    */
-    #categoryBackdrop .field #examTypeSelect{
-      margin-top:8px;
-    }
+    
 
     /* =========================================================
        ✅ NEW: gap fallback (rare Safari/older)
@@ -1493,18 +1487,7 @@
         <button class="close" id="categoryClose" aria-label="關閉" type="button">✕</button>
       </header>
       <div class="body">
-        <div class="field">
-          <span class="label">考試總類 / 課程類別</span>
-          <select id="examTypeSelect">
-            <option value="DSE">DSE</option>
-            <option value="IGCSE">IGCSE</option>
-            <option value="A-Level">A-Level</option>
-            <option value="IB">IB</option>
-            <option value="小學">小學</option>
-            <option value="幼稚園">幼稚園</option>
-            <option value="其他類別">其他類別</option>
-          </select>
-        </div>
+        
         <div class="mini" style="margin-top:8px">
           勾選運動（可複選）；未勾選即不限運動種類
         </div>
@@ -1593,41 +1576,26 @@
       });
     })();
 
-    const SUBJECT_GROUPS = {
-      "DSE": [
-        "中文","英文","數學（必修部分）","公民與社會發展科","物理","化學","生物","經濟",
-        "企業，會計，與財務概論","歷史","中史","地理","中國文學","資訊及通訊科技",
-        "視覺藝術","音樂","體育","倫理與宗教","M1（微積分及統計）","M2（微積分及代數）"
-      ],
-      "IGCSE": [
-        "English Language","English Literature","Mathematics – Core","Further Mathematics",
-        "Biology","Chemistry","Physics","History","Geography","Economics","Global Perspectives",
-        "Sociology","French – Foreign Language","Spanish – Foreign Language","Arabic – First Language",
-        "Chinese – First Language","German – Foreign Language","Art and Design","Business Studies",
-        "Information and Communication Technology (ICT)","Computer Science","Drama","Music"
-      ],
-      "A-Level": [
-        "Art and Design","Biology","Business","Chemistry","Chinese","Economics",
-        "English Language","English Literature","Further Mathematics","Geography",
-        "History","Mathematics","Physics","Psychology"
-      ],
-      "IB": [
-        "Language A: literature","Language A: language and literature","Language B","Business management",
-        "Digital society","Economics","Geography","History","Psychology","Biology","Chemistry",
-        "Computer science","Design technology","Physics","Sports, exercise and health science",
-        "Mathematics - Analysis and approaches","Mathematics - Applications and interpretation","Theory of knowledge"
-      ],
-      "小學": [
-        "中文","英文","數學","常識","普通話","STEM/科學","寫作","閱讀理解","音樂","視覺藝術","體育","電腦/資訊科技"
-      ],
-      "幼稚園": [
-        "中文（語文啟蒙）","英文（Phonics）","數學前概念","常識與探索","專注力/精細動作","普通話","音樂與律動","創意美術"
-      ],
-      "其他類別": [
-        "微積分","統計學","編程（Python）","編程（JavaScript）","資料科學入門","寫作技巧",
-        "演講與辯論","面試技巧","商業入門","設計（平面/Canva）","IELTS","TOEFL","PTE"
-      ]
-    };
+    const SPORTS = [
+      "籃球",
+      "足球",
+      "排球",
+      "羽毛球",
+      "乒乓球",
+      "游泳",
+      "田徑",
+      "體操",
+      "舞蹈",
+      "跆拳道",
+      "空手道",
+      "武術",
+      "網球",
+      "攀石",
+      "其他",
+      "HYROX",
+      "業餘健身"
+    ];
+
 
     const AGENTS = [
       {
