@@ -1081,7 +1081,16 @@
     /* 3) HK$ XXX/時 (budget on card) -> white */
     .budget{ color:#ffffff !important; }
 
-    /* 4) 地區/關鍵字/導師編號/導師性別 的輸入框/下拉 -> white background */
+    /* 4) 篩選列 labels -> white (match HK$ 0 – 800) */
+    .filter-row .label,
+    .filter-row .mini{
+      color:#ffffff !important;
+    }
+    .fee-label::before{
+      color:#ffffff !important;
+    }
+
+    /* 5) 地區/關鍵字/導師編號/導師性別 的輸入框/下拉 -> white background */
     #district, #q, #idq, #genderFilter{
       background:#ffffff !important;
       color:#0f172a !important;
