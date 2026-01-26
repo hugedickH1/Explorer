@@ -1361,7 +1361,7 @@
             篩選
           </button>
 
-          <button id="categoryBtn" class="btn desktop-only" type="button">運動種類篩選</button>
+          <button id="categoryBtn" class="btn desktop-only" type="button">音樂及樂器分類篩選</button>
           <button id="shuffle" class="btn" type="button">重新隨機</button>
           <button id="resetAll" class="btn" type="button">重設所有篩選</button>
         </div>
@@ -1488,17 +1488,23 @@
     </div>
   </div>
 
-  <!-- 運動種類篩選 Modal -->
+  <!-- 音樂及樂器分類篩選 Modal -->
   <div id="categoryBackdrop" class="modal-backdrop" role="dialog" aria-modal="true" aria-hidden="true">
     <div class="modal" role="document" aria-labelledby="categoryTitle">
       <header>
-        <h2 id="categoryTitle" style="margin:0; font-size:20px; color:#0369a1">運動種類篩選</h2>
+        <h2 id="categoryTitle" style="margin:0; font-size:20px; color:#0369a1">音樂及樂器分類篩選</h2>
         <button class="close" id="categoryClose" aria-label="關閉" type="button">✕</button>
       </header>
       <div class="body">
         
         <div class="mini" style="margin-top:8px">
-          勾選運動（可複選）；未勾選即不限運動種類
+          勾選樂器 / 項目（可複選）；未勾選即不限樂器種類
+        </div>
+        <div id="categoryList" class="subgrid" style="margin-top:12px"></div>
+        <div class="bar">
+          <button id="selAll" class="btn" type="button">全選</button>
+          <button id="clrAll" class="btn" type="button">清除全部</button>
+          <span id="selCount" class="mini fw">已選：0 個樂器 / 項目</span>
         </div>
         <div id="categoryList" class="subgrid" style="margin-top:12px"></div>
         <div class="bar">
@@ -1525,8 +1531,8 @@
       </div>
       <div class="filter-body" id="filterPanelBody">
         <div class="field mobile-subject-row">
-          <span class="label">運動種類篩選</span>
-          <button id="mobileSubjectBtn" class="btn" type="button" style="padding-inline:12px">開啟運動種類篩選</button>
+          <span class="label">音樂及樂器分類篩選</span>
+          <button id="mobileSubjectBtn" class="btn" type="button" style="padding-inline:12px">開啟音樂及樂器分類篩選</button>
         </div>
       </div>
     </div>
@@ -1585,24 +1591,19 @@
       });
     })();
 
-    const SPORTS = [
-      "籃球",
-      "足球",
-      "排球",
-      "羽毛球",
-      "乒乓球",
-      "游泳",
-      "田徑",
-      "體操",
-      "舞蹈",
-      "跆拳道",
-      "空手道",
-      "武術",
-      "網球",
-      "攀石",
-      "其他",
-      "HYROX",
-      "業餘健身"
+    const MUSIC_CATEGORIES = [
+      "鋼琴",
+      "小提琴",
+      "大提琴",
+      "結他",
+      "烏克麗麗",
+      "木鼓",
+      "歌唱聲樂",
+      "薩克斯風",
+      "單簧管",
+      "長笛",
+      "樂理",
+      "其他"
     ];
 
 
@@ -1841,13 +1842,13 @@
 
     function updateSelCount(){
       const size = (draftCategorySelected ? draftCategorySelected.size : categorySelected.size);
-      selCount.textContent = `已選：${size} 個運動`;
+      selCount.textContent = `已選：${size} 個樂器 / 項目`;
     }
 
     function renderCategoryList(){
       categoryList.innerHTML = '';
       const setRef = draftCategorySelected ?? categorySelected;
-      const list = SPORTS;
+      const list = MUSIC_CATEGORIES;
 
       list.forEach((subject, i)=>{
         const id = `sub-sport-${i}`;
@@ -2017,7 +2018,7 @@
         return;
       }
       activeBar.classList.remove('hidden');
-      activeBar.innerHTML = `<span class="mini">運動：</span>`;
+      activeBar.innerHTML = `<span class="mini">樂器 / 項目：</span>`;
       for(const c of chips){
         const chip = document.createElement('span');
         chip.className = 'chip';
