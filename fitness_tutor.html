@@ -1361,7 +1361,7 @@
             篩選
           </button>
 
-          <button id="categoryBtn" class="btn desktop-only" type="button">運動種類篩選</button>
+          <button id="categoryBtn" class="btn desktop-only" type="button">種類篩選</button>
           <button id="shuffle" class="btn" type="button">重新隨機</button>
           <button id="resetAll" class="btn" type="button">重設所有篩選</button>
         </div>
@@ -1488,23 +1488,23 @@
     </div>
   </div>
 
-  <!-- 運動種類篩選 Modal -->
+  <!-- 種類篩選 Modal -->
   <div id="categoryBackdrop" class="modal-backdrop" role="dialog" aria-modal="true" aria-hidden="true">
     <div class="modal" role="document" aria-labelledby="categoryTitle">
       <header>
-        <h2 id="categoryTitle" style="margin:0; font-size:20px; color:#0369a1">運動種類篩選</h2>
+        <h2 id="categoryTitle" style="margin:0; font-size:20px; color:#0369a1">種類篩選</h2>
         <button class="close" id="categoryClose" aria-label="關閉" type="button">✕</button>
       </header>
       <div class="body">
         
         <div class="mini" style="margin-top:8px">
-          勾選運動（可複選）；未勾選即不限運動種類
+          勾選種類（可複選）；未勾選即不限
         </div>
         <div id="categoryList" class="subgrid" style="margin-top:12px"></div>
         <div class="bar">
           <button id="selAll" class="btn" type="button">全選</button>
           <button id="clrAll" class="btn" type="button">清除全部</button>
-          <span id="selCount" class="mini fw">已選：0 個運動</span>
+          <span id="selCount" class="mini fw">已選：0 種類</span>
         </div>
         <div class="bar" style="justify-content:flex-end; margin-top:12px">
           <button id="applyCategory" class="btn" type="button">套用篩選</button>
@@ -1525,8 +1525,8 @@
       </div>
       <div class="filter-body" id="filterPanelBody">
         <div class="field mobile-subject-row">
-          <span class="label">運動種類篩選</span>
-          <button id="mobileSubjectBtn" class="btn" type="button" style="padding-inline:12px">開啟運動種類篩選</button>
+          <span class="label">種類篩選</span>
+          <button id="mobileSubjectBtn" class="btn" type="button" style="padding-inline:12px">開啟種類篩選</button>
         </div>
       </div>
     </div>
@@ -1586,23 +1586,14 @@
     })();
 
     const SPORTS = [
-      "籃球",
-      "足球",
-      "排球",
-      "羽毛球",
-      "乒乓球",
-      "游泳",
-      "田徑",
-      "體操",
-      "舞蹈",
-      "跆拳道",
-      "空手道",
-      "武術",
-      "網球",
-      "攀石",
-      "其他",
-      "HYROX",
-      "業餘健身"
+      "業餘健身",
+      "職業健身比賽訓練",
+      "職業健力比賽訓練",
+      "瑜珈",
+      "普拉提",
+      "有氧訓練",
+      "HYROX訓練",
+      "街頭健身"
     ];
 
 
@@ -1841,7 +1832,7 @@
 
     function updateSelCount(){
       const size = (draftCategorySelected ? draftCategorySelected.size : categorySelected.size);
-      selCount.textContent = `已選：${size} 個運動`;
+      selCount.textContent = `已選：${size} 種類`;
     }
 
     function renderCategoryList(){
