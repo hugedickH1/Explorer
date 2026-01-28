@@ -1977,8 +1977,10 @@
     function passesCategory(c){
       if(categorySelected.size === 0) return true;
       const subjList = (c.subjects || []).map(s => String(s).toLowerCase());
+      const mainCategory = String(c.mainCategory || '').toLowerCase();
       for(const sel of categorySelected){
         const needle = String(sel).toLowerCase();
+        if(mainCategory.includes(needle)) return true;
         if(subjList.some(s => s.includes(needle))) return true;
       }
       return false;
