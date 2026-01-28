@@ -1887,7 +1887,7 @@
   
     selAll.addEventListener('click', ()=>{
       if(!draftCategorySelected) return;
-      const id = `sub-music-${i}`;
+      MUSIC_CATEGORIES.forEach(subject => draftCategorySelected.add(subject));
       renderCategoryList();
     });
     clrAll.addEventListener('click', ()=>{
@@ -1966,7 +1966,10 @@
 
     function passesCategory(c){
       if(categorySelected.size === 0) return true;
-      const subjList = (c.subjects || []).map(s => String(s).toLowerCase());
+      const subjList = [
+        ...(c.subjects || []),
+        c.mainCategory || ''
+      ].map(s => String(s).toLowerCase());
       for(const sel of categorySelected){
         const needle = String(sel).toLowerCase();
         if(subjList.some(s => s.includes(needle))) return true;

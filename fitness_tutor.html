@@ -1602,7 +1602,7 @@
         intro:"專注減脂與肌力提升，結合循環訓練與核心穩定。",
         years:"8 年",
         mainCategory:"私人健身",
-        subjects:["重量訓練","體態調整","核心訓練"],
+        subjects:["業餘健身","職業健力比賽訓練","職業健身比賽訓練"],
         district:"中西區",
         areaDetail:"中環 / 上環；可安排健身室或戶外訓練",
         fee:320,
@@ -1623,7 +1623,7 @@
         intro:"專攻高強度間歇訓練與減脂課程，提升心肺與代謝。",
         years:"6 年",
         mainCategory:"HIIT / 有氧",
-        subjects:["HIIT 訓練","心肺耐力","燃脂課程"],
+        subjects:["有氧訓練","HYROX訓練","業餘健身"],
         district:"沙田區",
         areaDetail:"沙田 / 大圍；可到社區健身室",
         fee:380,
@@ -1644,7 +1644,7 @@
         intro:"功能性訓練與肌力增強，改善動作控制與運動表現。",
         years:"10 年",
         mainCategory:"功能性訓練",
-        subjects:["壺鈴訓練","爆發力","動作控制"],
+        subjects:["街頭健身","職業健身比賽訓練","職業健力比賽訓練"],
         district:"元朗區",
         areaDetail:"天水圍 / 元朗 健身中心",
         fee:260,
@@ -1666,7 +1666,7 @@
         intro:"伸展與肌筋膜放鬆，改善柔軟度與姿勢。",
         years:"4 年",
         mainCategory:"伸展 / 放鬆",
-        subjects:["筋膜放鬆","姿勢調整","柔軟度提升"],
+        subjects:["瑜珈","普拉提","業餘健身"],
         district:"灣仔區",
         areaDetail:"灣仔 / 銅鑼灣 工作室；亦可上門",
         fee:360,
@@ -1680,7 +1680,7 @@
         notes:"可提供客製化伸展清單與居家放鬆指南。"
       }
     ];
-
+    
     function shuffle(arr){ const a=arr.slice(); for(let i=0;i<a.length-1;i++){const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]];} return a; }
     function esc(str){
       return String(str ?? "").replace(/[&<>"'`=\/]/g, s => ({
@@ -1956,10 +1956,15 @@
 
     function passesCategory(c){
       if(categorySelected.size === 0) return true;
-      const subjList = (c.subjects || []).map(s => String(s).toLowerCase());
+      const searchList = [
+        ...(c.subjects || []),
+        c.mainCategory
+      ]
+        .filter(Boolean)
+        .map(s => String(s).toLowerCase());
       for(const sel of categorySelected){
         const needle = String(sel).toLowerCase();
-        if(subjList.some(s => s.includes(needle))) return true;
+        if(searchList.some(s => s.includes(needle))) return true;
       }
       return false;
     }
