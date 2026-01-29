@@ -674,7 +674,7 @@
       .fee-label::before{
         content:"價位區間";
         font-size:12px;
-        color: rgba(226,232,240,.86);
+        color: var(--muted);
       }
 
       .slider-row,
@@ -2180,6 +2180,7 @@
         gender: genderFilter.value,
         dateSort: dateSort.value,
         examType: currentExamType,
+        category: Array.from(categorySelected),
         feeMinTouched: feeMin.dataset.touched,
         feeMaxTouched: feeMax.dataset.touched
       };
@@ -2196,7 +2197,9 @@
       feeMax.dataset.touched = snap.feeMaxTouched ?? 'false';
 
       categorySelected.clear();
-      snap.category.forEach(x => categorySelected.add(x));
+      if(Array.isArray(snap.category)){
+        snap.category.forEach(x => categorySelected.add(x));
+      }
       currentExamType = snap.examType;
 
       examTypeSelect.value = currentExamType;
