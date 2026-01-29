@@ -2104,7 +2104,7 @@
 
       const shownFrom = total === 0 ? 0 : (start + 1);
       const shownTo = end;
-      countEl.textContent = `符合 ${total} 位學術導師　·　顯示第 ${shownFrom}–${shownTo} 位`;
+      countEl.textContent = `符合 ${total} 個招聘個案　·　顯示第 ${shownFrom}–${shownTo} 個招聘個案`;
 
       pageInfo.textContent = `第 ${currentPage} / ${Math.max(1, Math.ceil(total / PAGE_SIZE))} 頁`;
       grid.removeAttribute('aria-busy');
