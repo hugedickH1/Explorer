@@ -1566,7 +1566,6 @@
         id:"AC-202511-001",
         postedAt:"2025/11/21",
         name:"陳同學",
-        basicInfo:"女學生",
         grade:"Year 12",
         examType:"A-Level",
         subjects:["Further Mathematics","Chemistry"],
@@ -1578,13 +1577,13 @@
         sessionDuration:"2 小時 / 堂",
         startDate:"可議",
         timeSlots:"二四 晚間",
-        notes:"FP/ME 選修題突破與化學計算題速度訓練。"
+        notes:"FP/ME 選修題突破與化學計算題速度訓練。",
+        gender:"女導師"
       },
       {
         id:"AC-202511-002",
         postedAt:"2025/11/19",
         name:"李同學",
-        basicInfo:"男學生",
         grade:"Year 13",
         examType:"DSE",
         subjects:["DSE 物理","DSE 數學 M1"],
@@ -1596,13 +1595,13 @@
         sessionDuration:"1.5 小時 / 堂",
         startDate:"兩週內",
         timeSlots:"一三五 晚上；週末日間",
-        notes:"目標：DSE 物理 Level 5，數學 M1 達 5*。"
+        notes:"目標：DSE 物理 Level 5，數學 M1 達 5*。",
+        gender:"男導師"
       },
       {
         id:"AC-202511-006",
         postedAt:"2025/11/14",
         name:"王同學",
-        basicInfo:"女學生",
         grade:"小五",
         examType:"小學",
         subjects:["小學中文","小學英文","小學數學"],
@@ -1614,13 +1613,13 @@
         sessionDuration:"1 小時 / 堂",
         startDate:"下月初",
         timeSlots:"平日放學後；六日上午",
-        notes:"家長希望老師有耐性，能引導孩子做功課及溫習。"
+        notes:"家長希望老師有耐性，能引導孩子做功課及溫習。",
+        gender:"女導師"
       },
       {
         id:"AC-202511-008",
         postedAt:"2025/11/26",
         name:"張同學",
-        basicInfo:"女學生",
         grade:"大專二年級",
         examType:"IELTS",
         subjects:["IELTS 英文","日常英會話"],
@@ -1632,7 +1631,8 @@
         sessionDuration:"1.5 小時 / 堂",
         startDate:"可議",
         timeSlots:"平日晚間；週末部分時間",
-        notes:"希望導師提供模擬測試與即時回饋。"
+        notes:"希望導師提供模擬測試與即時回饋。",
+        gender:"不限導師性別"
       }
     ];
 
@@ -1934,13 +1934,14 @@
       const k = q.value.trim().toLowerCase();
       if(!k) return true;
       const hay = [
-        c.id, c.name, c.basicInfo, c.grade, c.examType,
+        c.id, c.name, c.grade, c.examType,
         ...(c.subjects||[]),
         c.district, c.areaDetail,
         c.postedAt, c.courseExpectation, c.weeklySessions, c.sessionDuration,
         c.startDate, c.timeSlots, c.notes,
         c.experience, c.qualification, c.timeSlots, c.notes,
-        (c.fee ?? "") + ""
+        (c.fee ?? "") + "",
+        c.gender
       ].join(' ').toLowerCase();
       return hay.includes(k);
     }
@@ -2070,7 +2071,7 @@
               <span class="tag">考試：${esc(c.examType || '—')}</span>
               <span class="tag">學費：${(c.fee || c.fee===0) ? `HK$ ${esc(c.fee)} / 小時` : '面議'}</span>
               <span class="tag">張貼：${esc(c.postedAt || '—')}</span>
-              <span class="tag">基本：${esc(c.basicInfo || '—')}</span>
+              <span class="tag">導師偏好：${esc(c.gender || '不限導師性別')}</span>
               ${c.weeklySessions ? `<span class="tag">頻率：${esc(c.weeklySessions)}</span>`:''}
               ${c.startDate ? `<span class="tag">開始：${esc(c.startDate)}</span>`:''}
               ${c.timeSlots ? `<span class="tag">時段：${esc(c.timeSlots)}</span>`:''}
@@ -2120,7 +2121,6 @@
       modalSub.textContent = `案件編號：${c.id ?? '—'}`;
 
       kvBasic.innerHTML = `
-        <b>基本資料</b><div>${esc(c.basicInfo ?? '—')}</div>
         <b>就讀年級</b><div>${esc(c.grade ?? '—')}</div>
         <b>考試類別</b><div>${esc(c.examType ?? '—')}</div>
         <b>學科</b><div>${esc((c.subjects || []).filter(Boolean).join('、') || '—')}</div>
@@ -2133,6 +2133,7 @@
         <b>每週堂數</b><div>${esc(c.weeklySessions ?? '—')}</div>
         <b>每堂時數</b><div>${esc(c.sessionDuration ?? '—')}</div>
         <b>可開始日期</b><div>${esc(c.startDate ?? '—')}</div>
+        <b>導師性別偏好</b><div>${esc(c.gender ?? '不限導師性別')}</div>
         <b>時段偏好</b><div>${esc(c.timeSlots ?? '—')}</div>
       `;
       kvNotes.textContent = c.notes || '—';
