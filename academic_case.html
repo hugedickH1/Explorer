@@ -495,21 +495,13 @@
     .who .muted{color:var(--muted); font-size:13px}
     .who .gender{color: rgba(226,232,240,.78); font-weight:600; font-size:12px}
 
-    .row{display:flex; align-items:flex-start; gap:8px; margin:8px 0; color: rgba(248,250,252,.92); font-size:14px}
-    .row-title{
-      min-width:110px;
-      color: var(--muted);
-      font-size:12px;
-      font-weight:600;
-      letter-spacing:.02em;
-    }
-
-
+    .row{display:flex; align-items:center; gap:8px; margin:8px 0; color:var(--text); font-size:14px}
+    .row svg{opacity:.95}
     .tags{display:flex; gap:8px; flex-wrap:wrap; margin-top:8px;}
     .tag{font-size:12px; padding:6px 10px; border-radius:999px; border:1px solid var(--tagBorder); background:var(--tagBg); color:var(--tagText);}
-    .foot{margin-top:12px; display:flex; align-items:center; justify-content:space-between; gap:8px; color: rgba(148,163,184,.9); font-size:13px;}
+    .foot{margin-top:12px; display:flex; align-items:center; justify-content:space-between; gap:8px; color:var(--muted); font-size:13px;}
     .budget{color:var(--text); font-weight:700}
-    .note{margin-top:10px; color: rgba(226,232,240,.84); font-size:14px; line-height:1.5}
+    .note{margin-top:10px; color:var(--text); font-size:14px; line-height:1.5; opacity:.9}
     .empty{
       grid-column:1/-1;
       text-align:center;
@@ -1572,77 +1564,73 @@
     const AGENTS = [
       {
         id:"AC-202511-001",
-        postedAt:"2025-11-22",
+        postedAt:"2025/11/21",
         name:"陳同學",
-        basicInfo:"中四女學生",
-        age:"16 歲",
-        mainCategory:"學科補習",
-        subjects:["中四數學","DSE 數學必修"],
+        basicInfo:"女學生",
+        grade:"Year 12",
+        examType:"A-Level",
+        subjects:["Further Mathematics","Chemistry"],
         district:"網上授課",
         areaDetail:"Zoom / Google Meet",
-        fee:280,
-        mode:"網上為主，如有需要可面授",
-        courseExpectation:"希望補回代數與函數基礎，建立解題步驟。",
-        weeklySessions:"每週 2 堂",
-        sessionDuration:"1.5 小時",
-        gender:"女教練",
-        timeSlots:"平日 18:30 後；週末彈性",
-        notes:"目標：DSE 數學至少 Level 4，重點練習應用題。"
+        fee:340,
+        courseExpectation:"加強進階數學與化學題型的解題策略。",
+        weeklySessions:"2 堂 / 週",
+        sessionDuration:"2 小時 / 堂",
+        startDate:"可議",
+        timeSlots:"二四 晚間",
+        notes:"FP/ME 選修題突破與化學計算題速度訓練。"
       },
       {
         id:"AC-202511-002",
-        postedAt:"2025-11-19",
+        postedAt:"2025/11/19",
         name:"李同學",
-        basicInfo:"中五男學生",
-        age:"17 歲",
-        mainCategory:"學科補習",
+        basicInfo:"男學生",
+        grade:"Year 13",
+        examType:"DSE",
         subjects:["DSE 物理","DSE 數學 M1"],
         district:"沙田區",
         areaDetail:"沙田 / 大圍 可面授；其他地區可再商議",
         fee:420,
-        mode:"面授 / 網上皆可",
         courseExpectation:"希望釐清電磁學及微積分概念，改善做題速度。",
-        weeklySessions:"每週 2–3 堂",
-        sessionDuration:"1.5 小時",
-        gender:"男教練",
+        weeklySessions:"2–3 堂 / 週",
+        sessionDuration:"1.5 小時 / 堂",
+        startDate:"兩週內",
         timeSlots:"一三五 晚上；週末日間",
         notes:"目標：DSE 物理 Level 5，數學 M1 達 5*。"
       },
       {
         id:"AC-202511-006",
-        postedAt:"2025-11-14",
+        postedAt:"2025/11/14",
         name:"王同學",
-        basicInfo:"小五女學生",
-        age:"11 歲",
-        mainCategory:"小學全科",
+        basicInfo:"女學生",
+        grade:"小五",
+        examType:"小學",
         subjects:["小學中文","小學英文","小學數學"],
         district:"元朗區",
         areaDetail:"天水圍 / 元朗 上門或屋苑會所",
         fee:230,
-        mode:"上門教學 / 小組",
         courseExpectation:"重點提升閱讀理解及數學應用題。",
-        weeklySessions:"每週 2 堂",
-        sessionDuration:"1 小時",
-        gender:"女教練",
+        weeklySessions:"2 堂 / 週",
+        sessionDuration:"1 小時 / 堂",
+        startDate:"下月初",
         timeSlots:"平日放學後；六日上午",
         notes:"家長希望老師有耐性，能引導孩子做功課及溫習。"
       },
       {
         id:"AC-202511-008",
-        postedAt:"2025-11-26",
+        postedAt:"2025/11/26",
         name:"張同學",
-        basicInfo:"大專女學生",
-        age:"20 歲",
-        mainCategory:"英文考試準備",
+        basicInfo:"女學生",
+        grade:"大專二年級",
+        examType:"IELTS",
         subjects:["IELTS 英文","日常英會話"],
         district:"灣仔區",
         areaDetail:"灣仔 / 銅鑼灣 咖啡室或自修室；亦可網上",
         fee:380,
-        mode:"面授 / 網上",
         courseExpectation:"加強寫作及口語，目標 IELTS 7.0。",
-        weeklySessions:"每週 1–2 堂",
-        sessionDuration:"1.5 小時",
-        gender:"男教練",
+        weeklySessions:"1–2 堂 / 週",
+        sessionDuration:"1.5 小時 / 堂",
+        startDate:"可議",
         timeSlots:"平日晚間；週末部分時間",
         notes:"希望導師提供模擬測試與即時回饋。"
       }
@@ -1946,11 +1934,11 @@
       const k = q.value.trim().toLowerCase();
       if(!k) return true;
       const hay = [
-        c.id, c.name, c.gender, c.basicInfo, c.age, c.mainCategory,
+        c.id, c.name, c.basicInfo, c.grade, c.examType,
         ...(c.subjects||[]),
-        c.district, c.areaDetail, c.mode,
+        c.district, c.areaDetail,
         c.postedAt, c.courseExpectation, c.weeklySessions, c.sessionDuration,
-        c.timeSlots, c.notes,
+        c.startDate, c.timeSlots, c.notes,
         c.experience, c.qualification, c.timeSlots, c.notes,
         (c.fee ?? "") + ""
       ].join(' ').toLowerCase();
@@ -2069,23 +2057,23 @@
             </div>
 
             <div class="row">
-              <span class="row-title">年齡</span>
-              <span>${esc(c.age || '—')}</span>
+              <span class="row-title">就讀年級</span>
+              <span>${esc(c.grade || '—')}</span>
             </div>
 
             <div class="row">
-              <span class="row-title">科目/類別</span>
-              <span>${esc([c.mainCategory, ...(c.subjects || [])].filter(Boolean).join('、') || '—')}</span>
+              <span class="row-title">考試類別</span>
+              <span>${esc(c.examType || '—')}</span>
+            </div>
+
+            <div class="row">
+              <span class="row-title">學科</span>
+              <span>${esc((c.subjects || []).filter(Boolean).join('、') || '—')}</span>
             </div>
 
             <div class="row">
               <span class="row-title">期望上課地區</span>
               <span>${esc(c.district || '—')}</span>
-            </div>
-
-            <div class="row">
-              <span class="row-title">場地安排</span>
-              <span>${esc(c.mode || '—')}</span>
             </div>
 
             <div class="row">
@@ -2100,7 +2088,7 @@
 
             <div class="row">
               <span class="row-title">期望學費</span>
-              <span>${(c.fee || c.fee===0) ? `HK$ ${esc(c.fee)}/時` : '面議'}</span>
+              <span>${(c.fee || c.fee===0) ? `HK$ ${esc(c.fee)} / 小時` : '面議'}</span>
             </div>
 
             <div class="row">
@@ -2114,8 +2102,8 @@
             </div>
 
             <div class="row">
-              <span class="row-title">男/女導師偏好</span>
-              <span>${esc(c.gender || '—')}</span>
+              <span class="row-title">可開始日期</span>
+              <span>${esc(c.startDate || '—')}</span>
             </div>
 
             <div class="row">
@@ -2130,7 +2118,7 @@
 
             <div class="foot">
               <span>點擊查看完整個案</span>
-              <span class="budget">${(c.fee || c.fee===0) ? `HK$ ${esc(c.fee)}/時` : '面議'}</span>
+              <span class="budget">${(c.fee || c.fee===0) ? `HK$ ${esc(c.fee)} / 小時` : '面議'}</span>
             </div>
           `;
           card.addEventListener('click', ()=> openProfile(c));
@@ -2170,18 +2158,18 @@
 
       kvBasic.innerHTML = `
         <b>基本資料</b><div>${esc(c.basicInfo ?? '—')}</div>
-        <b>年齡</b><div>${esc(c.age ?? '—')}</div>
-        <b>科目 / 類別</b><div>${esc([c.mainCategory, ...(c.subjects || [])].filter(Boolean).join('、') || '—')}</div>
+        <b>就讀年級</b><div>${esc(c.grade ?? '—')}</div>
+        <b>考試類別</b><div>${esc(c.examType ?? '—')}</div>
+        <b>學科</b><div>${esc((c.subjects || []).filter(Boolean).join('、') || '—')}</div>
         <b>期望上課地區</b><div>${esc(c.district ?? '—')}｜${esc(c.areaDetail ?? '')}</div>
-        <b>場地安排</b><div>${esc(c.mode ?? '—')}</div>
         <b>張貼日期</b><div>${esc(c.postedAt ?? '—')}</div>
       `;
       kvExpect.innerHTML = `
         <b>課程期望</b><div>${esc(c.courseExpectation ?? '—')}</div>
-        <b>期望學費</b><div>${(c.fee || c.fee===0) ? `HK$ ${esc(c.fee)} / 時` : '面議'}</div>
+        <b>期望學費</b><div>${(c.fee || c.fee===0) ? `HK$ ${esc(c.fee)} / 小時` : '面議'}</div>
         <b>每週堂數</b><div>${esc(c.weeklySessions ?? '—')}</div>
         <b>每堂時數</b><div>${esc(c.sessionDuration ?? '—')}</div>
-        <b>男/女導師偏好</b><div>${esc(c.gender ?? '—')}</div>
+        <b>可開始日期</b><div>${esc(c.startDate ?? '—')}</div>
         <b>時段偏好</b><div>${esc(c.timeSlots ?? '—')}</div>
       `;
       kvNotes.textContent = c.notes || '—';
