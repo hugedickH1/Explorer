@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>招聘個案 (學術)</title>
+  <title>招聘個案 (體育)</title>
   <style>
     :root{
       --bg:#0F172A;
@@ -1427,18 +1427,7 @@
         <button class="close" id="categoryClose" aria-label="關閉">✕</button>
       </header>
       <div class="body">
-        <div class="field">
-          <span class="label">考試總類 / 課程類別</span>
-          <select id="examTypeSelect">
-            <option value="DSE">DSE</option>
-            <option value="IGCSE">IGCSE</option>
-            <option value="A-Level">A-Level</option>
-            <option value="IB">IB</option>
-            <option value="小學">小學</option>
-            <option value="幼稚園">幼稚園</option>
-            <option value="其他類別">其他類別</option>
-          </select>
-        </div>
+        
         <div class="mini" style="margin-top:8px">
           勾選運動種類（可複選）；若不勾選直接「套用篩選」，將不限制運動種類
         </div>
@@ -1526,41 +1515,24 @@
         if(a) closeNav();
       });
     })();
-    const SUBJECT_GROUPS = {
-      "DSE": [
-        "中文","英文","數學（必修部分）","公民與社會發展科","物理","化學","生物","經濟",
-        "企業，會計，與財務概論","歷史","中史","地理","中國文學","資訊及通訊科技",
-        "視覺藝術","音樂","體育","倫理與宗教","M1（微積分及統計）","M2（微積分及代數）"
-      ],
-      "IGCSE": [
-        "English Language","English Literature","Mathematics – Core","Further Mathematics",
-        "Biology","Chemistry","Physics","History","Geography","Economics","Global Perspectives",
-        "Sociology","French – Foreign Language","Spanish – Foreign Language","Arabic – First Language",
-        "Chinese – First Language","German – Foreign Language","Art and Design","Business Studies",
-        "Information and Communication Technology (ICT)","Computer Science","Drama","Music"
-      ],
-      "A-Level": [
-        "Art and Design","Biology","Business","Chemistry","Chinese","Economics",
-        "English Language","English Literature","Further Mathematics","Geography",
-        "History","Mathematics","Physics","Psychology"
-      ],
-      "IB": [
-        "Language A: literature","Language A: language and literature","Language B","Business management",
-        "Digital society","Economics","Geography","History","Psychology","Biology","Chemistry",
-        "Computer science","Design technology","Physics","Sports, exercise and health science",
-        "Mathematics - Analysis and approaches","Mathematics - Applications and interpretation","Theory of knowledge"
-      ],
-      "小學": [
-        "中文","英文","數學","常識","普通話","STEM/科學","寫作","閱讀理解","音樂","視覺藝術","體育","電腦/資訊科技"
-      ],
-      "幼稚園": [
-        "中文（語文啟蒙）","英文（Phonics）","數學前概念","常識與探索","專注力/精細動作","普通話","音樂與律動","創意美術"
-      ],
-      "其他類別": [
-        "微積分","統計學","編程（Python）","編程（JavaScript）","資料科學入門","寫作技巧",
-        "演講與辯論","面試技巧","商業入門","設計（平面/Canva）","IELTS","TOEFL","PTE"
-      ]
-    };
+    const SPORTS_OPTIONS = [
+      "游泳",
+      "羽毛球",
+      "乒乓球",
+      "足球",
+      "籃球",
+      "排球",
+      "網球",
+      "跆拳道",
+      "空手道",
+      "武術",
+      "田徑",
+      "體操",
+      "舞蹈",
+      "攀石",
+      "跳繩",
+      "其他"
+    ];
 
     const AGENTS = [
       {
@@ -1702,7 +1674,6 @@
     const clrAll = document.getElementById('clrAll');
     const selCount = document.getElementById('selCount');
     const applyCategory = document.getElementById('applyCategory');
-    const examTypeSelect = document.getElementById('examTypeSelect');
 
     const PAGE_SIZE = 9;
     const prevPageBtn = document.getElementById('prevPage');
@@ -1726,15 +1697,13 @@
     let view = data.slice();
 
     const categorySelected = new Set();
-    let currentExamType = 'DSE';
-
+  
     let filtersInSheet = false;
     let subjectOpenedFromFilterSheet = false;
 
     let isFilterSheetOpen = false;
     let sheetSnapshot = null;
 
-    let draftExamType = null;
     let draftCategorySelected = null;
 
     function setRangeFill(el){
@@ -1789,12 +1758,11 @@
 
     function renderCategoryList(){
       categoryList.innerHTML = '';
-      const et = draftExamType ?? currentExamType;
       const setRef = draftCategorySelected ?? categorySelected;
-      const list = SUBJECT_GROUPS[et] || [];
+      const list = SPORTS_OPTIONS;
 
       list.forEach((subject, i)=>{
-        const id = `sub-${et}-${i}`;
+        const id = `sub-sport-${i}`;
         const label = document.createElement('label');
         label.innerHTML = `<input type="checkbox" id="${id}"> <span>${esc(subject)}</span>`;
         const input = label.querySelector('input');
@@ -1810,9 +1778,7 @@
     }
 
     function openCategoryModal(){
-      draftExamType = currentExamType;
       draftCategorySelected = new Set(categorySelected);
-      examTypeSelect.value = draftExamType;
 
       categoryBackdrop.classList.add('show');
       categoryBackdrop.setAttribute('aria-hidden','false');
@@ -1822,7 +1788,6 @@
     }
 
     function closeCategoryModal({returnToSheet=false} = {}){
-      draftExamType = null;
       draftCategorySelected = null;
       categoryBackdrop.classList.remove('show');
       categoryBackdrop.setAttribute('aria-hidden','true');
@@ -1834,16 +1799,10 @@
       subjectOpenedFromFilterSheet = false;
     }
 
-    examTypeSelect.addEventListener('change', ()=>{
-      if(!draftCategorySelected) return;
-      draftExamType = examTypeSelect.value;
-      renderCategoryList();
-    });
-
+    
     selAll.addEventListener('click', ()=>{
       if(!draftCategorySelected) return;
-      const list = SUBJECT_GROUPS[draftExamType] || [];
-      list.forEach(sub => draftCategorySelected.add(sub));
+      SPORTS_OPTIONS.forEach(sub => draftCategorySelected.add(sub));
       renderCategoryList();
     });
     clrAll.addEventListener('click', ()=>{
@@ -1859,7 +1818,6 @@
         categorySelected.clear();
         draftCategorySelected.forEach(x => categorySelected.add(x));
       }
-      if(draftExamType) currentExamType = draftExamType;
 
       if(fromSheet){
         closeCategoryModal({returnToSheet:false});
@@ -2169,7 +2127,6 @@
         feeBand: feeBand.value,
         gender: genderFilter.value,
         dateSort: dateSort.value,
-        examType: currentExamType,
         category: Array.from(categorySelected),
         feeMinTouched: feeMin.dataset.touched,
         feeMaxTouched: feeMax.dataset.touched
@@ -2190,9 +2147,7 @@
       if(Array.isArray(snap.category)){
         snap.category.forEach(x => categorySelected.add(x));
       }
-      currentExamType = snap.examType;
-
-      examTypeSelect.value = currentExamType;
+      
       syncFeeLabelAndFill();
     }
 
@@ -2336,7 +2291,6 @@
 
     function boot(){
       data = shuffle(data);
-      examTypeSelect.value = currentExamType;
       dateSort.value = 'new';
       initFees();
       renderCategoryList();
