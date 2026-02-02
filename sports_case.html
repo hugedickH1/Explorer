@@ -1280,7 +1280,7 @@
             篩選
           </button>
 
-          <button id="categoryBtn" class="btn desktop-only">科目篩選</button>
+          <button id="categoryBtn" class="btn desktop-only">運動種類篩選</button>
 
           <button id="shuffle" class="btn">重新隨機</button>
           <button id="resetAll" class="btn">重設所有篩選</button>
@@ -1419,11 +1419,11 @@
     </div>
   </div>
 
-  <!-- 科目篩選 Modal -->
+  <!-- 運動種類篩選 Modal -->
   <div id="categoryBackdrop" class="modal-backdrop" role="dialog" aria-modal="true" aria-hidden="true">
     <div class="modal" role="document" aria-labelledby="categoryTitle">
       <header>
-        <h2 id="categoryTitle" style="margin:0; font-size:20px; color:#0369a1">科目篩選</h2>
+        <h2 id="categoryTitle" style="margin:0; font-size:20px; color:#0369a1">運動種類篩選</h2>
         <button class="close" id="categoryClose" aria-label="關閉">✕</button>
       </header>
       <div class="body">
@@ -1440,13 +1440,13 @@
           </select>
         </div>
         <div class="mini" style="margin-top:8px">
-          勾選科目（可複選）；若不勾選直接「套用篩選」，將不限制科目
+          勾選運動種類（可複選）；若不勾選直接「套用篩選」，將不限制運動種類
         </div>
         <div id="categoryList" class="subgrid" style="margin-top:12px"></div>
         <div class="bar">
           <button id="selAll" class="btn">全選</button>
           <button id="clrAll" class="btn">清除全部</button>
-          <span id="selCount" class="mini fw">已選：0 個科目</span>
+          <span id="selCount" class="mini fw">已選：0 個運動種類</span>
         </div>
         <div class="bar" style="justify-content:flex-end; margin-top:12px">
           <button id="applyCategory" class="btn">套用篩選</button>
@@ -1467,8 +1467,8 @@
       </div>
       <div class="filter-body" id="filterPanelBody">
         <div class="field mobile-subject-row">
-          <span class="label">科目篩選</span>
-          <button id="mobileSubjectBtn" class="btn" style="padding-inline:12px">開啟科目篩選</button>
+          <span class="label">運動種類篩選</span>
+          <button id="mobileSubjectBtn" class="btn" style="padding-inline:12px">開啟運動種類篩選</button>
         </div>
       </div>
     </div>
@@ -1784,7 +1784,7 @@
 
     function updateSelCount(){
       const size = (draftCategorySelected ? draftCategorySelected.size : categorySelected.size);
-      selCount.textContent = `已選：${size} 個科目`;
+      selCount.textContent = `已選：${size} 個運動種類`;
     }
 
     function renderCategoryList(){
@@ -1994,7 +1994,7 @@
         return;
       }
       activeBar.classList.remove('hidden');
-      activeBar.innerHTML = `<span class="mini">科目：</span>`;
+      activeBar.innerHTML = `<span class="mini">運動種類：</span>`;
       for(const c of chips){
         const chip = document.createElement('span');
         chip.className = 'chip';
