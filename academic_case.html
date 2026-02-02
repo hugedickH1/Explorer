@@ -1573,7 +1573,6 @@
         district:"網上授課",
         areaDetail:"Zoom / Google Meet",
         fee:340,
-        courseExpectation:"加強進階數學與化學題型的解題策略。",
         weeklySessions:"2 堂 / 週",
         sessionDuration:"2 小時 / 堂",
         startDate:"可議",
@@ -1591,7 +1590,6 @@
         district:"沙田區",
         areaDetail:"沙田 / 大圍 可面授；其他地區可再商議",
         fee:420,
-        courseExpectation:"希望釐清電磁學及微積分概念，改善做題速度。",
         weeklySessions:"2–3 堂 / 週",
         sessionDuration:"1.5 小時 / 堂",
         startDate:"兩週內",
@@ -1609,7 +1607,6 @@
         district:"元朗區",
         areaDetail:"天水圍 / 元朗 上門或屋苑會所",
         fee:230,
-        courseExpectation:"重點提升閱讀理解及數學應用題。",
         weeklySessions:"2 堂 / 週",
         sessionDuration:"1 小時 / 堂",
         startDate:"下月初",
@@ -1627,7 +1624,6 @@
         district:"灣仔區",
         areaDetail:"灣仔 / 銅鑼灣 咖啡室或自修室；亦可網上",
         fee:380,
-        courseExpectation:"加強寫作及口語，目標 IELTS 7.0。",
         weeklySessions:"1–2 堂 / 週",
         sessionDuration:"1.5 小時 / 堂",
         startDate:"可議",
@@ -1938,7 +1934,7 @@
         c.id, c.name, c.grade, c.examType,
         ...(c.subjects||[]),
         c.district, c.areaDetail,
-        c.postedAt, c.courseExpectation, c.weeklySessions, c.sessionDuration,
+        c.postedAt, c.weeklySessions, c.sessionDuration,
         c.startDate, c.timeSlots, c.notes,
         c.experience, c.qualification, c.timeSlots, c.notes,
         (c.fee ?? "") + "",
@@ -2129,7 +2125,6 @@
         <b>張貼日期</b><div>${esc(c.postedAt ?? '—')}</div>
       `;
       kvExpect.innerHTML = `
-        <b>課程期望</b><div>${esc(c.courseExpectation ?? '—')}</div>
         <b>期望學費</b><div>${(c.fee || c.fee===0) ? `HK$ ${esc(c.fee)} / 小時` : '面議'}</div>
         <b>每週堂數</b><div>${esc(c.weeklySessions ?? '—')}</div>
         <b>每堂時數</b><div>${esc(c.sessionDuration ?? '—')}</div>
