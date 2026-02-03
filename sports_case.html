@@ -2031,7 +2031,6 @@
             </div>
 
             <div class="tags">
-              <span class="tag">考試：${esc(c.examType || '—')}</span>
               <span class="tag">學費：${(c.fee || c.fee===0) ? `HK$ ${esc(c.fee)} / 小時` : '面議'}</span>
               <span class="tag">張貼：${esc(c.postedAt || '—')}</span>
               <span class="tag">導師偏好：${esc(c.gender || '不限教練性別')}</span>
@@ -2084,9 +2083,7 @@
       modalSub.textContent = `案件編號：${c.id ?? '—'}`;
 
       kvBasic.innerHTML = `
-        <b>就讀年級</b><div>${esc(c.grade ?? '—')}</div>
         <b>年齡</b><div>${esc(formatAge(c.age) || '—')}</div>
-        <b>考試類別</b><div>${esc(c.examType ?? '—')}</div>
         <b>學科</b><div>${esc((c.subjects || []).filter(Boolean).join('、') || '—')}</div>
         <b>期望上課地區</b><div>${esc(c.district ?? '—')}｜${esc(c.areaDetail ?? '')}</div>
         <b>張貼日期</b><div>${esc(c.postedAt ?? '—')}</div>
