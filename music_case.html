@@ -1277,7 +1277,7 @@
             篩選
           </button>
 
-          <button id="categoryBtn" class="btn desktop-only">運動種類篩選</button>
+          <button id="categoryBtn" class="btn desktop-only">音樂及樂器分類篩選</button>
 
           <button id="shuffle" class="btn">重新隨機</button>
           <button id="resetAll" class="btn">重設所有篩選</button>
@@ -1420,19 +1420,19 @@
   <div id="categoryBackdrop" class="modal-backdrop" role="dialog" aria-modal="true" aria-hidden="true">
     <div class="modal" role="document" aria-labelledby="categoryTitle">
       <header>
-        <h2 id="categoryTitle" style="margin:0; font-size:20px; color:#0369a1">運動種類篩選</h2>
+        <h2 id="categoryTitle" style="margin:0; font-size:20px; color:#0369a1">音樂及樂器分類篩選</h2>
         <button class="close" id="categoryClose" aria-label="關閉">✕</button>
       </header>
       <div class="body">
         
         <div class="mini" style="margin-top:8px">
-          勾選運動種類（可複選）；若不勾選直接「套用篩選」，將不限制運動種類
+          勾選樂器 / 項目（可複選）；未勾選即不限音樂種類
         </div>
         <div id="categoryList" class="subgrid" style="margin-top:12px"></div>
         <div class="bar">
           <button id="selAll" class="btn">全選</button>
           <button id="clrAll" class="btn">清除全部</button>
-          <span id="selCount" class="mini fw">已選：0 個運動種類</span>
+          <span id="selCount" class="mini fw">已選：0 個樂器 / 項目</span>
         </div>
         <div class="bar" style="justify-content:flex-end; margin-top:12px">
           <button id="applyCategory" class="btn">套用篩選</button>
@@ -1453,8 +1453,8 @@
       </div>
       <div class="filter-body" id="filterPanelBody">
         <div class="field mobile-subject-row">
-          <span class="label">運動種類篩選</span>
-          <button id="mobileSubjectBtn" class="btn" style="padding-inline:12px">開啟運動種類篩選</button>
+          <span class="label">音樂及樂器分類篩選</span>
+          <button id="mobileSubjectBtn" class="btn" style="padding-inline:12px">開啟音樂及樂器分類篩選</button>
         </div>
       </div>
     </div>
@@ -1512,23 +1512,18 @@
         if(a) closeNav();
       });
     })();
-    const SPORTS_OPTIONS = [
-      "游泳",
-      "羽毛球",
-      "乒乓球",
-      "足球",
-      "籃球",
-      "排球",
-      "網球",
-      "跆拳道",
-      "空手道",
-      "武術",
-      "田徑",
-      "體操",
-      "舞蹈",
-      "攀石",
-      "跳繩",
-      "其他"
+    const MUSIC_OPTIONS = [
+      "鋼琴",
+      "小提琴",
+      "大提琴",
+      "結他",
+      "烏克麗麗",
+      "木鼓",
+      "歌唱聲樂",
+      "薩克斯風",
+      "單簧管",
+      "長笛",
+      "樂理",
     ];
 
     const AGENTS = [
@@ -1756,13 +1751,13 @@
 
     function updateSelCount(){
       const size = (draftCategorySelected ? draftCategorySelected.size : categorySelected.size);
-      selCount.textContent = `已選：${size} 個運動種類`;
+      selCount.textContent = `已選：${size} 個樂器 / 項目`;
     }
 
     function renderCategoryList(){
       categoryList.innerHTML = '';
       const setRef = draftCategorySelected ?? categorySelected;
-      const list = SPORTS_OPTIONS;
+      const list = MUSIC_OPTIONS;
 
       list.forEach((subject, i)=>{
         const id = `sub-sport-${i}`;
@@ -1805,7 +1800,7 @@
     
     selAll.addEventListener('click', ()=>{
       if(!draftCategorySelected) return;
-      SPORTS_OPTIONS.forEach(sub => draftCategorySelected.add(sub));
+      MUSIC_OPTIONS.forEach(sub => draftCategorySelected.add(sub));
       renderCategoryList();
     });
     clrAll.addEventListener('click', ()=>{
@@ -1955,7 +1950,7 @@
         return;
       }
       activeBar.classList.remove('hidden');
-      activeBar.innerHTML = `<span class="mini">運動種類：</span>`;
+      activeBar.innerHTML = `<span class="mini">樂器 / 項目：</span>`;
       for(const c of chips){
         const chip = document.createElement('span');
         chip.className = 'chip';
