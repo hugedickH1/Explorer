@@ -1615,6 +1615,12 @@
         '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;','/':'&#x2F;','`':'&#x60;','=':'&#x3D;'
       }[s]));
     }
+    function formatAge(age){
+      if(age === null || age === undefined || age === '') return '';
+      const normalized = String(age).trim();
+      if(!normalized) return '';
+      return normalized.includes('歲') ? normalized : `${normalized} 歲`;
+    }
     function colorFromName(name){ let h=0; for(let i=0;i<name.length;i++){ h=(h*31 + name.charCodeAt(i))%360; } return `hsl(${h} 70% 50%)`; }
     function scrollToTop(){ try{ window.scrollTo({top:0,behavior:'smooth'});}catch{ window.scrollTo(0,0);} }
 
@@ -1997,6 +2003,7 @@
           const initials = esc((c.name||'?').slice(0,2));
           const avatarColor = colorFromName(c.name||'');
           const hasAvatar = c.avatarUrl;
+          const ageLabel = formatAge(c.age);
 
           card.innerHTML = `
             <div class="top">
@@ -2006,7 +2013,7 @@
                   : initials}
               </div>
               <div class="who">
-                <div class="name">${esc(c.name)}${c.grade ? `　<small style="color:var(--muted)">${esc(c.grade)}</small>` : ''}</div>
+                <div class="name">${esc(c.name)}${ageLabel ? `　<small style="color:var(--muted)">${esc(ageLabel)}</small>` : ''}${c.grade ? `　<small style="color:var(--muted)">${esc(c.grade)}</small>` : ''}</div>
                 <div class="muted">案件編號：${esc(c.id || '-') }</div>
               </div>
             </div>
@@ -2081,7 +2088,7 @@
 
       kvBasic.innerHTML = `
         <b>就讀年級</b><div>${esc(c.grade ?? '—')}</div>
-        <b>年齡</b><div>${esc(c.age ?? '—')}</div>
+        <b>年齡</b><div>${esc(formatAge(c.age) || '—')}</div>
         <b>考試類別</b><div>${esc(c.examType ?? '—')}</div>
         <b>學科</b><div>${esc((c.subjects || []).filter(Boolean).join('、') || '—')}</div>
         <b>期望上課地區</b><div>${esc(c.district ?? '—')}｜${esc(c.areaDetail ?? '')}</div>
