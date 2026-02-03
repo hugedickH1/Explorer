@@ -3,89 +3,53 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>尋找教練 （體育)</title>
+  <title>招聘個案 (體育)</title>
   <style>
     :root{
-      /* ✅ CHANGED: colour theme to match your dark / reference style */
-      --bg: #000000;
-      --card: #1a1033;                 /* midnight purple cards */
-      --muted: #94A3B8;
-      --text: #F8FAFC;
-      --ring: rgba(255,255,255,.18);
-      --accent: #a78bfa;               /* pale purple accent */
-      --shadow: 0 8px 22px rgba(0,0,0,.35);
-      --radius: 16px;
-      --modalBg: rgba(0,0,0,.62);
-      --tagBg: rgba(167,139,250,.14);
-      --tagBorder: rgba(196,181,253,.26);
-      --tagText: #FFFFFF;
+      --bg:#0F172A;
+      --surface:#1E293B;
+      --card:#1E293B;
+      --muted:#94A3B8;
+      --text:#F8FAFC;
+      --heading:#F8FAFC;
+      --ring:#334155;
+      --accent:#38BDF8;
+      --accentHover:#0EA5E9;
+      --shadow:0 8px 22px rgba(0,0,0,.45);
+      --radius:16px;
+      --modalBg:rgba(0,0,0,.65);
+      --tagBg:#1E293B;
+      --tagBorder:#334155;
+      --tagText:#F8FAFC;
       --glassBlur: 14px;
     }
-
-    /* =========================================================
-       ✅ NEW: Cross-browser UI reset (Safari/Chrome一致)
-       ========================================================= */
-    *, *::before, *::after{ box-sizing:border-box; }
-    button, input, select, textarea{
-      font: inherit;
-      color: inherit;
-      letter-spacing: inherit;
-      -webkit-font-smoothing: inherit;
-      -moz-osx-font-smoothing: inherit;
-    }
-    button{
-      -webkit-appearance:none;
-      appearance:none;
-      border:0;
-      background:none;
-      padding:0;
-      margin:0;
-      line-height:1.2;        /* ✅ stop Safari extra height */
-      font: inherit;
-      color: inherit;
-    }
-    select, input[type="search"], input[type="text"]{
-      -webkit-appearance:none;
-      appearance:none;
-      border-radius:12px;     /* ✅ force Safari consistent rounding */
-      line-height:1.2;
-    }
-    input[type="search"]::-webkit-search-decoration,
-    input[type="search"]::-webkit-search-cancel-button{
-      -webkit-appearance:none;
-    }
-    ::-webkit-input-placeholder{ opacity:1; }
-
-    svg{ display:block; }     /* ✅ avoid Safari baseline shift */
-
+    *{box-sizing:border-box}
     html,body{height:100%}
-    html{ scroll-behavior: smooth; }
     body{
       margin:0; color:var(--text);
       font-family: ui-sans-serif, -apple-system, "Noto Sans TC", system-ui, "PingFang TC", "Microsoft JhengHei", Segoe UI, Roboto, Helvetica, Arial, sans-serif;
       background:
-        radial-gradient(900px 400px at 10% -10%, rgba(167,139,250,.14) 0%, rgba(167,139,250,0) 60%),
-        radial-gradient(800px 500px at 110% 0%, rgba(56,189,248,.10) 0%, rgba(56,189,248,0) 55%),
+        radial-gradient(900px 400px at 10% -10%, rgba(56,189,248,.16) 0%, rgba(56,189,248,0) 60%),
+        radial-gradient(800px 500px at 110% 0%, rgba(14,165,233,.14) 0%, rgba(14,165,233,0) 55%),
         var(--bg);
       -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;
-      overflow-x:hidden;
     }
     .container{max-width:1200px; margin:26px auto 80px; padding:0 20px;}
-
     .topbar{
       position: sticky;
       top: 0;
       z-index: 30;
-      backdrop-filter: blur(var(--glassBlur));
-      -webkit-backdrop-filter: blur(var(--glassBlur));
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
       background: rgba(255,255,255,.06);
       border-bottom: 1px solid rgba(255,255,255,.10);
     }
     .topbar-inner{
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 12px 18px;
-      display:flex;
+      display: flex;
+      width: 100%;
+      max-width: none;
+      margin: 0;
+      padding: 12px 12px;
       align-items:center;
       justify-content:space-between;
       gap: 12px;
@@ -301,10 +265,9 @@
     }
 
     @media (max-width: 720px){
-      .topbar-inner{ padding: 10px 14px; }
+      .topbar-inner{ padding: 10px 12px; }
     }
-
-    header:not(.topbar){
+    header{
       display:flex;
       align-items:flex-end;
       justify-content:space-between;
@@ -315,7 +278,7 @@
     .title{display:flex; align-items:center; gap:10px;}
     .title h1{
       margin:0; font-size:clamp(20px,2.3vw,28px); letter-spacing:.4px;
-      background:linear-gradient(90deg, rgba(248,250,252,.95), rgba(167,139,250,.95));
+      background:linear-gradient(90deg, var(--heading), var(--accent));
       -webkit-background-clip:text; background-clip:text; color:transparent;
     }
 
@@ -334,7 +297,7 @@
       padding:10px 14px;
       border-radius:12px;
       border:1px solid var(--ring);
-      background: rgba(255,255,255,.10);
+      background: var(--card);
       color: var(--text);
       cursor:pointer;
       transition: transform .06s ease, border-color .2s, background .2s;
@@ -343,12 +306,17 @@
       font-size:14px;
       backdrop-filter: blur(10px);
       -webkit-backdrop-filter: blur(10px);
-      line-height:1.2;  /* ✅ consistent in Safari */
-      -webkit-appearance:none;
-      appearance:none;
     }
-    .btn:hover{ border-color: var(--accent); background: rgba(255,255,255,.14) }
+    .btn:hover{ border-color: var(--accent); background: var(--surface) }
     .btn:active{ transform: scale(.98);}
+
+    .toolbar .btn{
+      background:rgba(255,255,255,.06);
+    }
+    .toolbar .btn:hover{
+      border-color: rgba(56,189,248,.55);
+      background:rgba(255,255,255,.10);
+    }
 
     .filter-btn{display:none;}
     .desktop-only{display:inline-flex;}
@@ -358,7 +326,6 @@
       width:16px; height:16px;
       margin-right:6px;
       color: var(--text);
-      flex:0 0 16px;   /* ✅ avoid Safari measuring shift */
     }
     .filter-icon svg{width:100%; height:100%;}
 
@@ -388,13 +355,13 @@
       gap:6px;
     }
 
-    .label{font-size:12px; color: rgba(226,232,240,.86)}
-    .mini{font-size:12px; color: rgba(226,232,240,.78)}
+    .label{font-size:12px; color: var(--muted)}
+    .mini{font-size:12px; color: var(--muted)}
 
     select, input[type="search"], input[type="text"]{
       width:100%; padding:10px 12px; border-radius:12px;
       border:1px solid var(--ring);
-      background: rgba(255,255,255,.08);
+      background: var(--card);
       color: var(--text);
       box-shadow:var(--shadow);
       outline:none; transition:border-color .2s, box-shadow .2s, background .2s;
@@ -402,7 +369,7 @@
       backdrop-filter: blur(10px);
       -webkit-backdrop-filter: blur(10px);
     }
-    select:focus, input:focus{ border-color: var(--accent); box-shadow:0 0 0 3px rgba(167,139,250,.22) }
+    select:focus, input:focus{ border-color: var(--accent); box-shadow:0 0 0 3px rgba(56,189,248,.22) }
     input::placeholder{ color: rgba(148,163,184,.85); }
 
     .slider-row{display:flex; gap:16px; align-items:flex-start}
@@ -415,7 +382,7 @@
       appearance:none;
       height:16px;
       background:transparent;
-      --fill:#a78bfa;   /* ✅ fill: #a78bfa */
+      --fill:var(--accent);
       --pct:0%;         /* ✅ 初始 0% -> 全白 */
     }
     .slider-col input[type="range"]:focus{ outline:none; }
@@ -424,7 +391,7 @@
     .slider-col input[type="range"]::-webkit-slider-runnable-track{
       height:6px;                 /* ✅ track height: 6px */
       border-radius:999px;
-      border:1px solid rgba(167,139,250,.75); /* ✅ border */
+      border:1px solid rgba(56,189,248,.75);
       background: linear-gradient(90deg,
         var(--fill) 0 var(--pct),     /* ✅ left fill */
         #ffffff var(--pct) 100%       /* ✅ right rest */
@@ -436,7 +403,7 @@
       width:16px;
       height:16px;
       border-radius:999px;
-      background:#a78bfa;
+      background:var(--accent);
       border:2px solid rgba(255,255,255,.88); /* ✅ white ring */
       margin-top:-6px; /* ✅ as described */
       box-shadow: 0 8px 18px rgba(0,0,0,.45); /* ✅ shadow */
@@ -446,7 +413,7 @@
     .slider-col input[type="range"]::-moz-range-track{
       height:6px;
       border-radius:999px;
-      border:1px solid rgba(167,139,250,.75);
+      border:1px solid rgba(56,189,248,.75);
       background: linear-gradient(90deg,
         var(--fill) 0 var(--pct),
         #ffffff var(--pct) 100%
@@ -456,7 +423,7 @@
       width:16px;
       height:16px;
       border-radius:999px;
-      background:#a78bfa;
+      background:var(--accent);
       border:2px solid rgba(255,255,255,.88);
       box-shadow: 0 8px 18px rgba(0,0,0,.45);
     }
@@ -469,7 +436,7 @@
       padding:10px 12px;
       border-radius:12px;
       border:1px solid var(--ring);
-      background: rgba(255,255,255,.08);
+      background: var(--card);
       box-shadow:var(--shadow);
       color:var(--text);
       backdrop-filter: blur(10px);
@@ -508,8 +475,8 @@
       transition: transform .15s ease, border-color .2s;
       cursor:pointer;
     }
-    .card:hover{ transform: translateY(-3px); border-color: rgba(196,181,253,.55) }
-    .card:focus{ outline: none; border-color:#38bdf8; box-shadow:0 0 0 3px rgba(56,189,248,.22)}
+    .card:hover{ transform: translateY(-3px); border-color: rgba(56,189,248,.55) }
+    .card:focus{ outline: none; border-color:var(--accent); box-shadow:0 0 0 3px rgba(56,189,248,.25)}
     .top{display:flex; align-items:center; gap:12px; margin-bottom:10px;}
     .avatar{
       width:38px; height:38px; border-radius:50%; display:grid; place-items:center; color:#fff; font-weight:800; letter-spacing:.5px;
@@ -526,20 +493,16 @@
     .who{display:flex; flex-direction:column; gap:3px;}
     .who .name{font-weight:700}
     .who .muted{color:var(--muted); font-size:13px}
+    .who .name small{color:var(--muted)!important;}
     .who .gender{color: rgba(226,232,240,.78); font-weight:600; font-size:12px}
 
-    .row{display:flex; align-items:center; gap:8px; margin:8px 0; color: rgba(248,250,252,.92); font-size:14px}
+    .row{display:flex; align-items:center; gap:8px; margin:8px 0; color:var(--text); font-size:14px}
     .row svg{opacity:.95}
-
-    /* ✅ Tutor card icons 顏色 100% 跟你呢份：紫色 */
-    .card .row svg path{ stroke:#a78bfa !important; }
-    .card .row svg circle{ fill:#a78bfa !important; }
-
     .tags{display:flex; gap:8px; flex-wrap:wrap; margin-top:8px;}
     .tag{font-size:12px; padding:6px 10px; border-radius:999px; border:1px solid var(--tagBorder); background:var(--tagBg); color:var(--tagText);}
-    .foot{margin-top:12px; display:flex; align-items:center; justify-content:space-between; gap:8px; color: rgba(148,163,184,.9); font-size:13px;}
-    .budget{color:#34d399; font-weight:800}
-    .note{margin-top:10px; color: rgba(226,232,240,.84); font-size:14px; line-height:1.5}
+    .foot{margin-top:12px; display:flex; align-items:center; justify-content:space-between; gap:8px; color:var(--muted); font-size:13px;}
+    .budget{color:var(--text); font-weight:700}
+    .note{margin-top:10px; color:var(--text); font-size:14px; line-height:1.5; opacity:.9}
     .empty{
       grid-column:1/-1;
       text-align:center;
@@ -575,8 +538,8 @@
       padding:8px 16px;
       border-radius:999px;
       border:none;
-      background:#22c55e;
-      color:#ffffff;
+      background:var(--accent);
+      color:#0F172A;
       font-size:14px;
       cursor:pointer;
       text-decoration:none;
@@ -586,14 +549,11 @@
       box-shadow:var(--shadow);
       transition:background .15s ease, transform .06s ease, box-shadow .15s ease;
       white-space:nowrap;
-      line-height:1.2;               /* ✅ Safari一致 */
-      -webkit-appearance:none;
-      appearance:none;
     }
-    .apply-btn:hover{background:#16a34a;}
+    .apply-btn:hover{background:var(--accentHover);}
     .apply-btn:active{
       transform:scale(.97);
-      box-shadow:0 4px 14px rgba(22,163,74,.35);
+      box-shadow:0 4px 14px rgba(56,189,248,.35);
     }
 
     /* ====== ✅ Modal header：同參考版（立即申請 + ✕ 位置/大小） ====== */
@@ -614,19 +574,20 @@
       position:absolute;
       top:14px;
       right:18px;
-      line-height:1; /* ✅ */
-      -webkit-appearance:none;
-      appearance:none;
     }
     .modal header .apply-btn{
       margin-right:40px;
     }
 
     .modal .body{padding: 4px 20px 20px}
-
+    .modal .body .field{
+      display:flex;
+      flex-direction:column;
+      gap:8px;
+    }
     .profile-grid{display:grid; grid-template-columns: 1.2fr 1fr; gap:18px; margin-top:6px}
     .profile-card{
-      background: rgba(255,255,255,.06);
+      background: rgba(30,41,59,.9);
       border:1px solid rgba(255,255,255,.14);
       border-radius:16px;
       padding:14px;
@@ -634,7 +595,7 @@
       backdrop-filter: blur(10px);
       -webkit-backdrop-filter: blur(10px);
     }
-    .profile-title{margin:0 0 8px 0; font-size:15px; color: rgba(196,181,253,.92)}
+    .profile-title{margin:0 0 8px 0; font-size:15px; color: rgba(248,250,252,.92)}
     .kv{display:grid; grid-template-columns: 120px 1fr; gap:8px 12px; font-size:14px}
     .kv b{color: rgba(248,250,252,.92); font-weight:700}
     .cta-row{display:flex; gap:10px; flex-wrap:wrap; margin-top:12px}
@@ -644,16 +605,12 @@
       background: rgba(255,255,255,.10);
       color: var(--text);
       padding:8px 10px;
-      font-size:14px;
       border-radius:10px;
       box-shadow:var(--shadow);
       backdrop-filter: blur(10px);
       -webkit-backdrop-filter: blur(10px);
-      line-height:1.2;         /* ✅ Safari一致 */
-      -webkit-appearance:none;
-      appearance:none;
     }
-    .copy:hover{border-color: rgba(196,181,253,.55); background: rgba(255,255,255,.14) }
+    .copy:hover{border-color: rgba(56,189,248,.55); background: var(--surface) }
     @media (max-width: 820px){ .profile-grid{grid-template-columns:1fr} }
 
     .pager{display:flex; align-items:center; justify-content:center; gap:10px; margin-top:16px; flex-wrap:wrap}
@@ -661,25 +618,17 @@
       border:1px solid rgba(255,255,255,.18);
       background: rgba(255,255,255,.10);
       color: var(--text);
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-      min-width:70px;
-      height:40px;
-      padding:0 16px;
-      border-radius:12px;
+      padding:8px 13px;
+      border-radius:10px;
       cursor:pointer;
       box-shadow:var(--shadow);
       backdrop-filter: blur(10px);
       -webkit-backdrop-filter: blur(10px);
       font-size:14px;
-      line-height:1.2;         /* ✅ Safari一致 */
-      -webkit-appearance:none;
-      appearance:none;
     }
-    .pagebtn:hover{ border-color: rgba(196,181,253,.55); background: rgba(255,255,255,.14) }
+    .pagebtn:hover{ background:#f1f5f9; }
     .pagebtn[disabled]{opacity:.5; cursor:not-allowed}
-    .pageinfo{font-size:13px; color: rgba(148,163,184,.95)}
+    .pageinfo{font-size:14px; color: rgba(148,163,184,.95)}
 
     .subgrid{display:grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap:8px 12px; margin-top:10px}
     .subgrid label{display:flex; gap:8px; align-items:center; font-size:13px; color: rgba(248,250,252,.92)}
@@ -721,7 +670,7 @@
       .fee-label::before{
         content:"價位區間";
         font-size:12px;
-        color: rgba(226,232,240,.86);
+        color: var(--muted);
       }
 
       .slider-row,
@@ -744,7 +693,7 @@
         text-overflow:ellipsis;
       }
 
-      /* ✅ 手機：隱藏上方的導師性別篩選，只在「篩選」面板內顯示 */
+      /* ✅ 手機：隱藏上方的教練性別偏好，只在「篩選」面板內顯示 */
       .filter-row .gender-field{
         display:none;
       }
@@ -752,7 +701,7 @@
         display:flex;
         flex-direction:column;
         gap:6px;
-        margin-top:10px;
+        margin-top:0;
       }
 
       /* ✅ CHANGED (as ordered): 科目篩選 label ↔ button spacing same as gender (stacked + gap:6px) */
@@ -760,7 +709,7 @@
         display:flex;
         flex-direction:column;
         gap:6px;
-        margin-top:10px;
+        margin-top:0;
       }
 
       /* ✅ 參考版：手機 modal header padding */
@@ -773,10 +722,10 @@
       width:100%;
       max-width:640px;
       margin:0 auto;
-      background: rgba(10,12,22,.96);
+      background: var(--surface);
       border-radius:18px 18px 0 0;
-      box-shadow:0 -16px 40px rgba(0,0,0,.55);
-      border:1px solid rgba(255,255,255,.10);
+      box-shadow:0 -16px 40px rgba(0,0,0,.75);
+      border:1px solid var(--ring);
       border-bottom:none;
       backdrop-filter: blur(14px);
       -webkit-backdrop-filter: blur(14px);
@@ -802,9 +751,9 @@
     .filter-apply-btn{
       padding:10px 14px;
       border-radius:12px;
-      border:1px solid rgba(196,181,253,.35);
-      background:#EDE9FE;
-      color:#0f172a;
+      border:1px solid rgba(56,189,248,.55);
+      background:var(--accent);
+      color:#0F172A;
       font-size:14px;
       cursor:pointer;
       white-space:nowrap;
@@ -812,19 +761,16 @@
       transition: transform .06s ease, border-color .2s, background .2s;
       backdrop-filter: blur(10px);
       -webkit-backdrop-filter: blur(10px);
-      line-height:1.2;  /* ✅ */
-      -webkit-appearance:none;
-      appearance:none;
     }
     .filter-apply-btn:hover{
-      background:#DDD6FE;
-      border-color:#C4B5FD;
+      background:var(--accentHover);
+      border-color: rgba(56,189,248,.85);
     }
     .filter-apply-btn:active{ transform: scale(.98); }
     .filter-apply-btn:focus,
     .filter-apply-btn:focus-visible{
       outline:none;
-      box-shadow:0 0 0 3px rgba(167,139,250,.22), var(--shadow);
+      box-shadow:0 0 0 3px rgba(56,189,248,.22), var(--shadow);
     }
 
     .filter-close{
@@ -833,12 +779,12 @@
       font-size:24px;
       cursor:pointer;
       color: rgba(248,250,252,.92);
-      line-height:1; /* ✅ */
-      -webkit-appearance:none;
-      appearance:none;
     }
     .filter-body{
       padding:4px 18px 14px;
+      display:flex;
+      flex-direction:column;
+      gap:10px;
     }
 
     @media (max-width:560px){
@@ -853,11 +799,11 @@
         display:grid;
         grid-template-columns:1fr;
         gap:10px;
-        margin:6px 0 6px;
+        margin:0;
       }
     }
 
-    /* 桌機 + 平板：5 個欄位在同一行 */
+    /* 桌機 + 平板：6 個欄位在同一行（加入張貼日期排序） */
     @media (min-width:561px){
       .filter-btn{display:none;}
       .desktop-only{display:inline-flex;}
@@ -866,7 +812,7 @@
 
       .filter-row{
         display:grid;
-        grid-template-columns: 1.1fr 1.1fr 1.1fr 1.1fr 1.1fr;
+        grid-template-columns: 1.1fr 1.1fr 1.1fr 1.1fr 1.1fr 1.1fr;
         gap:10px;
         align-items:flex-start;
         margin:16px 0 12px;
@@ -883,12 +829,12 @@
         white-space:nowrap;
       }
 
-      /* 2 個篩選欄位：地區、價位 */
+      /* 篩選欄位：地區、價位、性別、張貼日期排序 */
       .filter-row .filters .field:nth-child(1){
         grid-column:1;
         grid-row:1;
       }
-      .filter-row .filters .field:nth-child(2){
+      .filter-row .filters .field:nth-child(4){
         grid-column:2;
         grid-row:1;
       }
@@ -903,9 +849,12 @@
         grid-row:1;
       }
 
-      /* 導師性別篩選 */
-      .filter-row .gender-field{
+      .filter-row .filters .field:nth-child(2){
         grid-column:5;
+        grid-row:1;
+      }
+      .filter-row .filters .field:nth-child(3){
+        grid-column:6;
         grid-row:1;
       }
     }
@@ -921,23 +870,15 @@
       padding:22px 20px;
       margin-bottom:14px;
 
-      --accent: #a78bfa;
 
       border:1.2px solid transparent;
       background:
-        radial-gradient(700px 220px at 12% 20%, rgba(167,139,250,.22), transparent 62%) padding-box,
-        radial-gradient(520px 220px at 85% 35%, rgba(196,181,253,.14), transparent 65%) padding-box,
-        linear-gradient(135deg, #1a1033 0%, #140a2b 45%, #0f071f 100%) padding-box,
+        radial-gradient(700px 220px at 12% 20%, rgba(56,189,248,.22), transparent 62%) padding-box,
+        radial-gradient(520px 220px at 85% 35%, rgba(14,165,233,.18), transparent 65%) padding-box,
+        linear-gradient(135deg, var(--surface) 0%, var(--bg) 45%, var(--surface) 100%) padding-box,
+        linear-gradient(135deg, rgba(56,189,248,.85) 0%, rgba(14,165,233,.65) 55%, rgba(56,189,248,.55) 100%) border-box;
 
-        linear-gradient(135deg,
-          rgba(167,139,250,.72) 0%,
-          rgba(196,181,253,.50) 45%,
-          rgba(167,139,250,.46) 100%
-        ) border-box;
-
-      box-shadow:
-        0 10px 26px rgba(15,23,42,.10),
-        0 1px 0 rgba(255,255,255,.10) inset;
+      box-shadow:0 10px 26px rgba(0,0,0,.55), 0 1px 0 rgba(255,255,255,.06) inset;
     }
 
     .banner::before{
@@ -946,9 +887,9 @@
       inset:1px;
       border-radius:21px;
       background:
-        radial-gradient(520px 200px at 18% 10%, rgba(255,255,255,.16), transparent 60%),
-        radial-gradient(420px 220px at 85% 0%, rgba(255,255,255,.10), transparent 62%);
-      opacity:.60;
+        radial-gradient(520px 200px at 18% 10%, rgba(255,255,255,.10), transparent 60%),
+        radial-gradient(420px 220px at 85% 0%, rgba(255,255,255,.08), transparent 62%);
+      opacity:.55;
       pointer-events:none;
     }
     .banner::after{
@@ -956,7 +897,8 @@
       position:absolute;
       inset:1px;
       border-radius:21px;
-      background: linear-gradient(180deg, transparent 55%, rgba(2,6,23,.22) 100%);
+      background: linear-gradient(180deg, transparent 55%, rgba(0,0,0,.35) 100%);
+      pointer-events:none;
       pointer-events:none;
     }
 
@@ -967,11 +909,6 @@
       justify-content:space-between;
       gap:12px;
       flex-wrap:wrap;
-    }
-
-    /* ✅ NEW: on small width, avoid Safari wrap baseline shift */
-    @media (max-width:560px){
-      .banner-inner{ align-items:flex-start; }
     }
 
     .banner-title{
@@ -985,9 +922,9 @@
       width:46px; height:46px;
       border-radius:14px;
       display:grid; place-items:center;
-      background: rgba(255,255,255,.10);
-      border:1px solid rgba(196,181,253,.24);
-      box-shadow: 0 8px 18px rgba(15,23,42,.22);
+      background: rgba(30,41,59,.65);
+      border:1px solid rgba(51,65,85,.9);
+      box-shadow: 0 8px 18px rgba(0,0,0,.55);
       backdrop-filter: blur(10px);
       -webkit-backdrop-filter: blur(10px);
       position:relative;
@@ -996,29 +933,21 @@
       content:"";
       position:absolute; inset:-10px;
       border-radius:18px;
-      background: radial-gradient(circle at 50% 50%, rgba(167,139,250,.22), transparent 62%);
+      background: radial-gradient(circle at 50% 50%, rgba(56,189,248,.18), transparent 62%);
       pointer-events:none;
     }
 
-    .trophy{ width:28px; height:28px; position:relative; z-index:1; }
-    .trophy path{
-      stroke:#c4b5fd;
+    .book{ width:28px; height:28px; position:relative; z-index:1; }
+    .book path{
+      stroke:var(--accent);
       stroke-width:1.7;
       stroke-linecap:round;
       stroke-linejoin:round;
     }
-    .trophy .cup{
-      fill: rgba(196,181,253,.18);
-      stroke: none;
-    }
-    .trophy .base{
-      fill: rgba(167,139,250,.24);
-      stroke: none;
-    }
-    .trophy{
+    .book{
       filter:
-        drop-shadow(0 6px 12px rgba(0,0,0,.30))
-        drop-shadow(0 0 10px rgba(167,139,250,.16));
+        drop-shadow(0 6px 12px rgba(0,0,0,.55))
+        drop-shadow(0 0 10px rgba(56,189,248,.18));
     }
 
     .banner-text h1{
@@ -1029,12 +958,12 @@
       color: rgba(248,250,252,.96);
     }
     .banner-text h1 .accent{
-      color: var(--accent, #a78bfa);
-      font-weight:900;
+      color: var(--accent);
+      font-weight: inherit;
     }
     .banner-text p{
       margin:7px 0 0;
-      color: rgba(226,232,240,.82);
+      color: rgba(148,163,184,.92);
       font-size:13.5px;
       line-height:1.45;
       max-width:680px;
@@ -1071,7 +1000,7 @@
     }
 
     /* ✅ Make category title readable in dark modal even if inline style exists */
-    #categoryTitle{ color: rgba(196,181,253,.92) !important; }
+    #categoryTitle{ color: var(--heading) !important; }
 
     /* =========================================================
        ✅ ONLY changes as ordered
@@ -1082,31 +1011,26 @@
 
     /* 1) HK$ 0 – 800 label -> white */
     #feeLabel{ color:#ffffff !important; }
-
-    /* 2) Tutor profile section titles -> white */
-    .profile-title{ color: rgba(248,250,252,.96) !important; }
-
-    /* 3) HK$ XXX/時 (budget on card) -> white */
-    .budget{ color:#ffffff !important; }
-
-    /* 4) 篩選列 labels -> white (match HK$ 0 – 800) */
+    /* 1a) 篩選欄位標籤（地區/價位/關鍵字/導師編號/性別/價位上下限）-> white */
     .filter-row .label,
     .filter-row .mini{
       color:#ffffff !important;
     }
-    .fee-label::before{
-      color:#ffffff !important;
-    }
+    /* 2) Tutor profile section titles -> white */
+    .profile-title{ color: rgba(248,250,252,.96) !important; }
 
-    /* 5) 地區/關鍵字/導師編號/導師性別 的輸入框/下拉 -> white background */
-    #district, #q, #idq, #genderFilter{
+    /* 3) HK$ XXX/時 (budget on card) -> white */
+    .budget{ color:var(--text) !important; }
+
+    /* 4) 地區/關鍵字/導師編號/導師性別/張貼日期排序 的輸入框/下拉 -> white background */
+    #district, #q, #idq, #genderFilter, #dateSort{
       background:#ffffff !important;
       color:#0f172a !important;
       border-color: rgba(15,23,42,.18) !important;
     }
-    #district:focus, #q:focus, #idq:focus, #genderFilter:focus{
+    #district:focus, #q:focus, #idq:focus, #genderFilter:focus, #dateSort:focus{
       border-color: var(--accent) !important;
-      box-shadow: 0 0 0 3px rgba(167,139,250,.22) !important;
+      box-shadow: 0 0 0 3px rgba(56,189,248,.22) !important;
       outline:none !important;
     }
     #q::placeholder, #idq::placeholder{
@@ -1122,7 +1046,7 @@
       }
       #feeBand:focus{
         border-color: var(--accent) !important;
-        box-shadow: 0 0 0 3px rgba(167,139,250,.22) !important;
+        box-shadow: 0 0 0 3px rgba(56,189,248,.22) !important;
         outline:none !important;
       }
     }
@@ -1132,6 +1056,7 @@
       background:#ffffff !important;
       color:#0f172a !important;
       border-color: rgba(15,23,42,.18) !important;
+      font-size:14px !important;
     }
     #copyId:hover{
       background:#ffffff !important;
@@ -1139,25 +1064,25 @@
     }
     #copyId:focus{
       border-color: var(--accent) !important;
-      box-shadow: 0 0 0 3px rgba(167,139,250,.22) !important;
+      box-shadow: 0 0 0 3px rgba(56,189,248,.22) !important;
       outline:none !important;
     }
 
-    /* ✅ 7) 全選 / 清除全部 / 套用篩選 / 開啟科目篩選 -> lavender 樣式（不再包含 #filterApply） */
+    /* ✅ 7) 全選 / 清除全部 / 套用篩選 / 開啟科目篩選 */
     #selAll, #clrAll, #applyCategory, #mobileSubjectBtn{
-      background:#EDE9FE !important;
-      color:#0f172a !important;
-      border:1px solid #dbeafe !important;
-      box-shadow:0 8px 22px rgba(15,23,42,.08) !important;
+      background:var(--accent) !important;
+      color:#0F172A !important;
+      border:1px solid rgba(56,189,248,.55) !important;
+      box-shadow:var(--shadow) !important;
     }
     #selAll:hover, #clrAll:hover, #applyCategory:hover, #mobileSubjectBtn:hover{
-      background:#DDD6FE !important;
-      border-color:#C4B5FD !important;
+      background:var(--accentHover) !important;
+      border-color: rgba(56,189,248,.85) !important;
     }
     #selAll:focus, #clrAll:focus, #applyCategory:focus, #mobileSubjectBtn:focus,
     #selAll:focus-visible, #clrAll:focus-visible, #applyCategory:focus-visible, #mobileSubjectBtn:focus-visible{
       outline:none !important;
-      box-shadow:0 0 0 3px rgba(167,139,250,.22), 0 8px 22px rgba(15,23,42,.08) !important;
+      box-shadow:0 0 0 3px rgba(56,189,248,.22), var(--shadow) !important;
     }
 
     /* ✅ 8) 上一頁 / 下一頁 -> white button */
@@ -1173,7 +1098,7 @@
     #prevPage:focus, #nextPage:focus,
     #prevPage:focus-visible, #nextPage:focus-visible{
       outline:none !important;
-      box-shadow:0 0 0 3px rgba(167,139,250,.22), var(--shadow) !important;
+      box-shadow:0 0 0 3px rgba(56,189,248,.22), var(--shadow) !important;
     }
 
     /* ✅ 9) 第 1 / 1 頁 -> white */
@@ -1190,7 +1115,7 @@
         width:46px !important;
         height:46px !important;
       }
-      .trophy{
+      .book{
         width:28px !important;
         height:28px !important;
         flex-shrink:0 !important;
@@ -1213,32 +1138,19 @@
         box-shadow:var(--shadow) !important;
       }
       #mobileSubjectBtn:hover{
-        background:#FFFFFF !important;
-        border-color: rgba(255,255,255,.18) !important;
+        background:#f1f5f9 !important;
+        border-color: rgba(255,255,255,.30) !important;
       }
       #mobileSubjectBtn:focus, #mobileSubjectBtn:focus-visible{
         outline:none !important;
         border-color: var(--accent) !important;
-        box-shadow: 0 0 0 3px rgba(167,139,250,.22), var(--shadow) !important;
+        box-shadow: 0 0 0 3px rgba(56,189,248,.22), var(--shadow) !important;
       }
-    }
-
-    
-
-    /* =========================================================
-       ✅ NEW: gap fallback (rare Safari/older)
-       ========================================================= */
-    @supports not (gap: 10px){
-      .toolbar > *{ margin-right:10px; }
-      .toolbar > *:last-child{ margin-right:0; }
-
-      .row > *{ margin-right:8px; }
-      .row > *:last-child{ margin-right:0; }
     }
   </style>
 </head>
 <body>
-<header class="topbar" role="banner">
+  <header class="topbar" role="banner">
     <div class="topbar-inner">
       <div class="brand">
         <div class="logo" aria-hidden="true">
@@ -1249,7 +1161,7 @@
         </div>
         <div class="brandText">
           <div class="title">EXPLORER</div>
-          <div class="sub">尋找教練（體育)</div>
+          <div class="sub">學生招聘個案 (體育)</div>
         </div>
       </div>
 
@@ -1329,7 +1241,6 @@
       </div>
     </div>
   </nav>
-
   <div class="container">
 
     <!-- ===== Banner (follow reference banner format) ===== -->
@@ -1337,29 +1248,30 @@
       <div class="banner-inner">
         <div class="banner-title">
           <span class="logo-wrap" aria-hidden="true">
-            <!-- Trophy icon -->
-            <svg class="trophy" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-              <path class="cup" d="M7 4h10v2.4a5.4 5.4 0 0 1-5 5.2 5.4 5.4 0 0 1-5-5.2V4Z"/>
-              <path d="M7 4h10v2.4a5.4 5.4 0 0 1-5 5.2 5.4 5.4 0 0 1-5-5.2V4Z"/>
-              <path d="M5 5h2.2v1.2a4.4 4.4 0 0 1-2.2 3.6" opacity=".9"/>
-              <path d="M19 5h-2.2v1.2a4.4 4.4 0 0 0 2.2 3.6" opacity=".9"/>
-              <path d="M12 11.6v3.2"/>
-              <path class="base" d="M8.3 18.1h7.4v2H8.3z"/>
-              <path d="M9 18.1h6"/>
-              <path d="M8 20h8"/>
-              <path d="M10 14.4h4"/>
-              <path d="M11.2 7.6l.8-1.1.8 1.1 1.3.4-.8 1.1.2 1.4-1.5-.6-1.5.6.2-1.4-.8-1.1 1.3-.4Z" opacity=".85"/>
+            <!-- Book icon -->
+            <svg class="book" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M3.2 6.2c0-.83.67-1.5 1.5-1.5H10a3 3 0 0 1 3 3v13a3.2 3.2 0 0 0-2.4-1H4.7a1.5 1.5 0 0 1-1.5-1.5V6.2Z" fill="rgba(56,189,248,.12)" stroke="none"/>
+              <path d="M20.8 6.2c0-.83-.67-1.5-1.5-1.5H14a3 3 0 0 0-3 3v13a3.2 3.2 0 0 1 2.4-1h5.9a1.5 1.5 0 0 0 1.5-1.5V6.2Z" fill="rgba(56,189,248,.08)" stroke="none"/>
+
+              <path d="M3.2 6.2c0-.83.67-1.5 1.5-1.5H10a3 3 0 0 1 3 3v13a3.2 3.2 0 0 0-2.4-1H4.7a1.5 1.5 0 0 1-1.5-1.5V6.2Z"/>
+              <path d="M20.8 6.2c0-.83-.67-1.5-1.5-1.5H14a3 3 0 0 0-3 3v13a3.2 3.2 0 0 1 2.4-1h5.9a1.5 1.5 0 0 0 1.5-1.5V6.2Z"/>
+              <path d="M12 7.7v13"/>
+              <path d="M6.2 10h3.4"/>
+              <path d="M6.2 12.6h3.4"/>
+              <path d="M14.4 10h3.4"/>
+              <path d="M14.4 12.6h3.4"/>
+              <path d="M8.3 17.9c.6-.2 1.2-.3 1.9-.3h1.6c.7 0 1.4.1 2 .3" opacity=".9"/>
             </svg>
           </span>
 
           <div class="banner-text">
-             <h1>尋找導師 <span class="accent">（體育）</span></h1>
+            <h1>招聘個案 <span class="accent">（體育）</span></h1>
             <p>推廣體育運動，幫助學生找到適合的教練</p>
           </div>
         </div>
 
         <div class="toolbar">
-          <button id="filterOpen" class="btn filter-btn" type="button">
+          <button id="filterOpen" class="btn filter-btn">
             <span class="filter-icon" aria-hidden="true">
               <svg viewBox="0 0 24 24">
                 <path d="M4 5h16M7 11h10M10 17h4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
@@ -1368,9 +1280,10 @@
             篩選
           </button>
 
-          <button id="categoryBtn" class="btn desktop-only" type="button">運動種類篩選</button>
-          <button id="shuffle" class="btn" type="button">重新隨機</button>
-          <button id="resetAll" class="btn" type="button">重設所有篩選</button>
+          <button id="categoryBtn" class="btn desktop-only">運動種類篩選</button>
+
+          <button id="shuffle" class="btn">重新隨機</button>
+          <button id="resetAll" class="btn">重設所有篩選</button>
         </div>
       </div>
     </div>
@@ -1387,6 +1300,24 @@
             <option>油尖旺區</option><option>深水埗區</option><option>九龍城區</option><option>黃大仙區</option><option>觀塘區</option>
             <option>葵青區</option><option>荃灣區</option><option>屯門區</option><option>元朗區</option><option>北區</option><option>大埔區</option>
             <option>沙田區</option><option>西貢區</option><option>離島區</option>
+          </select>
+        </div>
+
+        <div class="field gender-field">
+          <span class="label">教練性別偏好</span>
+          <select id="genderFilter">
+            <option value="">不限教練性別</option>
+            <option value="男教練">男教練</option>
+            <option value="女教練">女教練</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <span class="label">張貼日期排序</span>
+          <select id="dateSort">
+            <option value="new">最新 → 最舊</option>
+            <option value="old">最舊 → 最新</option>
+            <option value="rand">隨機時間排序</option>
           </select>
         </div>
 
@@ -1419,23 +1350,16 @@
       <div class="search-row" aria-label="搜尋">
         <div class="field">
           <span class="label">關鍵字搜尋</span>
-          <input id="q" type="search" placeholder="教練姓名 / 運動項目 / 資歷 / 備註…" />
+          <input id="q" type="search" placeholder="姓名 / 年齡 / 經驗 / 備註…" />
         </div>
 
         <div class="field">
-         <span class="label"> 教練編號</span>
-          <input id="idq" type="text" placeholder="輸入編號（如：SP-202511-003）" />
+          <span class="label"> 案件編號搜尋</span>
+          <input id="idq" type="text" placeholder="輸入案件編號（如：SC-202511-003）" />
         </div>
       </div>
 
-      <div class="gender-field">
-        <span class="label">教練性別篩選</span>
-        <select id="genderFilter">
-          <option value="">不限教練性別</option>
-          <option value="男教練">男教練</option>
-          <option value="女教練">女教練</option>
-        </select>
-      </div>
+      
     </section>
 
     <div id="activeBar" class="active-bar hidden" aria-live="polite"></div>
@@ -1445,13 +1369,13 @@
     <section id="grid" class="grid" aria-live="polite" aria-busy="true"></section>
 
     <div class="pager">
-      <button id="prevPage" class="pagebtn" type="button">上一頁</button>
+      <button id="prevPage" class="pagebtn">上一頁</button>
       <span id="pageInfo" class="pageinfo">第 1 / 1 頁</span>
-      <button id="nextPage" class="pagebtn" type="button">下一頁</button>
+      <button id="nextPage" class="pagebtn">下一頁</button>
     </div>
   </div>
 
-  <!-- 導師詳細資料 Modal -->
+  <!-- 學生招聘個案 Modal -->
   <div id="backdrop" class="modal-backdrop" role="dialog" aria-modal="true" aria-hidden="true">
     <div class="modal" role="document" aria-labelledby="modalTitle">
       <header>
@@ -1470,7 +1394,7 @@
           class="apply-btn"
         >立即申請！</a>
 
-        <button class="close" id="modalClose" aria-label="關閉" type="button">✕</button>
+        <button class="close" id="modalClose" aria-label="關閉">✕</button>
       </header>
 
       <div class="body">
@@ -1479,15 +1403,15 @@
             <h3 class="profile-title">基本資料</h3>
             <div class="kv" id="kv-basic"></div>
             <div class="cta-row">
-             <button id="copyId" class="copy" type="button">複製教練編號</button>
+              <button id="copyId" class="copy">複製案件編號</button>
             </div>
           </div>
           <div class="profile-card">
-            <h3 class="profile-title">訓練 / 服務資料</h3>
+            <h3 class="profile-title">課程期望</h3>
             <div class="kv" id="kv-expect"></div>
           </div>
           <div class="profile-card" style="grid-column:1/-1">
-            <h3 class="profile-title">備註 / 自我介紹</h3>
+            <h3 class="profile-title">備註 / 目標</h3>
             <div id="kv-notes" style="white-space:pre-wrap; line-height:1.7; font-size:14px; color: rgba(226,232,240,.88)"></div>
           </div>
         </div>
@@ -1500,21 +1424,21 @@
     <div class="modal" role="document" aria-labelledby="categoryTitle">
       <header>
         <h2 id="categoryTitle" style="margin:0; font-size:20px; color:#0369a1">運動種類篩選</h2>
-        <button class="close" id="categoryClose" aria-label="關閉" type="button">✕</button>
+        <button class="close" id="categoryClose" aria-label="關閉">✕</button>
       </header>
       <div class="body">
         
         <div class="mini" style="margin-top:8px">
-          勾選運動（可複選）；未勾選即不限運動種類
+          勾選運動種類（可複選）；若不勾選直接「套用篩選」，將不限制運動種類
         </div>
         <div id="categoryList" class="subgrid" style="margin-top:12px"></div>
         <div class="bar">
-          <button id="selAll" class="btn" type="button">全選</button>
-          <button id="clrAll" class="btn" type="button">清除全部</button>
-          <span id="selCount" class="mini fw">已選：0 個運動</span>
+          <button id="selAll" class="btn">全選</button>
+          <button id="clrAll" class="btn">清除全部</button>
+          <span id="selCount" class="mini fw">已選：0 個運動種類</span>
         </div>
         <div class="bar" style="justify-content:flex-end; margin-top:12px">
-          <button id="applyCategory" class="btn" type="button">套用篩選</button>
+          <button id="applyCategory" class="btn">套用篩選</button>
         </div>
       </div>
     </div>
@@ -1526,14 +1450,14 @@
       <div class="filter-header">
         <h2 id="filterTitle" class="filter-title">篩選條件</h2>
         <div class="filter-header-right">
-          <button id="filterApply" class="filter-apply-btn" type="button">套用篩選</button>
-          <button id="filterClose" class="filter-close" aria-label="關閉" type="button">✕</button>
+          <button id="filterApply" class="filter-apply-btn">套用篩選</button>
+          <button id="filterClose" class="filter-close" aria-label="關閉">✕</button>
         </div>
       </div>
       <div class="filter-body" id="filterPanelBody">
         <div class="field mobile-subject-row">
           <span class="label">運動種類篩選</span>
-          <button id="mobileSubjectBtn" class="btn" type="button" style="padding-inline:12px">開啟運動種類篩選</button>
+          <button id="mobileSubjectBtn" class="btn" style="padding-inline:12px">開啟運動種類篩選</button>
         </div>
       </div>
     </div>
@@ -1591,113 +1515,97 @@
         if(a) closeNav();
       });
     })();
-
-    const SPORTS = [
-      "籃球",
-      "足球",
-      "排球",
+    const SPORTS_OPTIONS = [
+      "游泳",
       "羽毛球",
       "乒乓球",
-      "游泳",
-      "田徑",
-      "體操",
-      "舞蹈",
+      "足球",
+      "籃球",
+      "排球",
+      "網球",
       "跆拳道",
       "空手道",
       "武術",
-      "網球",
+      "田徑",
+      "體操",
+      "舞蹈",
       "攀石",
-      "其他",
-      "HYROX",
-      "業餘健身"
+      "跳繩",
+      "其他"
     ];
-
 
     const AGENTS = [
       {
-        id:"SP-202511-001",
-        name:"Jason Lee",
-        gender:"男教練",
-        age:"32 歲",
-        intro:"專注籃球基礎到校隊戰術，兼顧體能與協調訓練。",
-        years:"8 年",
-        mainCategory:"籃球",
-        subjects:["控球節奏","投籃姿勢","防守腳步"],
-        district:"中西區",
-        areaDetail:"中環 / 上環；可安排戶外球場",
-        fee:320,
-        mode:"面授為主 / 可網上影片分析",
-        targetLevels:["中學","成人入門"],
-        examType:["體能測試","校隊選拔"],
-        experience:"曾任校隊助教，協助學生提升投籃穩定度與比賽判讀。",
-        qualification:"香港籃總一級教練證",
-        contact:"WhatsApp：+852 6123 4567",
-        timeSlots:"平日 19:00 後；週末上午",
-        notes:"會按球員位置設計訓練計劃，提供課後動作影片回饋。"
+        id:"SC-202511-001",
+        postedAt:"2025/11/21",
+        name:"陳同學",
+        age:"17",
+        grade:"中六",
+        examType:"校隊訓練",
+        subjects:["田徑","短跑技巧"],
+        district:"觀塘區",
+        areaDetail:"觀塘 / 牛頭角 運動場",
+        fee:340,
+        weeklySessions:"2 堂 / 週",
+        sessionDuration:"2 小時 / 堂",
+        startDate:"可議",
+        timeSlots:"二四 晚間",
+        notes:"目標提升 100m / 200m 起跑與衝刺節奏，包含伸展與力量安排。",
+        gender:"男教練"
       },
       {
-        id:"SP-202511-002",
-        name:"Nicole Wong",
-        gender:"女教練",
-        age:"29 歲",
-        intro:"羽毛球步法與力量訓練，改善爆發力與回球角度。",
-        years:"6 年",
-        mainCategory:"羽毛球",
-        subjects:["步法移動","殺球技巧","體能強化"],
+        id:"SC-202511-002",
+        postedAt:"2025/11/19",
+        name:"李同學",
+        age:"13",
+        grade:"中二",
+        examType:"興趣進階",
+        subjects:["羽毛球","步法訓練"],
         district:"沙田區",
         areaDetail:"沙田 / 大圍 體育館",
-        fee:380,
-        mode:"面授 / 小組皆可",
-        targetLevels:["青少年","校隊"],
-        examType:["校隊試訓","比賽準備"],
-        experience:"帶領多位學生成為校隊主力，重視腳步與反應速度。",
-        qualification:"羽毛球教練證書（中級）",
-        contact:"WhatsApp：+852 9234 5678",
-        timeSlots:"二四晚間；週末彈性",
-        notes:"提供每月訓練報告，協助家長掌握進度。"
+        fee:420,
+        weeklySessions:"2–3 堂 / 週",
+        sessionDuration:"1.5 小時 / 堂",
+        startDate:"兩週內",
+        timeSlots:"一三五 晚上；週末日間",
+        notes:"希望加強正手高遠球與防守反擊，兼顧體能。",
+        gender:"女教練"
       },
       {
-        id:"SP-202511-003",
-        name:"Leo Chan",
-        gender:"男教練",
-        age:"35 歲",
-        intro:"游泳技巧與呼吸節奏調整，適合初學與提升速度。",
-        years:"10 年",
-        mainCategory:"游泳",
-        subjects:["自由式","蝶式","水中體能"],
+        id:"SC-202511-003",
+        postedAt:"2025/11/14",
+        name:"王同學",
+        age:"10",
+        grade:"小四",
+        examType:"體適能",
+        subjects:["游泳","基礎體能"],
         district:"元朗區",
         areaDetail:"天水圍 / 元朗 泳池",
-        fee:260,
-        mode:"面授 / 可安排小組",
-        targetLevels:["小學","成人"],
-        examType:["泳測考核","比賽技術"],
-        experience:"協助學員改善划水效率，提升耐力與速度。",
-        qualification:"拯溺銅章 / 游泳教練證",
-        contact:"WhatsApp：+852 5566 7788",
+        fee:230,
+        weeklySessions:"2 堂 / 週",
+        sessionDuration:"1 小時 / 堂",
+        startDate:"下月初",
         timeSlots:"平日放學後；六日上午",
-        notes:"課程包含水中安全與自救技巧。",
-        avatarUrl:"/assets/img/AG-202511-006.jpeg"
+        notes:"家長希望建立正確呼吸與打水節奏，提升耐力。",
+        gender:"不限教練性別"
       },
       {
-        id:"SP-202511-004",
-        name:"Amy Ho",
-        gender:"女教練",
-        age:"27 歲",
-        intro:"瑜伽伸展與核心穩定訓練，提升柔軟度與體態。",
-        years:"4 年",
-        mainCategory:"瑜伽",
-        subjects:["核心訓練","伸展放鬆","呼吸調節"],
+        id:"SC-202511-004",
+        postedAt:"2025/11/26",
+        name:"張同學",
+        age:"20",
+        grade:"大專二年級",
+        examType:"成人訓練",
+        subjects:["攀石","核心力量"],
         district:"灣仔區",
-        areaDetail:"灣仔 / 銅鑼灣 瑜伽室；亦可上門",
-        fee:360,
-        mode:"面授 / 網上",
-        targetLevels:["初學者","在職人士"],
-        examType:["體態改善","壓力舒緩"],
-        experience:"設計適合上班族的伸展計劃，改善肩頸緊繃。",
-        qualification:"RYT200 認證",
-        contact:"WhatsApp：+852 6666 7777",
+        areaDetail:"灣仔 / 銅鑼灣 攀石館",
+        fee:380,
+        weeklySessions:"1–2 堂 / 週",
+        sessionDuration:"1.5 小時 / 堂",
+        startDate:"可議",
         timeSlots:"平日晚間；週末部分時間",
-        notes:"可提供客製化伸展清單，方便自我練習。"
+        notes:"想改善路線閱讀與核心穩定，避免肩肘受傷。",
+        gender:"不限教練性別"
       }
     ];
 
@@ -1706,6 +1614,12 @@
       return String(str ?? "").replace(/[&<>"'`=\/]/g, s => ({
         '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;','/':'&#x2F;','`':'&#x60;','=':'&#x3D;'
       }[s]));
+    }
+    function formatAge(age){
+      if(age === null || age === undefined || age === '') return '';
+      const normalized = String(age).trim();
+      if(!normalized) return '';
+      return normalized.includes('歲') ? normalized : `${normalized} 歲`;
     }
     function colorFromName(name){ let h=0; for(let i=0;i<name.length;i++){ h=(h*31 + name.charCodeAt(i))%360; } return `hsl(${h} 70% 50%)`; }
     function scrollToTop(){ try{ window.scrollTo({top:0,behavior:'smooth'});}catch{ window.scrollTo(0,0);} }
@@ -1780,19 +1694,16 @@
     const filterPanelBody = document.getElementById('filterPanelBody');
     const mobileSubjectBtn = document.getElementById('mobileSubjectBtn');
     const filtersSection = document.querySelector('.filters');
-    const genderFieldEl = document.querySelector('.gender-field');
     const mobileSubjectRow = document.querySelector('.mobile-subject-row');
     const filtersHomeParent = filtersSection.parentNode;
     const filtersHomeNextSibling = filtersSection.nextElementSibling;
-    const genderHomeParent = genderFieldEl.parentNode;
-    const genderHomeNextSibling = genderFieldEl.nextElementSibling;
+    
 
     let data = AGENTS.slice();
     let view = data.slice();
 
     const categorySelected = new Set();
-    
-
+  
     let filtersInSheet = false;
     let subjectOpenedFromFilterSheet = false;
 
@@ -1803,7 +1714,7 @@
 
     function setRangeFill(el){
       if(!el) return;
-      el.style.setProperty('--fill', '#a78bfa');
+      el.style.setProperty('--fill', 'var(--accent)');
       const touched = el.dataset.touched === 'true';
       let pct = 0;
 
@@ -1848,13 +1759,13 @@
 
     function updateSelCount(){
       const size = (draftCategorySelected ? draftCategorySelected.size : categorySelected.size);
-      selCount.textContent = `已選：${size} 個運動`;
+      selCount.textContent = `已選：${size} 個運動種類`;
     }
 
     function renderCategoryList(){
       categoryList.innerHTML = '';
       const setRef = draftCategorySelected ?? categorySelected;
-      const list = SPORTS;
+      const list = SPORTS_OPTIONS;
 
       list.forEach((subject, i)=>{
         const id = `sub-sport-${i}`;
@@ -1894,10 +1805,10 @@
       subjectOpenedFromFilterSheet = false;
     }
 
-  
+    
     selAll.addEventListener('click', ()=>{
       if(!draftCategorySelected) return;
-      const id = `sub-sport-${i}`;
+      SPORTS_OPTIONS.forEach(sub => draftCategorySelected.add(sub));
       renderCategoryList();
     });
     clrAll.addEventListener('click', ()=>{
@@ -1913,7 +1824,7 @@
         categorySelected.clear();
         draftCategorySelected.forEach(x => categorySelected.add(x));
       }
-  
+
       if(fromSheet){
         closeCategoryModal({returnToSheet:false});
         if(window.innerWidth <= 560){
@@ -1977,10 +1888,8 @@
     function passesCategory(c){
       if(categorySelected.size === 0) return true;
       const subjList = (c.subjects || []).map(s => String(s).toLowerCase());
-      const mainCategory = String(c.mainCategory || '').toLowerCase();
       for(const sel of categorySelected){
         const needle = String(sel).toLowerCase();
-        if(mainCategory.includes(needle)) return true;
         if(subjList.some(s => s.includes(needle))) return true;
       }
       return false;
@@ -1990,13 +1899,14 @@
       const k = q.value.trim().toLowerCase();
       if(!k) return true;
       const hay = [
-        c.id, c.name, c.gender, c.age, c.intro, c.years, c.mainCategory,
+        c.id, c.name, c.grade, c.examType,
         ...(c.subjects||[]),
-        c.district, c.areaDetail, c.mode,
-        ...(c.targetLevels||[]),
-        ...(c.examType||[]),
+        c.district, c.areaDetail,
+        c.postedAt, c.weeklySessions, c.sessionDuration,
+        c.startDate, c.timeSlots, c.notes,
         c.experience, c.qualification, c.timeSlots, c.notes,
-        (c.fee ?? "") + ""
+        (c.fee ?? "") + "",
+        c.gender
       ].join(' ').toLowerCase();
       return hay.includes(k);
     }
@@ -2005,6 +1915,11 @@
       const s = idq.value.trim();
       if(!s) return true;
       return (c.id||'').toLowerCase().includes(s.toLowerCase());
+    }
+
+    function toTs(d){
+      const t = Date.parse(String(d || ""));
+      return Number.isFinite(t) ? t : 0;
     }
 
     function applyFilters(){
@@ -2018,6 +1933,23 @@
       );
     }
 
+    function applySort(list){
+      const mode = (dateSort && dateSort.value) ? dateSort.value : 'new';
+      const arr = list.slice();
+
+      if(mode === 'rand'){
+        arr.sort(()=> Math.random() - 0.5);
+        return arr;
+      }
+
+      arr.sort((a,b)=>{
+        const ta = toTs(a.postedAt);
+        const tb = toTs(b.postedAt);
+        return mode === 'old' ? (ta - tb) : (tb - ta);
+      });
+      return arr;
+    }
+
     function renderActiveBar(){
       const chips = Array.from(categorySelected).map(label => ({label}));
       if(chips.length === 0){
@@ -2026,12 +1958,12 @@
         return;
       }
       activeBar.classList.remove('hidden');
-      activeBar.innerHTML = `<span class="mini">運動：</span>`;
+      activeBar.innerHTML = `<span class="mini">運動種類：</span>`;
       for(const c of chips){
         const chip = document.createElement('span');
         chip.className = 'chip';
         chip.innerHTML = `
-          <button class="x" title="移除此篩選" data-subject="${esc(c.label)}" type="button">×</button>
+          <button class="x" title="移除此篩選" data-subject="${esc(c.label)}">×</button>
           <span>${esc(c.label)}</span>
         `;
         activeBar.appendChild(chip);
@@ -2061,7 +1993,7 @@
       if(pageSlice.length === 0){
         const empty = document.createElement('div');
         empty.className = 'empty';
-        empty.textContent = '找不到符合條件的體育教練 請調整篩選或清除搜尋';
+        empty.textContent = '找不到符合條件的案例 請調整篩選或清除搜尋';
         grid.appendChild(empty);
       } else {
         for(const c of pageSlice){
@@ -2071,6 +2003,7 @@
           const initials = esc((c.name||'?').slice(0,2));
           const avatarColor = colorFromName(c.name||'');
           const hasAvatar = c.avatarUrl;
+          const ageLabel = formatAge(c.age);
 
           card.innerHTML = `
             <div class="top">
@@ -2080,40 +2013,42 @@
                   : initials}
               </div>
               <div class="who">
-                <div class="name">${esc(c.name)}　<small class="gender">${esc(c.gender || '')}</small></div>
-                <div class="muted">教練編號：${esc(c.id || '-') }</div>
+                <div class="name">${esc(c.name)}${ageLabel ? `　<small style="color:var(--muted)">${esc(ageLabel)}</small>` : ''}</div>
+                <div class="muted">案件編號：${esc(c.id || '-') }</div>
               </div>
             </div>
 
             <div class="row">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h10" stroke="#3b82f6" stroke-width="1.4"/></svg>
-              <span>${esc((c.subjects||[]).join('、') || '—')}</span>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h10" stroke="var(--accent)" stroke-width="1.4"/></svg>
+              <span>${esc((c.subjects || []).filter(Boolean).join('、') || '—')}</span>
             </div>
 
             <div class="row">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 20s8-4.5 8-11a8 8 0 1 0-16 0c0 6.5 8 11 8 11Z" stroke="#3b82f6" stroke-width="1.4"/><circle cx="12" cy="9" r="2" fill="#3b82f6"/></svg>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 20s8-4.5 8-11a8 8 0 1 0-16 0c0 6.5 8 11 8 11Z" stroke="var(--accent)" stroke-width="1.4"/><circle cx="12" cy="9" r="2" fill="var(--accent)"/></svg>
               <span>${esc(c.district || '—')}</span>
             </div>
 
             <div class="row">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14M5 7h9M5 17h6" stroke="#3b82f6" stroke-width="1.4" stroke-linecap="round"/></svg>
-              <span>${esc(c.mode || '—')}</span>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 7h14M5 11h14M5 15h9" stroke="var(--accent)" stroke-width="1.4" stroke-linecap="round"/><path d="M9 19h6" stroke="var(--accent)" stroke-width="1.4" stroke-linecap="round"/></svg>
+              <span>${esc(c.grade || '—')}</span>
             </div>
 
             <div class="tags">
-              <span class="tag">${esc(c.mainCategory || '—')}</span>
-              ${(c.targetLevels && c.targetLevels.length)
-                ? `<span class="tag">對象：${esc(c.targetLevels.join('、'))}</span>` : ''}
-              ${(c.examType && c.examType.length)
-                ? `<span class="tag">訓練重點：${esc(c.examType.join('、'))}</span>` : ''}
-              <span class="tag">學費：HK$ ${esc(c.fee ?? '—')}/時</span>
+              <span class="tag">考試：${esc(c.examType || '—')}</span>
+              <span class="tag">學費：${(c.fee || c.fee===0) ? `HK$ ${esc(c.fee)} / 小時` : '面議'}</span>
+              <span class="tag">張貼：${esc(c.postedAt || '—')}</span>
+              <span class="tag">導師偏好：${esc(c.gender || '不限教練性別')}</span>
+              ${c.weeklySessions ? `<span class="tag">頻率：${esc(c.weeklySessions)}</span>`:''}
+              ${c.startDate ? `<span class="tag">開始：${esc(c.startDate)}</span>`:''}
+              ${c.timeSlots ? `<span class="tag">時段：${esc(c.timeSlots)}</span>`:''}
             </div>
 
             ${c.notes ? `<p class="note">${esc(c.notes)}</p>`:''}
 
+
             <div class="foot">
-              <span>點擊查看完整教練資料</span>
-              <span class="budget">${(c.fee || c.fee===0) ? `HK$ ${esc(c.fee)}/時` : '面議'}</span>
+              <span>點擊查看完整個案</span>
+              <span class="budget">${(c.fee || c.fee===0) ? `HK$ ${esc(c.fee)} / 小時` : '面議'}</span>
             </div>
           `;
           card.addEventListener('click', ()=> openProfile(c));
@@ -2124,14 +2059,14 @@
 
       const shownFrom = total === 0 ? 0 : (start + 1);
       const shownTo = end;
-      countEl.textContent = `符合 ${total} 位教練　·　顯示第 ${shownFrom}–${shownTo} 位`;
+      countEl.textContent = `符合 ${total} 個招聘個案　·　顯示第 ${shownFrom}–${shownTo} 個招聘個案`;
 
       pageInfo.textContent = `第 ${currentPage} / ${Math.max(1, Math.ceil(total / PAGE_SIZE))} 頁`;
       grid.removeAttribute('aria-busy');
     }
 
     function refresh(){
-      view = applyFilters();
+      view = applySort(applyFilters());
       renderList();
       renderActiveBar();
     }
@@ -2149,27 +2084,27 @@
       }
 
       modalTitle.textContent = c.name ?? '—';
-      modalSub.textContent = `教練編號：${c.id ?? '—'}`;
+      modalSub.textContent = `案件編號：${c.id ?? '—'}`;
 
       kvBasic.innerHTML = `
-        <b>教練年齡</b><div>${esc(c.age ?? '—')}</div>
-        <b>教練性別</b><div>${esc(c.gender ?? '—')}</div>
-        <b>課程簡介</b><div>${esc(c.intro ?? '—')}</div>
-        <b>服務地區</b><div>${esc(c.district ?? '—')}｜${esc(c.areaDetail ?? '')}</div>
-        <b>授課模式</b><div>${esc(c.mode ?? '—')}</div>
+        <b>就讀年級</b><div>${esc(c.grade ?? '—')}</div>
+        <b>年齡</b><div>${esc(formatAge(c.age) || '—')}</div>
+        <b>考試類別</b><div>${esc(c.examType ?? '—')}</div>
+        <b>學科</b><div>${esc((c.subjects || []).filter(Boolean).join('、') || '—')}</div>
+        <b>期望上課地區</b><div>${esc(c.district ?? '—')}｜${esc(c.areaDetail ?? '')}</div>
+        <b>張貼日期</b><div>${esc(c.postedAt ?? '—')}</div>
       `;
       kvExpect.innerHTML = `
-        <b>時薪</b><div>HK$ ${esc(c.fee ?? '—')} / 小時</div>
-        <b>對象</b><div>${esc((c.targetLevels||[]).join('、') || '—')}</div>
-        <b>訓練重點</b><div>${esc((c.examType||[]).join('、') || '—')}</div>
-        <b>教練經驗</b><div>${esc(c.experience ?? '—')}</div>
-        <b>資歷 / 證照</b><div>${esc(c.qualification ?? '—')}</div>
-        <b>可授課時間</b><div>${esc(c.timeSlots ?? '—')}</div>
+        <b>期望學費</b><div>${(c.fee || c.fee===0) ? `HK$ ${esc(c.fee)} / 小時` : '面議'}</div>
+        <b>每週堂數</b><div>${esc(c.weeklySessions ?? '—')}</div>
+        <b>每堂時數</b><div>${esc(c.sessionDuration ?? '—')}</div>
+        <b>可開始日期</b><div>${esc(c.startDate ?? '—')}</div>
+        <b>教練性別偏好</b><div>${esc(c.gender ?? '不限教練性別')}</div>
+        <b>時段偏好</b><div>${esc(c.timeSlots ?? '—')}</div>
       `;
       kvNotes.textContent = c.notes || '—';
 
-      copyIdBtn.textContent = '複製教練編號';
-
+      copyIdBtn.textContent = '複製案件編號';
       backdrop.classList.add('show');
       backdrop.setAttribute('aria-hidden','false');
       document.body.style.overflow = 'hidden';
@@ -2198,6 +2133,7 @@
         feeMax: feeMax.value,
         feeBand: feeBand.value,
         gender: genderFilter.value,
+        dateSort: dateSort.value,
         category: Array.from(categorySelected),
         feeMinTouched: feeMin.dataset.touched,
         feeMaxTouched: feeMax.dataset.touched
@@ -2210,19 +2146,21 @@
       feeMax.value = snap.feeMax;
       feeBand.value = snap.feeBand;
       genderFilter.value = snap.gender;
-
+      dateSort.value = snap.dateSort;
       feeMin.dataset.touched = snap.feeMinTouched ?? 'false';
       feeMax.dataset.touched = snap.feeMaxTouched ?? 'false';
 
       categorySelected.clear();
-      snap.category.forEach(x => categorySelected.add(x));
+      if(Array.isArray(snap.category)){
+        snap.category.forEach(x => categorySelected.add(x));
+      }
+      
       syncFeeLabelAndFill();
     }
 
     function moveFiltersToSheet(){
       if(filtersInSheet) return;
       filterPanelBody.insertBefore(filtersSection, mobileSubjectRow);
-      filterPanelBody.insertBefore(genderFieldEl, mobileSubjectRow);
       filtersInSheet = true;
     }
     function restoreFiltersHome(){
@@ -2234,11 +2172,7 @@
         filtersHomeParent.appendChild(filtersSection);
       }
 
-      if(genderHomeNextSibling && genderHomeNextSibling.parentNode === genderHomeParent){
-        genderHomeParent.insertBefore(genderFieldEl, genderHomeNextSibling);
-      } else {
-        genderHomeParent.appendChild(genderFieldEl);
-      }
+     
 
       filtersInSheet = false;
     }
@@ -2315,6 +2249,7 @@
       idq.value = '';
       districtSel.value = '';
       genderFilter.value = '';
+      dateSort.value = 'new';
       initFees();
       categorySelected.clear();
       currentPage = 1;
@@ -2344,6 +2279,7 @@
 
     feeBand.addEventListener('change', maybeRefreshFromSheet);
     genderFilter.addEventListener('change', maybeRefreshFromSheet);
+    dateSort.addEventListener('change', maybeRefreshFromSheet);
 
     prevPageBtn.addEventListener('click', ()=>{
       if(currentPage>1){
@@ -2362,6 +2298,7 @@
 
     function boot(){
       data = shuffle(data);
+      dateSort.value = 'new';
       initFees();
       renderCategoryList();
       refresh();
