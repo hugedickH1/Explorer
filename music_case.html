@@ -690,7 +690,7 @@
         text-overflow:ellipsis;
       }
 
-      /* ✅ 手機：隱藏上方的教練性別偏好，只在「篩選」面板內顯示 */
+      /* ✅ 手機：隱藏上方的導師性別偏好，只在「篩選」面板內顯示 */
       .filter-row .gender-field{
         display:none;
       }
@@ -1301,11 +1301,11 @@
         </div>
 
         <div class="field gender-field">
-          <span class="label">教練性別偏好</span>
+          <span class="label">導師性別偏好</span>
           <select id="genderFilter">
-            <option value="">不限教練性別</option>
-            <option value="男教練">男教練</option>
-            <option value="女教練">女教練</option>
+            <option value="">不限導師性別</option>
+            <option value="男導師">男導師</option>
+            <option value="女導師">女導師</option>
           </select>
         </div>
 
@@ -1543,7 +1543,7 @@
         startDate:"可議",
         timeSlots:"二四 晚間",
         notes:"目標提升 100m / 200m 起跑與衝刺節奏，包含伸展與力量安排。",
-        gender:"男教練"
+        gender:"男導師"
       },
       {
         id:"SC-202511-002",
@@ -1561,7 +1561,7 @@
         startDate:"兩週內",
         timeSlots:"一三五 晚上；週末日間",
         notes:"希望加強正手高遠球與防守反擊，兼顧體能。",
-        gender:"女教練"
+        gender:"女導師"
       },
       {
         id:"SC-202511-003",
@@ -1579,7 +1579,7 @@
         startDate:"下月初",
         timeSlots:"平日放學後；六日上午",
         notes:"家長希望建立正確呼吸與打水節奏，提升耐力。",
-        gender:"不限教練性別"
+        gender:"不限導師性別"
       },
       {
         id:"SC-202511-004",
@@ -1597,7 +1597,7 @@
         startDate:"可議",
         timeSlots:"平日晚間；週末部分時間",
         notes:"想改善路線閱讀與核心穩定，避免肩肘受傷。",
-        gender:"不限教練性別"
+        gender:"不限導師性別"
       }
     ];
 
@@ -2028,7 +2028,7 @@
             <div class="tags">
               <span class="tag">學費：${(c.fee || c.fee===0) ? `HK$ ${esc(c.fee)} / 小時` : '面議'}</span>
               <span class="tag">張貼：${esc(c.postedAt || '—')}</span>
-              <span class="tag">導師偏好：${esc(c.gender || '不限教練性別')}</span>
+              <span class="tag">導師偏好：${esc(c.gender || '不限導師性別')}</span>
               ${c.weeklySessions ? `<span class="tag">頻率：${esc(c.weeklySessions)}</span>`:''}
               ${c.startDate ? `<span class="tag">開始：${esc(c.startDate)}</span>`:''}
               ${c.timeSlots ? `<span class="tag">時段：${esc(c.timeSlots)}</span>`:''}
@@ -2088,7 +2088,7 @@
         <b>每週堂數</b><div>${esc(c.weeklySessions ?? '—')}</div>
         <b>每堂時數</b><div>${esc(c.sessionDuration ?? '—')}</div>
         <b>可開始日期</b><div>${esc(c.startDate ?? '—')}</div>
-        <b>教練性別偏好</b><div>${esc(c.gender ?? '不限教練性別')}</div>
+        <b>導師性別偏好</b><div>${esc(c.gender ?? '不限導師性別')}</div>
         <b>時段偏好</b><div>${esc(c.timeSlots ?? '—')}</div>
       `;
       kvNotes.textContent = c.notes || '—';
