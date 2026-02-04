@@ -2079,7 +2079,7 @@
 
       kvBasic.innerHTML = `
         <b>年齡</b><div>${esc(formatAge(c.age) || '—')}</div>
-        <b>目前級別</b><div>${esc(c.grade || '—')}</div>
+        <b>相關經驗</b><div>${esc(c.grade ?? '—')}</div>
         <b>期望上課地區</b><div>${esc(c.district ?? '—')}｜${esc(c.areaDetail ?? '')}</div>
         <b>張貼日期</b><div>${esc(c.postedAt ?? '—')}</div>
       `;
