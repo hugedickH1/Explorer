@@ -1991,7 +1991,7 @@
           const initials = esc((c.name||'?').slice(0,2));
           const avatarColor = colorFromName(c.name||'');
           const hasAvatar = c.avatarUrl;
-          const ageLabel = formatAge(c.age);
+          const experienceLabel = c.grade ? `${c.grade}` : '';
 
           card.innerHTML = `
             <div class="top">
@@ -2001,7 +2001,7 @@
                   : initials}
               </div>
               <div class="who">
-                <div class="name">${esc(c.name)}${ageLabel ? `　<small style="color:var(--muted)">${esc(ageLabel)}</small>` : ''}</div>
+                <div class="name">${esc(c.name)}${experienceLabel ? `　<small style="color:var(--muted)">${esc(experienceLabel)}</small>` : ''}</div>
                 <div class="muted">案件編號：${esc(c.id || '-') }</div>
               </div>
             </div>
