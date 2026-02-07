@@ -2090,7 +2090,7 @@
         <b>性別</b><div>${esc(c.studentGender ?? '—')}</div>
         <b>運動種類</b><div>${esc((c.subjects || []).filter(Boolean).join('、') || '—')}</div>
         <b>期望上課地區</b><div>${esc(c.district ?? '—')}｜${esc(c.areaDetail ?? '')}</div>
-        <b>時段偏好</b><div>${esc(c.timeSlots ?? '—')}</div>
+        <b>相關經驗</b><div>${esc(c.experience ?? '—')}</div>
         <b>張貼日期</b><div>${esc(c.postedAt ?? '—')}</div>
       `;
       kvExpect.innerHTML = `
