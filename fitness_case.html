@@ -1528,7 +1528,8 @@
         postedAt:"2025/11/21",
         name:"何同學",
         age:"22",
-        grade:"中高階",
+        studentGender:"女",
+        experience:3,
         examType:"體態管理",
         subjects:["業餘健身","有氧訓練"],
         district:"觀塘區",
@@ -1546,7 +1547,8 @@
         postedAt:"2025/11/19",
         name:"梁同學",
         age:"29",
-        grade:"進階",
+        studentGender:"男",
+        experience:6,
         examType:"比賽準備",
         subjects:["職業健身比賽訓練","職業健力比賽訓練"],
         district:"沙田區",
@@ -1564,7 +1566,8 @@
         postedAt:"2025/11/14",
         name:"周同學",
         age:"26",
-        grade:"入門",
+        studentGender:"女",
+        experience:1,
         examType:"姿勢改善",
         subjects:["瑜珈","普拉提"],
         district:"元朗區",
@@ -1582,7 +1585,8 @@
         postedAt:"2025/11/26",
         name:"邱同學",
         age:"31",
-        grade:"中階",
+        studentGender:"男",
+        experience:4,
         examType:"體能挑戰",
         subjects:["HYROX訓練","街頭健身"],
         district:"灣仔區",
@@ -1608,6 +1612,12 @@
       const normalized = String(age).trim();
       if(!normalized) return '';
       return normalized.includes('歲') ? normalized : `${normalized} 歲`;
+    }
+    function formatExperienceYears(years){
+      if(years === null || years === undefined || years === '') return '';
+      const normalized = String(years).trim();
+      if(!normalized) return '';
+      return normalized.includes('年') ? normalized : `${normalized} 年`;
     }
     function colorFromName(name){ let h=0; for(let i=0;i<name.length;i++){ h=(h*31 + name.charCodeAt(i))%360; } return `hsl(${h} 70% 50%)`; }
     function scrollToTop(){ try{ window.scrollTo({top:0,behavior:'smooth'});}catch{ window.scrollTo(0,0);} }
@@ -1887,7 +1897,7 @@
       const k = q.value.trim().toLowerCase();
       if(!k) return true;
       const hay = [
-        c.id, c.name, c.grade, c.examType,
+        c.id, c.name, formatExperienceYears(c.experience), c.examType,
         ...(c.subjects||[]),
         c.district, c.areaDetail,
         c.postedAt, c.weeklySessions, c.sessionDuration,
@@ -1991,7 +2001,7 @@
           const initials = esc((c.name||'?').slice(0,2));
           const avatarColor = colorFromName(c.name||'');
           const hasAvatar = c.avatarUrl;
-          const experienceLabel = c.grade ? `${c.grade}` : '';
+          const experienceLabel = formatExperienceYears(c.experience);
 
           card.innerHTML = `
             <div class="top">
@@ -2017,8 +2027,8 @@
             </div>
 
             <div class="row">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h10" stroke="var(--accent)" stroke-width="1.4"/><path d="M16 16h4M18 14v4" stroke="var(--accent)" stroke-width="1.4" stroke-linecap="round"/></svg>
-              <span>${esc(c.grade || '—')}</span>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="8" stroke="var(--accent)" stroke-width="1.4"/><path d="M12 8v4l3 2" stroke="var(--accent)" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              <span>${esc(formatExperienceYears(c.experience) || '—')}</span>
             </div>
 
             <div class="tags">
@@ -2074,9 +2084,10 @@
 
       kvBasic.innerHTML = `
         <b>年齡</b><div>${esc(formatAge(c.age) || '—')}</div>
+        <b>性別</b><div>${esc(c.studentGender ?? '—')}</div>
         <b>種類</b><div>${esc((c.subjects || []).filter(Boolean).join('、') || '—')}</div>
         <b>期望上課地區</b><div>${esc(c.district ?? '—')}｜${esc(c.areaDetail ?? '')}</div>
-        <b>相關經驗</b><div>${esc(c.grade ?? '—')}</div>
+        <b>相關經驗</b><div>${esc(formatExperienceYears(c.experience) || '—')}</div>
         <b>張貼日期</b><div>${esc(c.postedAt ?? '—')}</div>
       `;
       kvExpect.innerHTML = `
