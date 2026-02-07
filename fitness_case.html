@@ -2001,7 +2001,7 @@
           const initials = esc((c.name||'?').slice(0,2));
           const avatarColor = colorFromName(c.name||'');
           const hasAvatar = c.avatarUrl;
-          const experienceLabel = formatExperienceYears(c.experience);
+          const ageLabel = formatAge(c.age);
 
           card.innerHTML = `
             <div class="top">
@@ -2011,7 +2011,7 @@
                   : initials}
               </div>
               <div class="who">
-                <div class="name">${esc(c.name)}${experienceLabel ? `　<small style="color:var(--muted)">${esc(experienceLabel)}</small>` : ''}</div>
+                <div class="name">${esc(c.name)}${ageLabel ? `　<small style="color:var(--muted)">${esc(ageLabel)}</small>` : ''}</div>
                 <div class="muted">案件編號：${esc(c.id || '-') }</div>
               </div>
             </div>
@@ -2036,7 +2036,6 @@
               <span class="tag">導師偏好：${esc(c.gender || '不限教練性別')}</span>
               ${c.weeklySessions ? `<span class="tag">頻率：${esc(c.weeklySessions)}</span>`:''}
               ${c.startDate ? `<span class="tag">開始：${esc(c.startDate)}</span>`:''}
-              ${c.timeSlots ? `<span class="tag">時段：${esc(c.timeSlots)}</span>`:''}
             </div>
 
             ${c.notes ? `<p class="note">${esc(c.notes)}</p>`:''}
