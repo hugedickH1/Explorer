@@ -1537,6 +1537,7 @@
         postedAt:"2025/11/21",
         name:"陳同學",
         age:"17",
+        studentGender:"男",
         experience:"6 年",
         examType:"校隊訓練",
         subjects:["田徑","短跑技巧"],
@@ -1555,6 +1556,7 @@
         postedAt:"2025/11/19",
         name:"李同學",
         age:"13",
+        studentGender:"女",
         experience:"4 年",
         examType:"興趣進階",
         subjects:["羽毛球","步法訓練"],
@@ -1573,6 +1575,7 @@
         postedAt:"2025/11/14",
         name:"王同學",
         age:"10",
+        studentGender:"男",
         experience:"1 年",
         examType:"體適能",
         subjects:["游泳","基礎體能"],
@@ -1592,6 +1595,7 @@
         name:"張同學",
         age:"20",
         experience:"5 年",
+        studentGender:"女",
         examType:"成人訓練",
         subjects:["攀石","核心力量"],
         district:"灣仔區",
@@ -2083,6 +2087,7 @@
 
       kvBasic.innerHTML = `
         <b>年齡</b><div>${esc(formatAge(c.age) || '—')}</div>
+        <b>性別</b><div>${esc(c.studentGender ?? '—')}</div>
         <b>運動種類</b><div>${esc((c.subjects || []).filter(Boolean).join('、') || '—')}</div>
         <b>期望上課地區</b><div>${esc(c.district ?? '—')}｜${esc(c.areaDetail ?? '')}</div>
         <b>時段偏好</b><div>${esc(c.timeSlots ?? '—')}</div>
