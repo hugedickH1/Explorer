@@ -2031,7 +2031,7 @@
 
             <div class="row">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h10" stroke="var(--accent)" stroke-width="1.4"/><path d="M16 16h4M18 14v4" stroke="var(--accent)" stroke-width="1.4" stroke-linecap="round"/></svg>
-              <span>${esc(c.experience || '—')}</span>
+              <span>${esc(c.timeSlots || '—')}</span>
             </div>
 
             <div class="tags">
@@ -2039,7 +2039,6 @@
               <span class="tag">導師偏好：${esc(c.gender || '不限教練性別')}</span>
               ${c.weeklySessions ? `<span class="tag">頻率：${esc(c.weeklySessions)}</span>`:''}
               ${c.startDate ? `<span class="tag">開始：${esc(c.startDate)}</span>`:''}
-              ${c.timeSlots ? `<span class="tag">時段：${esc(c.timeSlots)}</span>`:''}
             </div>
 
             ${c.notes ? `<p class="note">${esc(c.notes)}</p>`:''}
