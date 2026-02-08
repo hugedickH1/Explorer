@@ -2101,19 +2101,17 @@
             </div>
 
             <div class="tags">
-              <span class="tag">${esc(c.mainCategory || '—')}</span>
               ${(c.targetLevels && c.targetLevels.length)
                 ? `<span class="tag">對象：${esc(c.targetLevels.join('、'))}</span>` : ''}
               ${(c.examType && c.examType.length)
                 ? `<span class="tag">訓練重點：${esc(c.examType.join('、'))}</span>` : ''}
-              <span class="tag">學費：HK$ ${esc(c.fee ?? '—')}/時</span>
             </div>
 
             ${c.notes ? `<p class="note">${esc(c.notes)}</p>`:''}
 
             <div class="foot">
               <span>點擊查看完整教練資料</span>
-              <span class="budget">${(c.fee || c.fee===0) ? `HK$ ${esc(c.fee)}/時` : '面議'}</span>
+              <span class="budget">${(c.fee || c.fee===0) ? `HK$ ${esc(c.fee)}/小時` : '面議'}</span>
             </div>
           `;
           card.addEventListener('click', ()=> openProfile(c));
