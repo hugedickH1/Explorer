@@ -2097,10 +2097,10 @@
             </div>
 
             <div class="tags">
-              ${(c.targetLevels && c.targetLevels.length)
+              ${(c.mode && String(c.mode).trim())
+                ? `<span class="tag">授課模式：${esc(c.mode)}</span>` : ''}
+                ${(c.targetLevels && c.targetLevels.length)
                 ? `<span class="tag">對象：${esc(c.targetLevels.join('、'))}</span>` : ''}
-              ${(c.examType && c.examType.length)
-                ? `<span class="tag">訓練重點：${esc(c.examType.join('、'))}</span>` : ''}
             </div>
 
             ${c.notes ? `<p class="note">${esc(c.notes)}</p>`:''}
