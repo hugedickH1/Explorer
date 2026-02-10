@@ -1,0 +1,1184 @@
+<!-- ✅ contact.html：沿用你 fees.html 同款設計（同款 topbar / drawer 導航列 / 卡片 / reveal 動畫）
+     ✅ 新增「聯絡我們」內容，但保留整體風格一致
+     ✅ 頁內快速導覽：同樣用「藍色原點」(chipDot) -->
+
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Explorer｜聯絡我們</title>
+
+  <style>
+    :root{
+      --base:#070d14;
+      --text:#eaf4ff;
+      --muted: rgba(184,199,217,.92);
+
+      --card: rgba(255,255,255,.06);
+      --card2: rgba(255,255,255,.05);
+      --stroke: rgba(255,255,255,.12);
+      --stroke2: rgba(255,255,255,.10);
+      --shadow: 0 18px 60px rgba(0,0,0,.35);
+      --radius: 18px;
+
+      --rg1:#ffe7d7;
+      --rg2:#f3c9b7;
+      --rg3:#d9a596;
+      --rg4:#b47b6f;
+
+      --glassBlur: 14px;
+      --max: 1020px;
+
+      --modalBg: rgba(0,0,0,.65);
+    }
+
+    *{ box-sizing:border-box; }
+    html,body{ height:100%; }
+    html{ scroll-behavior: smooth; }
+    body{
+      margin:0;
+      font-family: ui-sans-serif, -apple-system, "Noto Sans TC", system-ui, "PingFang TC", "Heiti TC", Arial, sans-serif;
+      color: var(--text);
+      background: var(--base);
+      overflow-x:hidden;
+    }
+
+    body::before{
+      content:"";
+      position: fixed;
+      inset:-20%;
+      z-index:-2;
+      background:
+        radial-gradient(1200px 800px at 12% 20%, rgba(21,76,107,.55), transparent 60%),
+        radial-gradient(900px 700px at 85% 30%, rgba(111,231,255,.18), transparent 55%),
+        radial-gradient(900px 700px at 55% 90%, rgba(21,76,107,.32), transparent 55%),
+        repeating-linear-gradient(90deg, rgba(255,255,255,.05) 0, rgba(255,255,255,.05) 1px, transparent 1px, transparent 88px),
+        repeating-linear-gradient(0deg, rgba(255,255,255,.04) 0, rgba(255,255,255,.04) 1px, transparent 1px, transparent 88px),
+        linear-gradient(180deg, var(--base), var(--base));
+      opacity:.24;
+      pointer-events:none;
+    }
+    body::after{
+      content:"";
+      position: fixed;
+      inset:-160px;
+      z-index:-1;
+      background:
+        radial-gradient(circle at 30% 40%, rgba(111,231,255,.14), transparent 44%),
+        radial-gradient(circle at 75% 60%, rgba(21,76,107,.24), transparent 52%);
+      filter: blur(18px);
+      opacity:.95;
+      pointer-events:none;
+    }
+
+    .wrap{
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 18px 18px 56px;
+    }
+
+    .topbar{
+      position: sticky;
+      top: 0;
+      z-index: 30;
+      backdrop-filter: blur(var(--glassBlur));
+      -webkit-backdrop-filter: blur(var(--glassBlur));
+      background: rgba(255,255,255,.06);
+      border-bottom: 1px solid rgba(255,255,255,.10);
+    }
+    .topbar-inner{
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 12px 18px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap: 12px;
+    }
+
+    .brand{
+      display:flex;
+      align-items:center;
+      gap: 10px;
+      min-width: 0;
+    }
+
+    .logo{
+      width: 40px; height: 40px;
+      border-radius: 14px;
+      background: rgba(255,255,255,.06);
+      border: 1px solid rgba(255,255,255,.12);
+      box-shadow: 0 14px 40px rgba(0,0,0,.35);
+      display:grid; place-items:center;
+      flex: 0 0 auto;
+      color: rgba(234,244,255,.92);
+    }
+    .logo svg{ width: 22px; height: 22px; }
+    .logo svg path{ stroke: currentColor !important; }
+
+    .brandText{
+      line-height: 1.05;
+      min-width: 0;
+    }
+    .brandText .title{
+      font-weight: 950;
+      letter-spacing: .12em;
+      font-size: 13px;
+      text-transform: uppercase;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .brandText .sub{
+      font-size: 12px;
+      color: var(--muted);
+      margin-top: 2px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .menuBtn{
+      width: 44px;
+      height: 44px;
+      border-radius: 16px;
+      display:grid;
+      place-items:center;
+      background: rgba(255,255,255,.06);
+      border: 1px solid rgba(255,255,255,.12);
+      box-shadow: 0 14px 40px rgba(0,0,0,.35);
+      color: rgba(234,244,255,.92);
+      cursor:pointer;
+      transition: transform .16s ease, border-color .16s ease, background .16s ease;
+    }
+    .menuBtn:hover{
+      transform: translateY(-1px);
+      border-color: rgba(255,255,255,.20);
+      background: rgba(255,255,255,.07);
+    }
+    .menuBtn:active{ transform: translateY(0) scale(.99); }
+    .menuBtn svg{ width: 22px; height: 22px; }
+    .menuBtn svg path{ stroke: currentColor !important; }
+
+    .overlay{
+      position: fixed;
+      inset: 0;
+      background: var(--modalBg);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .22s ease;
+      z-index: 40;
+    }
+    .overlay.open{
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .drawer{
+      position: fixed;
+      top: 0;
+      right: 0;
+      height: 100%;
+      width: min(92vw, 360px);
+      transform: translateX(105%);
+      transition: transform .28s cubic-bezier(.2,.8,.2,1);
+      z-index: 50;
+
+      background: rgba(255,255,255,.06);
+      border-left: 1px solid rgba(255,255,255,.12);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      box-shadow: -18px 0 60px rgba(0,0,0,.45);
+      overflow: hidden;
+    }
+    .drawer.open{ transform: translateX(0); }
+
+    .drawer::before{
+      content:"";
+      position:absolute; inset:0;
+      background:
+        radial-gradient(520px 240px at 20% 20%, rgba(111,231,255,.12), transparent 60%),
+        radial-gradient(520px 260px at 90% 30%, rgba(21,76,107,.22), transparent 60%),
+        repeating-linear-gradient(115deg, rgba(255,255,255,.012) 0px, rgba(255,255,255,.012) 1px, rgba(0,0,0,0) 1px, rgba(0,0,0,0) 9px);
+      opacity:.95;
+      pointer-events:none;
+    }
+
+    .drawerInner{
+      position:relative;
+      height: 100%;
+      display:flex;
+      flex-direction: column;
+      padding: 16px;
+      gap: 12px;
+    }
+
+    .drawerTop{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap: 12px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid rgba(255,255,255,.10);
+    }
+
+    .drawerTitle{
+      font-weight: 950;
+      letter-spacing: .08em;
+      color: rgba(234,244,255,.98);
+      font-size: 13px;
+      text-transform: none;
+    }
+
+    .closeBtn{
+      width: 42px;
+      height: 42px;
+      border-radius: 16px;
+      display:grid;
+      place-items:center;
+      background: rgba(255,255,255,.06);
+      border: 1px solid rgba(255,255,255,.12);
+      color: rgba(234,244,255,.92);
+      cursor:pointer;
+      transition: transform .16s ease, border-color .16s ease, background .16s ease;
+    }
+    .closeBtn:hover{
+      transform: translateY(-1px);
+      border-color: rgba(255,255,255,.20);
+      background: rgba(255,255,255,.07);
+    }
+    .closeBtn:active{ transform: translateY(0) scale(.99); }
+    .closeBtn svg{ width: 20px; height: 20px; }
+    .closeBtn svg path{ stroke: currentColor !important; }
+
+    .navList{
+      display:flex;
+      flex-direction: column;
+      gap: 10px;
+      padding-top: 6px;
+    }
+
+    .navItem{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap: 10px;
+      padding: 12px 12px;
+      border-radius: 16px;
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.05);
+      color: rgba(234,244,255,.95);
+      text-decoration:none;
+      transition: transform .16s ease, border-color .16s ease, background .16s ease;
+      min-height: 52px;
+    }
+    .navItem:hover{
+      transform: translateY(-1px);
+      border-color: rgba(255,255,255,.22);
+      background: rgba(255,255,255,.07);
+    }
+
+    .navLeft{
+      display:flex;
+      flex-direction: column;
+      gap: 0;
+      min-width: 0;
+    }
+    .navMain{
+      font-weight: 950;
+      letter-spacing: .04em;
+      font-size: 13px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .navArrow{
+      width: 28px; height: 28px;
+      border-radius: 999px;
+      display:grid;
+      place-items:center;
+      border: 1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.05);
+      flex: 0 0 auto;
+    }
+    .navArrow svg{ width: 16px; height: 16px; color: rgba(234,244,255,.92); }
+    .navArrow svg path{ stroke: currentColor !important; }
+
+    .drawerFoot{
+      margin-top:auto;
+      padding-top: 12px;
+      border-top: 1px solid rgba(255,255,255,.10);
+      color: rgba(184,199,217,.92);
+      font-size: 12px;
+      line-height: 1.7;
+    }
+
+    .hero{ padding: 24px 0 10px; }
+    .heroGrid{
+      display:grid;
+      grid-template-columns: 1.2fr .8fr;
+      gap: 16px;
+      align-items: stretch;
+    }
+
+    .heroCard,
+    .sideCard,
+    .section{
+      border-radius: calc(var(--radius) + 6px);
+      background: rgba(255,255,255,.06);
+      border: 1px solid rgba(255,255,255,.12);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+      position: relative;
+    }
+
+    .heroCard{ padding: 18px 18px 16px; }
+    .heroCard::before{
+      content:"";
+      position:absolute;
+      inset:-30%;
+      background:
+        radial-gradient(520px 240px at 20% 20%, rgba(111,231,255,.12), transparent 60%),
+        radial-gradient(520px 260px at 90% 30%, rgba(21,76,107,.22), transparent 60%),
+        repeating-linear-gradient(115deg, rgba(255,255,255,.012) 0px, rgba(255,255,255,.012) 1px, rgba(0,0,0,0) 1px, rgba(0,0,0,0) 9px);
+      transform: rotate(-6deg);
+      pointer-events:none;
+      opacity:.95;
+    }
+    .heroCard > *{ position: relative; }
+
+    .h1{
+      margin:0;
+      font-size: 28px;
+      letter-spacing: .2px;
+      font-weight: 950;
+      color: rgba(234,244,255,.98);
+    }
+    .lead{
+      margin: 10px 0 0;
+      color: var(--muted);
+      line-height: 1.7;
+      font-size: 14px;
+      max-width: 62ch;
+    }
+
+    .chips{
+      margin-top: 14px;
+      display:flex;
+      flex-wrap:wrap;
+      gap: 10px;
+    }
+    .chip{
+      display:inline-flex;
+      align-items:center;
+      gap: 8px;
+      padding: 10px 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.05);
+      color: rgba(234,244,255,.95);
+      text-decoration:none;
+      font-weight: 900;
+      letter-spacing: .02em;
+      font-size: 13px;
+      transition: transform .15s ease, border-color .15s ease, background .15s ease;
+    }
+    .chip:hover{ transform: translateY(-1px); border-color: rgba(255,255,255,.22); background: rgba(255,255,255,.07); }
+
+    /* ✅ 藍色原點（供所有快捷按鈕使用） */
+    .chipDot{
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: rgba(111,231,255,.88);
+      box-shadow: 0 0 0 3px rgba(111,231,255,.12);
+      flex: 0 0 auto;
+    }
+
+    .sideCard{ padding: 16px; }
+    .sideTitle{
+      margin:0;
+      font-size: 14px;
+      font-weight: 950;
+      letter-spacing: .2px;
+      color: rgba(234,244,255,.98);
+    }
+    .mini{
+      margin-top: 10px;
+      display:grid;
+      gap: 10px;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.65;
+    }
+    .mini b{ color: rgba(234,244,255,.98); }
+
+    .section{
+      margin-top: 18px;
+      padding: 18px;
+    }
+    #channels, #response, #inquiry, #faq { scroll-margin-top: 86px; }
+
+    .sectionHead{
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+    .sectionTitle{
+      margin:0;
+      font-size: 18px;
+      font-weight: 950;
+      letter-spacing: .2px;
+      color: rgba(234,244,255,.98);
+    }
+
+    .grid2{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-top: 12px;
+    }
+
+    .panel{
+      border-radius: var(--radius);
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.05);
+      padding: 14px;
+      color: rgba(234,244,255,.95);
+    }
+    .panel h3{
+      margin:0;
+      font-size: 14px;
+      font-weight: 950;
+      display:flex;
+      align-items:center;
+      gap: 10px;
+      color: rgba(234,244,255,.98);
+    }
+    .panel h3 svg{ width:18px; height:18px; color: rgba(234,244,255,.92); }
+    .panel h3 svg path{ stroke: currentColor !important; }
+
+    .panel p{
+      margin: 8px 0 0;
+      color: var(--muted);
+      line-height: 1.75;
+      font-size: 13px;
+    }
+    .panel p b{ color: rgba(234,244,255,.98); }
+    .panel ul{
+      margin: 10px 0 0 18px;
+      color: var(--muted);
+      line-height: 1.75;
+      font-size: 13px;
+      padding: 0;
+    }
+    .panel ul b{ color: rgba(234,244,255,.98); }
+
+    .steps{
+      margin-top: 10px;
+      display:grid;
+      gap: 10px;
+    }
+    .step{
+      display:flex;
+      gap: 12px;
+      align-items:flex-start;
+      padding: 12px;
+      border-radius: var(--radius);
+      background: rgba(255,255,255,.05);
+      border: 1px solid rgba(255,255,255,.10);
+    }
+    .step .dot{
+      width: 34px; height: 34px;
+      border-radius: 12px;
+      display:grid;
+      place-items:center;
+      flex: 0 0 auto;
+      background:
+        radial-gradient(circle at 30% 30%, rgba(169,244,255,.18), rgba(111,231,255,.10)),
+        linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,.04));
+      border: 1px solid rgba(255,255,255,.14);
+      box-shadow: 0 14px 40px rgba(0,0,0,.35);
+      color: rgba(234,244,255,.92);
+    }
+    .step .dot svg{ width: 18px; height:18px; }
+    .step .dot svg path{ stroke: currentColor !important; }
+
+    .step .txt{ min-width: 0; }
+    .step .txt b{
+      display:block;
+      font-weight: 950;
+      margin-top: 1px;
+      margin-bottom: 3px;
+      color: rgba(234,244,255,.98);
+    }
+    .step .txt span{
+      display:block;
+      color: var(--muted);
+      line-height: 1.7;
+      font-size: 13px;
+    }
+
+    /* ✅ contact form（同款玻璃卡樣式） */
+    .formGrid{
+      margin-top: 12px;
+      display:grid;
+      gap: 12px;
+    }
+    .row2{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+    .field{
+      display:flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .label{
+      font-size: 12px;
+      color: rgba(234,244,255,.92);
+      font-weight: 900;
+      letter-spacing: .04em;
+    }
+    .input, .textarea{
+      width: 100%;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.05);
+      color: rgba(234,244,255,.95);
+      padding: 12px 12px;
+      outline: none;
+      box-shadow: 0 14px 40px rgba(0,0,0,.18);
+      transition: border-color .16s ease, background .16s ease, transform .16s ease;
+      font-size: 14px;
+    }
+    .textarea{ min-height: 120px; resize: vertical; line-height: 1.6; }
+    .input:focus, .textarea:focus{
+      border-color: rgba(111,231,255,.40);
+      background: rgba(255,255,255,.06);
+    }
+    .help{
+      font-size: 12px;
+      color: var(--muted);
+      line-height: 1.65;
+      margin-top: -2px;
+    }
+
+    .actions{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap: 12px;
+      margin-top: 6px;
+      flex-wrap: wrap;
+    }
+    .btn{
+      display:inline-flex;
+      align-items:center;
+      gap: 10px;
+      padding: 11px 14px;
+      border-radius: 16px;
+      border: 1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.06);
+      color: rgba(234,244,255,.95);
+      font-weight: 950;
+      letter-spacing: .02em;
+      cursor:pointer;
+      transition: transform .16s ease, border-color .16s ease, background .16s ease;
+      text-decoration:none;
+    }
+    .btn:hover{
+      transform: translateY(-1px);
+      border-color: rgba(255,255,255,.22);
+      background: rgba(255,255,255,.08);
+    }
+    .btn:active{ transform: translateY(0) scale(.99); }
+    .btn svg{ width: 18px; height: 18px; color: rgba(234,244,255,.92); }
+    .btn svg path{ stroke: currentColor !important; }
+
+    .noteLine{
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.7;
+    }
+
+    .footer{
+      margin-top: 18px;
+      text-align:center;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.7;
+      padding: 10px 0 0;
+    }
+
+    .reveal{
+      opacity: 0;
+      transform: translateY(10px);
+      transition: opacity .6s ease, transform .6s ease;
+    }
+    .reveal.in{
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ✅ FAQ */
+    .faqList{
+      margin-top: 12px;
+      display:grid;
+      gap: 10px;
+    }
+    details.faqItem{
+      border-radius: var(--radius);
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.05);
+      overflow:hidden;
+    }
+    details.faqItem summary{
+      list-style:none;
+      cursor:pointer;
+      padding: 14px 14px;
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap: 12px;
+      font-weight: 950;
+      color: rgba(234,244,255,.98);
+    }
+    details.faqItem summary::-webkit-details-marker{ display:none; }
+    .faqQ{
+      font-size: 13px;
+      line-height: 1.55;
+      letter-spacing: .02em;
+      min-width: 0;
+    }
+    .faqChev{
+      width: 28px; height: 28px;
+      border-radius: 999px;
+      display:grid;
+      place-items:center;
+      border: 1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.05);
+      flex: 0 0 auto;
+      transition: transform .16s ease;
+      margin-top: 1px;
+    }
+    details[open] .faqChev{ transform: rotate(180deg); }
+    .faqChev svg{ width:16px; height:16px; color: rgba(234,244,255,.92); }
+    .faqChev svg path{ stroke: currentColor !important; }
+
+    .faqA{
+      padding: 0 14px 14px;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.75;
+    }
+    .faqA b{ color: rgba(234,244,255,.98); }
+
+    @media (max-width: 920px){
+      .heroGrid{ grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 720px){
+      .wrap{ padding: 14px 14px 52px; }
+      .topbar-inner{ padding: 10px 14px; }
+      .h1{ font-size: 22px; }
+      .grid2{ grid-template-columns: 1fr; }
+      .row2{ grid-template-columns: 1fr; }
+      .chips{ gap: 8px; }
+      .chip{ padding: 9px 11px; font-size: 13px; }
+    }
+  </style>
+</head>
+
+<body>
+  <header class="topbar" role="banner">
+    <div class="topbar-inner">
+      <div class="brand">
+        <div class="logo" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none">
+            <path d="M3.5 11.5 21 3.5l-8 17-2.5-6-7-3Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
+            <path d="M21 3.5 10.5 14.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div class="brandText">
+          <div class="title">EXPLORER</div>
+          <div class="sub">聯絡我們</div>
+        </div>
+      </div>
+
+      <button class="menuBtn" id="menuBtn" type="button" aria-label="開啟導航列" aria-controls="drawer" aria-expanded="false">
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M5 7h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          <path d="M5 12h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          <path d="M5 17h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </button>
+    </div>
+  </header>
+
+  <div class="overlay" id="overlay" aria-hidden="true"></div>
+
+  <nav class="drawer" id="drawer" aria-label="導航列" aria-hidden="true">
+    <div class="drawerInner">
+      <div class="drawerTop">
+        <div class="drawerTitle">導航</div>
+        <button class="closeBtn" id="closeBtn" type="button" aria-label="關閉導航列">
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            <path d="M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </button>
+      </div>
+
+      <div class="navList">
+        <a class="navItem" href="/index.html">
+          <div class="navLeft"><div class="navMain">主頁</div></div>
+          <div class="navArrow" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none">
+              <path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+        </a>
+
+        <a class="navItem" href="/index.html#flowPanel">
+          <div class="navLeft"><div class="navMain">配對方法</div></div>
+          <div class="navArrow" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none">
+              <path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+        </a>
+
+        <a class="navItem" href="/fees.html">
+          <div class="navLeft"><div class="navMain">收費及付款詳情</div></div>
+          <div class="navArrow" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none">
+              <path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+        </a>
+
+        <a class="navItem" href="/contact.html" aria-current="page">
+          <div class="navLeft"><div class="navMain">聯絡我們</div></div>
+          <div class="navArrow" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none">
+              <path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+        </a>
+
+        <a class="navItem" href="/terms.html">
+          <div class="navLeft"><div class="navMain">使用條款</div></div>
+          <div class="navArrow" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none">
+              <path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+        </a>
+      </div>
+
+      <div class="drawerFoot">
+        點擊空白位置或按 ESC 可關閉導航列。
+      </div>
+    </div>
+  </nav>
+
+  <main class="wrap" role="main">
+    <section class="hero">
+      <div class="heroGrid">
+        <div class="heroCard reveal">
+          <h1 class="h1">聯絡我們</h1>
+          <p class="lead">
+            如對配對流程、付款核對、課堂安排或使用平台有任何疑問，歡迎透過以下方式聯絡。
+            為加快處理速度，建議一併提供：導師／教練編號（如有）、個案編號（如有）、以及你希望查詢的重點。
+          </p>
+
+          <!-- ✅ 頁內快速導覽（同款 chip + 藍色原點） -->
+          <div class="chips" aria-label="頁內快速導覽">
+            <a class="chip" href="#channels"><span class="chipDot" aria-hidden="true"></span>聯絡方式</a>
+            <a class="chip" href="#response"><span class="chipDot" aria-hidden="true"></span>回覆安排</a>
+            <a class="chip" href="#inquiry"><span class="chipDot" aria-hidden="true"></span>提交查詢</a>
+            <a class="chip" href="#faq"><span class="chipDot" aria-hidden="true"></span>常見問題</a>
+          </div>
+        </div>
+
+        <aside class="sideCard reveal" aria-label="重點摘要">
+          <h2 class="sideTitle">重點摘要</h2>
+          <div class="mini">
+            <div>• 建議提供：<b>導師編號／個案編號</b>、地區、期望上課時間、查詢重點。</div>
+            <div>• 一般情況：<b>24小時內回覆</b>（工作日）。</div>
+            <div>• 如涉及付款核對：請準備<b>轉帳截圖／付款記錄</b>以便加快處理。</div>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section id="channels" class="section reveal">
+      <div class="sectionHead">
+        <h2 class="sectionTitle">聯絡方式</h2>
+      </div>
+
+      <div class="grid2">
+        <div class="panel">
+          <h3>
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M7 7h10M7 12h6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
+              <path d="M5 4h14a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H10l-4 3v-3H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+            </svg>
+            WhatsApp（建議）
+          </h3>
+          <p>
+            最快處理方式，適合：配對進度、課堂改期、一般查詢。<br/>
+            <b>WhatsApp：</b><span id="waText">（請填上你的 WhatsApp 號碼）</span>
+          </p>
+          <p class="help">你可以把 WhatsApp 號碼改成：+852 / +61 等格式；亦可改成 wa.me 連結。</p>
+        </div>
+
+        <div class="panel">
+          <h3>
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M4 6h16v12H4z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+              <path d="m4 7 8 6 8-6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            電郵
+          </h3>
+          <p>
+            適合：付款核對（附截圖）、較詳細資料、文件提交。<br/>
+            <b>Email：</b><span id="emailText">support@your-domain.com</span>
+          </p>
+          <p class="help">如你未有域名電郵，可先用 Gmail／Outlook，之後再替換。</p>
+        </div>
+
+        <div class="panel">
+          <h3>
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M12 3c3.6 0 6.5 2.9 6.5 6.5S15.6 16 12 16 5.5 13.1 5.5 9.5 8.4 3 12 3Z" stroke="currentColor" stroke-width="1.5"/>
+              <path d="M7 21c1.4-3 3.4-4.5 5-4.5S15.6 18 17 21" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+            </svg>
+            社交平台
+          </h3>
+          <p>
+            適合：一般資訊、合作洽談、平台更新。<br/>
+            <b>IG / FB：</b><span id="socialText">@explorer</span>
+          </p>
+        </div>
+
+        <div class="panel">
+          <h3>
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M12 6v6l4 2" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M12 22a10 10 0 1 0-10-10 10 10 0 0 0 10 10Z" stroke="currentColor" stroke-width="1.5"/>
+            </svg>
+            服務時間
+          </h3>
+          <p>
+            <b>工作日：</b>10:00–20:00（香港時間）<br/>
+            <b>周末：</b>視情況回覆（可自行修改）
+          </p>
+          <p class="help">如你有固定客服時間，直接把以上文字改成你實際安排即可。</p>
+        </div>
+      </div>
+
+      <div class="footer">
+        如涉及付款核對或配對確認，請盡量使用電郵或提供完整截圖／記錄，以便更快處理。
+      </div>
+    </section>
+
+    <section id="response" class="section reveal">
+      <div class="sectionHead">
+        <h2 class="sectionTitle">回覆安排</h2>
+      </div>
+
+      <div class="steps" aria-label="處理流程">
+        <div class="step">
+          <div class="dot" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none">
+              <path d="M7 12h10" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
+              <path d="M12 7v10" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <div class="txt">
+            <b>Step 1｜提交查詢</b>
+            <span>請提供你的查詢重點；如有導師編號／個案編號，建議一併提供以便快速定位。</span>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="dot" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none">
+              <path d="M4 6h16v12H4z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
+              <path d="m4 7 8 6 8-6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <div class="txt">
+            <b>Step 2｜平台跟進</b>
+            <span>一般情況下，我們會於 24–48 小時內回覆（工作日）。如涉及付款核對，可能需要額外時間核實記錄。</span>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="dot" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none">
+              <path d="M20 7 9 18l-5-5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <div class="txt">
+            <b>Step 3｜完成處理</b>
+            <span>如需補充資料（例如付款截圖、可上課時間等），我們會告知你需要的項目，收到後即可完成處理。</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="inquiry" class="section reveal">
+      <div class="sectionHead">
+        <h2 class="sectionTitle">提交查詢</h2>
+      </div>
+
+      <div class="panel">
+        <h3>
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M4 6h16v12H4z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+            <path d="m4 7 8 6 8-6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          以電郵發送（會開啟你的電郵程式）
+        </h3>
+        <p class="help">
+          下面表格會幫你整理內容；按「以電郵發送」會以 <b>mailto</b> 方式打開你的電郵程式。
+          （如你想改成 Google Form / 表單提交，告訴我你條 link，我可以原封不動嵌入同款設計。）
+        </p>
+
+        <form class="formGrid" id="contactForm" autocomplete="on">
+          <div class="row2">
+            <div class="field">
+              <div class="label">你的名字（Name）</div>
+              <input class="input" type="text" id="fName" placeholder="例：陳同學 / Andrew" />
+            </div>
+            <div class="field">
+              <div class="label">你的電郵（Email）</div>
+              <input class="input" type="email" id="fEmail" placeholder="example@email.com" />
+            </div>
+          </div>
+
+          <div class="row2">
+            <div class="field">
+              <div class="label">導師編號（可選）</div>
+              <input class="input" type="text" id="fTutorId" placeholder="例：AC-1234（如適用）" />
+            </div>
+            <div class="field">
+              <div class="label">個案編號（可選）</div>
+              <input class="input" type="text" id="fCaseId" placeholder="例：CASE-0001（如適用）" />
+            </div>
+          </div>
+
+          <div class="field">
+            <div class="label">主題（Subject）</div>
+            <input class="input" type="text" id="fSubject" placeholder="例：付款核對 / 配對進度 / 改期安排" />
+          </div>
+
+          <div class="field">
+            <div class="label">內容（Message）</div>
+            <textarea class="textarea" id="fMessage" placeholder="請簡述你的問題（建議包括：地區、想上課時間、目前狀況、你希望平台怎樣協助）"></textarea>
+            <div class="help">小提示：如涉及付款核對，建議用電郵並附上轉帳截圖／付款記錄。</div>
+          </div>
+
+          <div class="actions">
+            <button class="btn" type="submit" aria-label="以電郵發送">
+              <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M4 6h16v12H4z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+                <path d="m4 7 8 6 8-6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              以電郵發送
+            </button>
+
+            <div class="noteLine">
+              收件人會使用：<b id="mailtoTo">support@your-domain.com</b>（可在代碼中替換）
+            </div>
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <section id="faq" class="section reveal">
+      <div class="sectionHead">
+        <h2 class="sectionTitle">常見問題（FAQ）</h2>
+      </div>
+
+      <div class="faqList">
+        <details class="faqItem">
+          <summary>
+            <div class="faqQ">聯絡平台時應該提供哪些資料？</div>
+            <div class="faqChev" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+          </summary>
+          <div class="faqA">
+            建議提供：<b>導師／教練編號</b>（如有）、<b>個案編號</b>（如有）、地區／網上授課、可上課時間、以及你希望查詢或處理的重點。
+            如涉及付款核對，請準備<b>轉帳截圖／付款記錄</b>。
+          </div>
+        </details>
+
+        <details class="faqItem">
+          <summary>
+            <div class="faqQ">一般多久會收到回覆？</div>
+            <div class="faqChev" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+          </summary>
+          <div class="faqA">
+            一般情況下，我們會於<b>24–48 小時內回覆</b>（工作日）。如查詢涉及付款核對或需要第三方確認，回覆時間可能稍長。
+          </div>
+        </details>
+
+        <details class="faqItem">
+          <summary>
+            <div class="faqQ">如涉及付款核對，最有效的做法是？</div>
+            <div class="faqChev" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+          </summary>
+          <div class="faqA">
+            建議使用<b>電郵</b>聯絡，並附上<b>轉帳截圖／付款記錄</b>，同時在內容中註明：付款方式、付款時間、付款金額及相關導師編號／個案編號。
+          </div>
+        </details>
+
+        <details class="faqItem">
+          <summary>
+            <div class="faqQ">可否直接用 WhatsApp 處理所有事情？</div>
+            <div class="faqChev" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+          </summary>
+          <div class="faqA">
+            一般查詢可以；但如涉及付款核對或需要提交文件／截圖，<b>電郵</b>通常更清晰及方便保存記錄。
+          </div>
+        </details>
+      </div>
+
+      <div class="footer">
+        如需更新此頁的聯絡資料（WhatsApp／Email／IG 等），把你要改的內容貼給我，我可以只替換文字而不改版面。
+      </div>
+    </section>
+  </main>
+
+  <script>
+    // ✅ reveal animation（同 fees.html）
+    (function(){
+      const items = Array.from(document.querySelectorAll('.reveal'));
+      const io = new IntersectionObserver((entries)=>{
+        entries.forEach((e)=>{
+          if(e.isIntersecting){
+            e.target.classList.add('in');
+            io.unobserve(e.target);
+          }
+        });
+      }, { threshold: 0.12, rootMargin: "0px 0px -8% 0px" });
+
+      items.forEach((el, i)=>{
+        el.style.transitionDelay = (Math.min(i,6) * 70) + "ms";
+        io.observe(el);
+      });
+    })();
+
+    // ✅ drawer nav（同 fees.html）
+    (function(){
+      const menuBtn = document.getElementById('menuBtn');
+      const drawer  = document.getElementById('drawer');
+      const overlay = document.getElementById('overlay');
+      const closeBtn= document.getElementById('closeBtn');
+
+      if(!menuBtn || !drawer || !overlay || !closeBtn) return;
+      let lastFocus = null;
+
+      function openNav(){
+        lastFocus = document.activeElement;
+        drawer.classList.add('open');
+        overlay.classList.add('open');
+        drawer.setAttribute('aria-hidden','false');
+        overlay.setAttribute('aria-hidden','false');
+        menuBtn.setAttribute('aria-expanded','true');
+        closeBtn.focus({ preventScroll:true });
+      }
+
+      function closeNav(){
+        drawer.classList.remove('open');
+        overlay.classList.remove('open');
+        drawer.setAttribute('aria-hidden','true');
+        overlay.setAttribute('aria-hidden','true');
+        menuBtn.setAttribute('aria-expanded','false');
+        if(lastFocus && typeof lastFocus.focus === 'function'){
+          lastFocus.focus({ preventScroll:true });
+        }else{
+          menuBtn.focus({ preventScroll:true });
+        }
+      }
+
+      menuBtn.addEventListener('click', () => {
+        const isOpen = drawer.classList.contains('open');
+        if(isOpen) closeNav(); else openNav();
+      });
+
+      closeBtn.addEventListener('click', closeNav);
+      overlay.addEventListener('click', closeNav);
+
+      document.addEventListener('keydown', (e)=>{
+        if(e.key === 'Escape' && drawer.classList.contains('open')){
+          closeNav();
+        }
+      });
+
+      drawer.addEventListener('click', (e)=>{
+        const a = e.target.closest('a');
+        if(a) closeNav();
+      });
+    })();
+
+    // ✅ mailto form（輕量：不需要後端）
+    (function(){
+      const form = document.getElementById('contactForm');
+      const emailText = document.getElementById('emailText');
+      const mailtoTo = document.getElementById('mailtoTo');
+      if(!form) return;
+
+      function val(id){ return (document.getElementById(id)?.value || '').trim(); }
+
+      form.addEventListener('submit', (e)=>{
+        e.preventDefault();
+
+        const to = (emailText?.textContent || 'support@your-domain.com').trim();
+        if(mailtoTo) mailtoTo.textContent = to;
+
+        const name = val('fName');
+        const fromEmail = val('fEmail');
+        const tutorId = val('fTutorId');
+        const caseId = val('fCaseId');
+        const subjectRaw = val('fSubject') || '平台查詢';
+        const msg = val('fMessage');
+
+        const lines = [
+          `姓名 / Name：${name || '（未填）'}`,
+          `電郵 / Email：${fromEmail || '（未填）'}`,
+          `導師編號 / Tutor ID：${tutorId || '不適用'}`,
+          `個案編號 / Case ID：${caseId || '不適用'}`,
+          ``,
+          `查詢內容：`,
+          msg || '（未填）'
+        ];
+
+        const subject = encodeURIComponent(subjectRaw);
+        const body = encodeURIComponent(lines.join('\n'));
+
+        window.location.href = `mailto:${encodeURIComponent(to)}?subject=${subject}&body=${body}`;
+      });
+
+      // 同步顯示收件人
+      if(mailtoTo && emailText) mailtoTo.textContent = (emailText.textContent || '').trim();
+    })();
+  </script>
+</body>
+</html>
