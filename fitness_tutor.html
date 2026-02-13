@@ -1078,7 +1078,7 @@
     /* 2) Tutor profile section titles -> white */
     .profile-title{ color: rgba(248,250,252,.96) !important; }
 
-    /* 3) HK$ XXX/時 (budget on card) -> white */
+    /* 3) HK$ XXX/小時 (budget on card) -> white */
     .budget{ color:#ffffff !important; }
 
     /* 4) 篩選列 labels -> white (match HK$ 0 – 800) */
@@ -1601,7 +1601,7 @@
         age:"32 歲",
         intro:"專注減脂與肌力提升，結合循環訓練與核心穩定",
         years:"8 年",
-        mainCategory:"私人健身",
+        mainCategory:"業餘健身、職業健力比賽訓練、職業健身比賽訓練",
         subjects:["業餘健身","職業健力比賽訓練","職業健身比賽訓練"],
         district:"中西區",
         areaDetail:"中環 / 上環；可安排健身室或戶外訓練",
@@ -1611,7 +1611,6 @@
         examType:["體脂管理","肌力提升"],
         experience:"協助學員建立重量訓練基礎，改善體態與核心力量",
         qualification:"私人健身教練證照",
-        contact:"WhatsApp：+852 6123 4567",
         timeSlots:"平日 19:00 後；週末上午",
         notes:"提供每週訓練與飲食建議，並追蹤重量與體脂數據"
       },
@@ -1622,7 +1621,7 @@
         age:"29 歲",
         intro:"專攻高強度間歇訓練與減脂課程，提升心肺與代謝",
         years:"6 年",
-        mainCategory:"HIIT / 有氧",
+        mainCategory:"有氧訓練、HYROX訓練、業餘健身",
         subjects:["有氧訓練","HYROX訓練","業餘健身"],
         district:"沙田區",
         areaDetail:"沙田 / 大圍；可到社區健身室",
@@ -1632,7 +1631,6 @@
         examType:["體脂管理","心肺提升"],
         experience:"帶領小組燃脂課程，強調安全動作與節奏控制",
         qualification:"團體課程教練證照",
-        contact:"WhatsApp：+852 9234 5678",
         timeSlots:"二四晚間；週末彈性",
         notes:"提供每月體態追蹤與課後伸展建議"
       },
@@ -1643,7 +1641,7 @@
         age:"35 歲",
         intro:"功能性訓練與肌力增強，改善動作控制與運動表現。",
         years:"10 年",
-        mainCategory:"功能性訓練",
+        mainCategory:"街頭健身、職業健身比賽訓練、職業健力比賽訓練",
         subjects:["街頭健身","職業健身比賽訓練","職業健力比賽訓練"],
         district:"元朗區",
         areaDetail:"天水圍 / 元朗 健身中心",
@@ -1653,7 +1651,6 @@
         examType:["爆發力提升","動作評估"],
         experience:"協助學員強化全身肌力與穩定度，降低運動傷害風險",
         qualification:"功能性訓練教練證照",
-        contact:"WhatsApp：+852 5566 7788",
         timeSlots:"平日放學後；六日上午",
         notes:"課程包含動作矯正與恢復性伸展",
         avatarUrl:"/assets/img/AG-202511-006.jpeg"
@@ -1665,7 +1662,7 @@
         age:"27 歲",
         intro:"伸展與肌筋膜放鬆，改善柔軟度與姿勢",
         years:"4 年",
-        mainCategory:"伸展 / 放鬆",
+        mainCategory:"瑜珈、普拉提、業餘健身",
         subjects:["瑜珈","普拉提","業餘健身"],
         district:"灣仔區",
         areaDetail:"灣仔 / 銅鑼灣 工作室；亦可上門",
@@ -2079,7 +2076,7 @@
 
             <div class="row">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14M5 7h9M5 17h6" stroke="#3b82f6" stroke-width="1.4" stroke-linecap="round"/></svg>
-              <span>${esc(c.mode || '—')}</span>
+              <span>${esc(c.timeSlots || '—')}</span>
             </div>
 
             <div class="tags">
@@ -2088,14 +2085,14 @@
                 ? `<span class="tag">對象：${esc(c.targetLevels.join('、'))}</span>` : ''}
               ${(c.examType && c.examType.length)
                 ? `<span class="tag">訓練重點：${esc(c.examType.join('、'))}</span>` : ''}
-              <span class="tag">學費：HK$ ${esc(c.fee ?? '—')}/時</span>
+              <span class="tag">學費：HK$ ${esc(c.fee ?? '—')}/小時</span>
             </div>
 
             ${c.notes ? `<p class="note">${esc(c.notes)}</p>`:''}
 
             <div class="foot">
               <span>點擊查看完整教練資料</span>
-              <span class="budget">${(c.fee || c.fee===0) ? `HK$ ${esc(c.fee)}/時` : '面議'}</span>
+              <span class="budget">${(c.fee || c.fee===0) ? `HK$ ${esc(c.fee)}/小時` : '面議'}</span>
             </div>
           `;
           card.addEventListener('click', ()=> openProfile(c));
@@ -2136,6 +2133,7 @@
       kvBasic.innerHTML = `
         <b>教練年齡</b><div>${esc(c.age ?? '—')}</div>
         <b>教練性別</b><div>${esc(c.gender ?? '—')}</div>
+        <b>健身種類</b><div>${esc((c.subjects||[]).join('、') || '—')}</div>
         <b>課程簡介</b><div>${esc(c.intro ?? '—')}</div>
         <b>服務地區</b><div>${esc(c.district ?? '—')}｜${esc(c.areaDetail ?? '')}</div>
         <b>授課模式</b><div>${esc(c.mode ?? '—')}</div>
