@@ -2033,12 +2033,9 @@
             </div>
 
             <div class="tags">
-              <span class="tag">${esc(c.mainCategory || '—')}</span>
+              <span class="tag">授課模式：${esc(c.mode || '—')}</span>
               ${(c.targetLevels && c.targetLevels.length)
                 ? `<span class="tag">對象：${esc(c.targetLevels.join('、'))}</span>` : ''}
-              ${(c.examType && c.examType.length)
-                ? `<span class="tag">應試：${esc(c.examType.join('、'))}</span>` : ''}
-              <span class="tag">學費：HK$ ${esc(c.fee ?? '—')}/小時</span>
             </div>
 
             ${c.notes ? `<p class="note">${esc(c.notes)}</p>`:''}
