@@ -2029,7 +2029,7 @@
 
             <div class="row">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14M5 7h9M5 17h6" stroke="#3b82f6" stroke-width="1.4" stroke-linecap="round"/></svg>
-              <span>${esc(c.mode || '—')}</span>
+              <span>${esc(c.timeSlots || '—')}</span>
             </div>
 
             <div class="tags">
@@ -2038,14 +2038,14 @@
                 ? `<span class="tag">對象：${esc(c.targetLevels.join('、'))}</span>` : ''}
               ${(c.examType && c.examType.length)
                 ? `<span class="tag">應試：${esc(c.examType.join('、'))}</span>` : ''}
-              <span class="tag">學費：HK$ ${esc(c.fee ?? '—')}/時</span>
+              <span class="tag">學費：HK$ ${esc(c.fee ?? '—')}/小時</span>
             </div>
 
             ${c.notes ? `<p class="note">${esc(c.notes)}</p>`:''}
 
             <div class="foot">
               <span>點擊查看完整導師資料</span>
-              <span class="budget">${(c.fee || c.fee===0) ? `HK$ ${esc(c.fee)}/時` : '面議'}</span>
+              <span class="budget">${(c.fee || c.fee===0) ? `HK$ ${esc(c.fee)}/小時` : '面議'}</span>
             </div>
           `;
           card.addEventListener('click', ()=> openProfile(c));
